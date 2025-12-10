@@ -1,4 +1,6 @@
 package com.example.mealplanner.activities;
 
-public class RegisterActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class RegisterActivity extends AppCompatActivity{
 }

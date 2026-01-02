@@ -8,16 +8,22 @@ public abstract class ApiCallback<T> implements Callback<T> {
 
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
-        if (response.isSuccessful() && response.body() != null) {
+        if (response.isSuccessful()) {
             onSuccess(response.body());
         } else {
-            onError("Greška: " + response.code());
+            String error = "HTTP " + response.code();
+            try {
+                if (response.errorBody() != null) {
+                    error += " | " + response.errorBody().string();
+                }
+            } catch (Exception ignored) {}
+            onError(error);
         }
     }
 
     @Override
     public void onFailure(Call<T> call, Throwable t) {
-        onError("Greška mreže: " + t.getMessage());
+        onError("Network error: " + t.getMessage());
     }
 
     public abstract void onSuccess(T response);

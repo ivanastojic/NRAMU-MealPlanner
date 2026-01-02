@@ -32,11 +32,6 @@ public class LoginActivity extends AppCompatActivity {
         authManager = new AuthManager(this);
         authManager.logout();
 
-        if (authManager.isLoggedIn()) {
-            goToNextScreen();
-            return;
-        }
-
         initViews();
         setupListeners();
     }
@@ -74,41 +69,44 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(AuthResponse response) {
-                        setLoading(false);
+                        String token = response.getAccessToken();
 
-                        authManager.saveToken(response.getAccessToken());
+                        authManager.saveToken(token);
                         authManager.saveEmail(response.getUser().getEmail());
 
-                        Toast.makeText(LoginActivity.this,
-                                "Uspješna prijava",
-                                Toast.LENGTH_SHORT).show();
+                        // 🔐 RLS CHECK
+                        RetrofitClient.getInstance()
+                                .getApi()
+                                .getMyMealPlans("Bearer " + token)
+                                .enqueue(new ApiCallback<Object>() {
 
-                        goToNextScreen();
+                                    @Override
+                                    public void onSuccess(Object data) {
+                                        // RLS osigurava da korisnik vidi samo svoje podatke
+                                        setLoading(false);
+                                        goToNextScreen();
+                                    }
+
+                                    @Override
+                                    public void onError(String errorMessage) {
+                                        setLoading(false);
+                                        Toast.makeText(
+                                                LoginActivity.this,
+                                                errorMessage,
+                                                Toast.LENGTH_LONG
+                                        ).show();
+                                    }
+                                });
                     }
 
                     @Override
                     public void onError(String errorMessage) {
                         setLoading(false);
-
-                        if (errorMessage != null &&
-                                (errorMessage.toLowerCase().contains("invalid") ||
-                                        errorMessage.toLowerCase().contains("credentials") ||
-                                        errorMessage.contains("401") ||
-                                        errorMessage.contains("400"))) {
-
-                            Toast.makeText(
-                                    LoginActivity.this,
-                                    "Netočna email adresa ili lozinka",
-                                    Toast.LENGTH_SHORT
-                            ).show();
-
-                        } else {
-                            Toast.makeText(
-                                    LoginActivity.this,
-                                    "Greška pri prijavi. Pokušajte ponovno.",
-                                    Toast.LENGTH_SHORT
-                            ).show();
-                        }
+                        Toast.makeText(
+                                LoginActivity.this,
+                                errorMessage,
+                                Toast.LENGTH_LONG
+                        ).show();
                     }
                 });
     }
@@ -131,8 +129,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void goToNextScreen() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 }

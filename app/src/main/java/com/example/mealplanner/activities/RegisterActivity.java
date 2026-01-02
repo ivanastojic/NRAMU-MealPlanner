@@ -71,6 +71,27 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onSuccess(AuthResponse response) {
                         setLoading(false);
 
+                        // Backend validacija registracije – RLS aktivan po korisniku
+                        if (response == null) {
+                            Toast.makeText(
+                                    RegisterActivity.this,
+                                    "Registracija nije uspjela",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                            return;
+                        }
+
+                        if (response.getAccessToken() == null) {
+                            Toast.makeText(
+                                    RegisterActivity.this,
+                                    "Registracija uspješna, provjerite email da aktivirate račun",
+                                    Toast.LENGTH_LONG
+                            ).show();
+                            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                            finish();
+                            return;
+                        }
+
                         authManager.saveToken(response.getAccessToken());
                         authManager.saveEmail(response.getUser().getEmail());
 
@@ -83,6 +104,7 @@ public class RegisterActivity extends AppCompatActivity {
                         startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                         finish();
                     }
+
 
                     @Override
                     public void onError(String errorMessage) {

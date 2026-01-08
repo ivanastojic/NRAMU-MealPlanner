@@ -36,6 +36,18 @@
                 android:layout_marginBottom="24dp"/>
 
             <EditText
+                android:id="@+id/fullNameInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ime i prezime"
+                android:inputType="textPersonName"
+                android:padding="16dp"
+                android:background="@android:drawable/edit_text"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp"/>
+
+
+            <EditText
                 android:id="@+id/emailInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

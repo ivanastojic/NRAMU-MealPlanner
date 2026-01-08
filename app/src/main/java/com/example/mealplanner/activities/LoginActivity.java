@@ -73,6 +73,8 @@ public class LoginActivity extends AppCompatActivity {
 
                         authManager.saveToken(token);
                         authManager.saveEmail(response.getUser().getEmail());
+                        authManager.saveUserId(response.getUser().getId());
+
 
                         // 🔐 RLS CHECK
                         RetrofitClient.getInstance()

@@ -20,7 +20,7 @@ import com.example.mealplanner.utils.AuthManager;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText emailInput, passwordInput, confirmPasswordInput;
+    private EditText fullNameInput, emailInput, passwordInput, confirmPasswordInput;
     private Button registerBtn, backToLoginBtn;
     private ProgressBar progressBar;
     private AuthManager authManager;
@@ -37,6 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        fullNameInput = findViewById(R.id.fullNameInput);
         emailInput = findViewById(R.id.emailInput);
         passwordInput = findViewById(R.id.passwordInput);
         confirmPasswordInput = findViewById(R.id.confirmPasswordinput);
@@ -52,15 +53,16 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void registerUser() {
+        String fullName = fullNameInput.getText().toString().trim();
         String email = emailInput.getText().toString().trim();
         String password = passwordInput.getText().toString().trim();
         String confirmPassword = confirmPasswordInput.getText().toString().trim();
 
-        if (!validateInput(email, password, confirmPassword)) return;
+        if (!validateInput(fullName, email, password, confirmPassword)) return;
 
         setLoading(true);
 
-        RegisterRequest request = new RegisterRequest(email, password);
+        RegisterRequest request = new RegisterRequest(email, password, fullName);
 
         RetrofitClient.getInstance()
                 .getApi()
@@ -94,6 +96,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                         authManager.saveToken(response.getAccessToken());
                         authManager.saveEmail(response.getUser().getEmail());
+                        authManager.saveUserId(response.getUser().getId());
+
 
                         Toast.makeText(
                                 RegisterActivity.this,
@@ -118,7 +122,12 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
-    private boolean validateInput(String email, String password, String confirmPassword) {
+    private boolean validateInput(String fullName, String email, String password, String confirmPassword) {
+
+        if (fullName.isEmpty()) {
+            fullNameInput.setError("Unesite ime i prezime");
+            return false;
+        }
 
         if (email.isEmpty()) {
             emailInput.setError("Unesite email");

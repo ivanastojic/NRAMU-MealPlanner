@@ -39,4 +39,15 @@ public interface SupabaseAPI {
     Call<Object> getMyMealPlans(
             @Header("Authorization") String authToken
     );
+
+    // 🔐 RLS TEST – DOHVAT PROFILA
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Accept: application/json"
+    })
+    @GET("rest/v1/profiles?select=*")
+    Call<Object> getMyProfile(
+            @Header("Authorization") String authToken
+    );
+
 }

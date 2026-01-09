@@ -30,7 +30,12 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         authManager = new AuthManager(this);
-        authManager.logout();
+
+        if (authManager.isLoggedIn()) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+            return;
+        }
 
         initViews();
         setupListeners();

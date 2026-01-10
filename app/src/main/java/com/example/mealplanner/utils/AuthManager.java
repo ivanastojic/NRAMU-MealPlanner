@@ -48,3 +48,4 @@ public class AuthManager {
         prefs.edit().clear().apply();
     }
 }
+

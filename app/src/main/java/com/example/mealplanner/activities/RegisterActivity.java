@@ -40,7 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
         fullNameInput = findViewById(R.id.fullNameInput);
         emailInput = findViewById(R.id.emailInput);
         passwordInput = findViewById(R.id.passwordInput);
-        confirmPasswordInput = findViewById(R.id.confirmPasswordinput);
+        confirmPasswordInput = findViewById(R.id.confirmPasswordInput);
         registerBtn = findViewById(R.id.registerBtn);
         backToLoginBtn = findViewById(R.id.backToLoginBtn);
         progressBar = findViewById(R.id.progressBar);

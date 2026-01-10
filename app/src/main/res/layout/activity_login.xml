@@ -4,69 +4,106 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E8F5E9">
+    android:background="@color/white">
 
+    <ImageView
+        android:id="@+id/headerImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/slikaa"
+    android:contentDescription="Header Image"
+    android:scaleType="centerCrop"
+    app:layout_constraintBottom_toTopOf="@id/loginCard"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:layout_marginBottom="16dp"/>
+
+<!-- LOGIN CARD -->
     <androidx.cardview.widget.CardView
         android:id="@+id/loginCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="8dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="12dp"
+        app:cardBackgroundColor="#f2ddb6"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.8">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp">
+            android:padding="32dp">
 
-            <TextView
-                android:id="@+id/titleText"
+            <!-- TITLE -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Meal Planner"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:textColor="#2E7D32"
+                android:orientation="horizontal"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="24dp"/>
+                android:layout_marginBottom="28dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Meal"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    android:textColor="#4f3f0b"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Planner"
+                    android:layout_marginStart="4dp"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    android:textColor="#9e8b4d"/>
+            </LinearLayout>
+
 
             <EditText
                 android:id="@+id/emailInput"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Email adresa"
+                android:layout_height="56dp"
+                android:hint="🏷️ Email adresa"
                 android:inputType="textEmailAddress"
                 android:padding="16dp"
-                android:background="@android:drawable/edit_text"
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                android:background="@drawable/rounded_edittext"
+                android:layout_marginBottom="16dp"
 
+                />
+
+            <!-- PASSWORD -->
             <EditText
                 android:id="@+id/passwordInput"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Lozinka"
+                android:layout_height="56dp"
+                android:hint="🔐 Lozinka"
                 android:inputType="textPassword"
                 android:padding="16dp"
-                android:layout_marginTop="16dp"
-                android:background="@android:drawable/edit_text"
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                android:background="@drawable/rounded_edittext"
 
-            <Button
+                />
+
+            <!-- LOGIN BUTTON -->
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/loginBtn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="56dp"
                 android:text="Prijavi se"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
-                android:backgroundTint="#43A047"
-                android:layout_marginTop="24dp"
-                android:padding="14dp"/>
+                android:background="@drawable/rounded_button"
+                android:layout_marginTop="24dp"/>
 
             <Button
                 android:id="@+id/openRegisterBtn"
@@ -75,9 +112,9 @@
                 android:text="Nemaš račun? Registriraj se"
                 android:textSize="14sp"
                 android:backgroundTint="@android:color/transparent"
-                android:textColor="#2E7D32"
+                android:textColor="#4f3f0b"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="18dp"/>
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -90,5 +127,14 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:contentDescription="Plants"
+        android:alpha="0.3"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

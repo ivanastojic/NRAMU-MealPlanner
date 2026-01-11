@@ -4,6 +4,9 @@ import com.example.mealplanner.models.LoginRequest;
 import com.example.mealplanner.models.AuthResponse;
 import com.example.mealplanner.models.RegisterRequest;
 import com.example.mealplanner.utils.Constants;
+import com.example.mealplanner.models.Ingredient;
+import com.example.mealplanner.models.Unit;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -49,5 +52,29 @@ public interface SupabaseAPI {
     Call<Object> getMyProfile(
             @Header("Authorization") String authToken
     );
+
+    // ===== INGREDIENTS =====
+
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Content-Type: application/json"
+    })
+    @POST("rest/v1/ingredients")
+    Call<Void> insertIngredient(
+            @Header("Authorization") String authToken,
+            @Body Ingredient ingredient
+    );
+
+    // ===== UNITS =====
+
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Accept: application/json"
+    })
+    @GET("rest/v1/units?select=*")
+    Call<List<Unit>> getUnits(
+            @Header("Authorization") String authToken
+    );
+
 
 }

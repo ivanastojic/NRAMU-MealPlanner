@@ -13,8 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.mealplanner.R;
 import com.example.mealplanner.api.ApiCallback;
 import com.example.mealplanner.api.RetrofitClient;
-import com.example.mealplanner.models.LoginRequest;
 import com.example.mealplanner.models.AuthResponse;
+import com.example.mealplanner.models.LoginRequest;
 import com.example.mealplanner.utils.AuthManager;
 
 public class LoginActivity extends AppCompatActivity {
@@ -80,8 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                         authManager.saveEmail(response.getUser().getEmail());
                         authManager.saveUserId(response.getUser().getId());
 
-
-                        // 🔐 RLS CHECK
+                        // 🔐 RLS CHECK – test da korisnik vidi samo svoje podatke
                         RetrofitClient.getInstance()
                                 .getApi()
                                 .getMyMealPlans("Bearer " + token)
@@ -89,7 +88,6 @@ public class LoginActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onSuccess(Object data) {
-                                        // RLS osigurava da korisnik vidi samo svoje podatke
                                         setLoading(false);
                                         goToNextScreen();
                                     }
@@ -99,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                                         setLoading(false);
                                         Toast.makeText(
                                                 LoginActivity.this,
-                                                errorMessage,
+                                                "Prijava uspješna, ali provjera podataka nije uspjela.",
                                                 Toast.LENGTH_LONG
                                         ).show();
                                     }
@@ -109,11 +107,26 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onError(String errorMessage) {
                         setLoading(false);
-                        Toast.makeText(
-                                LoginActivity.this,
-                                errorMessage,
-                                Toast.LENGTH_LONG
-                        ).show();
+
+                        if (errorMessage != null &&
+                                (errorMessage.toLowerCase().contains("invalid")
+                                        || errorMessage.toLowerCase().contains("credentials")
+                                        || errorMessage.contains("401")
+                                        || errorMessage.contains("400"))) {
+
+                            Toast.makeText(
+                                    LoginActivity.this,
+                                    "Netočna email adresa ili lozinka",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+
+                        } else {
+                            Toast.makeText(
+                                    LoginActivity.this,
+                                    "Greška pri prijavi. Pokušajte ponovno.",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        }
                     }
                 });
     }

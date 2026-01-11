@@ -1,23 +1,27 @@
 package com.example.mealplanner.api;
 
-import com.example.mealplanner.models.LoginRequest;
 import com.example.mealplanner.models.AuthResponse;
-import com.example.mealplanner.models.RegisterRequest;
-import com.example.mealplanner.utils.Constants;
 import com.example.mealplanner.models.Ingredient;
+import com.example.mealplanner.models.LoginRequest;
+import com.example.mealplanner.models.Recipe;
+import com.example.mealplanner.models.RecipeIngredient;
+import com.example.mealplanner.models.RegisterRequest;
 import com.example.mealplanner.models.Unit;
+import com.example.mealplanner.utils.Constants;
+
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Headers;
-import retrofit2.http.POST;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
 
 public interface SupabaseAPI {
 
-    // LOGIN
+    // ================= AUTH =================
+
     @Headers({
             "Content-Type: application/json",
             "apikey: " + Constants.ANON_KEY
@@ -25,7 +29,6 @@ public interface SupabaseAPI {
     @POST("auth/v1/token?grant_type=password")
     Call<AuthResponse> login(@Body LoginRequest request);
 
-    // REGISTER
     @Headers({
             "Content-Type: application/json",
             "apikey: " + Constants.ANON_KEY
@@ -33,7 +36,8 @@ public interface SupabaseAPI {
     @POST("auth/v1/signup")
     Call<AuthResponse> register(@Body RegisterRequest request);
 
-    // 🔐 RLS TEST – DOHVAT MEAL PLANOVA
+    // ================= RLS TEST =================
+
     @Headers({
             "apikey: " + Constants.ANON_KEY,
             "Accept: application/json"
@@ -43,7 +47,6 @@ public interface SupabaseAPI {
             @Header("Authorization") String authToken
     );
 
-    // 🔐 RLS TEST – DOHVAT PROFILA
     @Headers({
             "apikey: " + Constants.ANON_KEY,
             "Accept: application/json"
@@ -53,7 +56,7 @@ public interface SupabaseAPI {
             @Header("Authorization") String authToken
     );
 
-    // ===== INGREDIENTS =====
+    // ================= INGREDIENTS =================
 
     @Headers({
             "apikey: " + Constants.ANON_KEY,
@@ -65,7 +68,7 @@ public interface SupabaseAPI {
             @Body Ingredient ingredient
     );
 
-    // ===== UNITS =====
+    // ================= UNITS =================
 
     @Headers({
             "apikey: " + Constants.ANON_KEY,
@@ -76,5 +79,26 @@ public interface SupabaseAPI {
             @Header("Authorization") String authToken
     );
 
+    // ================= RECIPES =================
 
+    @Headers({
+            "Content-Type: application/json",
+            "apikey: " + Constants.ANON_KEY,
+            "Prefer: return=representation"
+    })
+    @POST("rest/v1/recipes")
+    Call<List<Recipe>> createRecipe(
+            @Header("Authorization") String authToken,
+            @Body Recipe recipe
+    );
+
+    @Headers({
+            "Content-Type: application/json",
+            "apikey: " + Constants.ANON_KEY
+    })
+    @POST("rest/v1/recipe_ingredients")
+    Call<Void> addIngredientToRecipe(
+            @Header("Authorization") String authToken,
+            @Body RecipeIngredient recipeIngredient
+    );
 }

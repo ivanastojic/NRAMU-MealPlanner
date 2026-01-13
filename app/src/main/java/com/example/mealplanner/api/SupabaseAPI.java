@@ -172,4 +172,30 @@ public interface SupabaseAPI {
             @Header("Authorization") String authToken,
             @Query("recipe_id") String recipeIdFilter
     );
+
+    // ================= MEAL PLANS =================
+
+    @Headers({
+            "Content-Type: application/json",
+            "apikey: " + Constants.ANON_KEY,
+            "Prefer: return=representation"
+    })
+    @POST("rest/v1/meal_plans")
+    Call<List<com.example.mealplanner.models.MealPlan>> insertMealPlan(
+            @Header("Authorization") String authToken,
+            @Body com.example.mealplanner.models.MealPlanRequest body
+    );
+
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Accept: application/json"
+    })
+    @GET("rest/v1/meal_plans?select=*")
+    Call<List<com.example.mealplanner.models.MealPlan>> getMealPlansByDate(
+            @Header("Authorization") String authToken,
+            @Query("user_id") String userIdFilter,   // "eq.<userId>"
+            @Query("plan_date") String dateFilter,   // "eq.<YYYY-MM-DD>"
+            @Query("order") String order
+    );
+
 }

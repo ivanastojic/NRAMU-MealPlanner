@@ -49,6 +49,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, AddRecipeActivity.class))
         );
 
+        // PLANER OBROKA
+        Button btnMealPlanner = findViewById(R.id.btnMealPlanner);
+        btnMealPlanner.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, MealPlannerActivity.class))
+        );
+
+
 
         // ODJAVA
         Button logoutBtn = findViewById(R.id.logoutBtn);

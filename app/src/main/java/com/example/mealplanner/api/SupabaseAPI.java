@@ -17,10 +17,36 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
+import retrofit2.http.DELETE;
+import retrofit2.http.PATCH;
 
 public interface SupabaseAPI {
 
     // ================= AUTH =================
+// UPDATE recipe title (PATCH) - filter po id
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Content-Type: application/json",
+            "Prefer: return=representation"
+    })
+    @PATCH("rest/v1/recipes")
+    Call<List<Recipe>> updateRecipe(
+            @Header("Authorization") String authToken,
+            @Query("id") String idFilter,
+            @Body Recipe recipe
+    );
+
+    // DELETE recipe - filter po id
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Accept: application/json"
+    })
+    @DELETE("rest/v1/recipes")
+    Call<Void> deleteRecipe(
+            @Header("Authorization") String authToken,
+            @Query("id") String idFilter
+    );
 
     @Headers({
             "Content-Type: application/json",
@@ -60,12 +86,33 @@ public interface SupabaseAPI {
 
     @Headers({
             "apikey: " + Constants.ANON_KEY,
-            "Content-Type: application/json"
+            "Content-Type: application/json",
+            "Prefer: return=representation"
     })
     @POST("rest/v1/ingredients")
-    Call<Void> insertIngredient(
+    Call<List<Ingredient>> insertIngredient(
             @Header("Authorization") String authToken,
             @Body Ingredient ingredient
+    );
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Content-Type: application/json",
+            "Prefer: return=representation,resolution=merge-duplicates"
+    })
+    @POST("rest/v1/ingredients?on_conflict=user_id,name")
+    Call<List<Ingredient>> upsertIngredient(
+            @Header("Authorization") String authToken,
+            @Body Ingredient ingredient
+    );
+
+    // GET all ingredients (za mapiranje id -> name)
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Accept: application/json"
+    })
+    @GET("rest/v1/ingredients?select=*")
+    Call<List<Ingredient>> getIngredients(
+            @Header("Authorization") String authToken
     );
 
     // ================= UNITS =================
@@ -92,6 +139,19 @@ public interface SupabaseAPI {
             @Body Recipe recipe
     );
 
+    // GET recipes by user_id (filter ide kao eq.<id>)
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Accept: application/json"
+    })
+    @GET("rest/v1/recipes?select=*")
+    Call<List<Recipe>> getRecipesByUser(
+            @Header("Authorization") String authToken,
+            @Query("user_id") String userIdFilter
+    );
+
+    // ================= RECIPE INGREDIENTS =================
+
     @Headers({
             "Content-Type: application/json",
             "apikey: " + Constants.ANON_KEY
@@ -100,5 +160,16 @@ public interface SupabaseAPI {
     Call<Void> addIngredientToRecipe(
             @Header("Authorization") String authToken,
             @Body RecipeIngredient recipeIngredient
+    );
+
+    // GET recipe_ingredients by recipe_id (filter eq.<id>)
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Accept: application/json"
+    })
+    @GET("rest/v1/recipe_ingredients?select=*")
+    Call<List<RecipeIngredient>> getRecipeIngredientsByRecipeId(
+            @Header("Authorization") String authToken,
+            @Query("recipe_id") String recipeIdFilter
     );
 }

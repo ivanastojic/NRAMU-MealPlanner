@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
         authManager = new AuthManager(this);
 
-        //sigurnosna provjera
         if (!authManager.isLoggedIn()) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
@@ -39,6 +38,19 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        // MOJI RECEPTI
+        Button btnMyRecipes = findViewById(R.id.btnMyRecipes);
+        btnMyRecipes.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, RecipesListActivity.class))
+        );
+
+        Button btnAddRecipe = findViewById(R.id.btnAddRecipe);
+        btnAddRecipe.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, AddRecipeActivity.class))
+        );
+
+
+        // ODJAVA
         Button logoutBtn = findViewById(R.id.logoutBtn);
         logoutBtn.setOnClickListener(v -> {
             authManager.logout();

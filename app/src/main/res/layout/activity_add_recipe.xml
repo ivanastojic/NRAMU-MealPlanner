@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/addRecipeCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="12dp"
+        app:cardBackgroundColor="#f2ddb6"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.5">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="28dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dodaj recept"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    android:textColor="#4f3f0b"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="18dp"/>
+
+                <EditText
+                    android:id="@+id/etRecipeTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:hint="🍽️ Naziv recepta"
+                    android:padding="16dp"
+                    android:textSize="16sp"
+                    android:background="@drawable/rounded_edittext"
+                    android:layout_marginBottom="14dp"/>
+
+                <EditText
+                    android:id="@+id/etIngredientName"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:hint="🥣 Sastojak (npr. brašno)"
+                    android:padding="16dp"
+                    android:textSize="16sp"
+                    android:background="@drawable/rounded_edittext"
+                    android:layout_marginBottom="12dp"/>
+
+                <EditText
+                    android:id="@+id/etQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:hint="📏 Količina (npr. 200)"
+                    android:inputType="numberDecimal"
+                    android:padding="16dp"
+                    android:textSize="16sp"
+                    android:background="@drawable/rounded_edittext"
+                    android:layout_marginBottom="12dp"/>
+
+                <Spinner
+                    android:id="@+id/spUnit"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:paddingHorizontal="12dp"
+                    android:layout_marginBottom="12dp"/>
+
+                <EditText
+                    android:id="@+id/etNote"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:hint="📝 Napomena (opcionalno)"
+                    android:padding="16dp"
+                    android:textSize="16sp"
+                    android:background="@drawable/rounded_edittext"
+                    android:layout_marginBottom="18dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAddIngredient"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="Dodaj sastojak"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    app:backgroundTint="#b59336"
+                    app:cornerRadius="20dp"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/tvAddedCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dodano: 0 sastojaka"
+                    android:textColor="#4f3f0b"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="14dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSaveRecipe"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="Spremi recept"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    app:backgroundTint="#b59336"
+                    app:cornerRadius="20dp"/>
+
+            </LinearLayout>
+        </ScrollView>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

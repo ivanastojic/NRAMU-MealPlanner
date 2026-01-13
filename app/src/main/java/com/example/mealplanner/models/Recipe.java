@@ -24,4 +24,12 @@ public class Recipe {
     public String getUser_id() {
         return user_id;
     }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
 }

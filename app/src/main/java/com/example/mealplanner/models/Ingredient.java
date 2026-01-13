@@ -12,6 +12,9 @@ public class Ingredient {
     private String name;
     private String category;
 
+    public Ingredient() {
+    }
+
     public Ingredient(String userId, String name, String category) {
         this.userId = userId;
         this.name = name;

@@ -85,13 +85,19 @@ public class RecipesListActivity extends AppCompatActivity {
     // ===== LONG CLICK MENU =====
 
     private void showRecipeOptionsDialog(Recipe recipe) {
-        String[] options = {"Uredi naziv", "Obriši"};
+        String[] options = {"Uredi recept", "Obriši"};
 
         new AlertDialog.Builder(this)
                 .setTitle(recipe.getTitle())
                 .setItems(options, (dialog, which) -> {
-                    if (which == 0) showEditTitleDialog(recipe);
-                    else showDeleteConfirmDialog(recipe);
+                    if (which == 0) {
+                        Intent i = new Intent(this, AddRecipeActivity.class);
+                        i.putExtra("recipe_id", recipe.getId());
+                        i.putExtra("recipe_title", recipe.getTitle());
+                        startActivity(i);
+                    } else {
+                        showDeleteConfirmDialog(recipe);
+                    }
                 })
                 .show();
     }

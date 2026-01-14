@@ -14,16 +14,33 @@ import com.example.mealplanner.models.IngredientDisplay;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IngredientDisplayAdapter extends RecyclerView.Adapter<IngredientDisplayAdapter.VH> {
+public class IngredientDisplayAdapter
+        extends RecyclerView.Adapter<IngredientDisplayAdapter.VH> {
+
+    // ===== INTERFACE ZA LONG PRESS =====
+    public interface OnIngredientLongClick {
+        void onEdit(IngredientDisplay ingredient);
+        void onDelete(IngredientDisplay ingredient);
+    }
 
     private final List<IngredientDisplay> items = new ArrayList<>();
+    private OnIngredientLongClick longClickListener;
 
+    // ===== KONSTRUKTORI =====
+    public IngredientDisplayAdapter() {}
+
+    public IngredientDisplayAdapter(OnIngredientLongClick listener) {
+        this.longClickListener = listener;
+    }
+
+    // ===== DATA =====
     public void setItems(List<IngredientDisplay> newItems) {
         items.clear();
         if (newItems != null) items.addAll(newItems);
         notifyDataSetChanged();
     }
 
+    // ===== ADAPTER =====
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -35,13 +52,25 @@ public class IngredientDisplayAdapter extends RecyclerView.Adapter<IngredientDis
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
         IngredientDisplay d = items.get(position);
+
         holder.tvName.setText(d.name);
         holder.tvLine.setText(d.line);
+
+        // LONG PRESS → EDIT / DELETE
+        holder.itemView.setOnLongClickListener(v -> {
+            if (longClickListener != null) {
+                longClickListener.onDelete(d);
+            }
+            return true;
+        });
     }
 
     @Override
-    public int getItemCount() { return items.size(); }
+    public int getItemCount() {
+        return items.size();
+    }
 
+    // ===== VIEW HOLDER =====
     static class VH extends RecyclerView.ViewHolder {
         TextView tvName, tvLine;
 

@@ -31,6 +31,7 @@
                 android:padding="28dp">
 
                 <TextView
+                    android:id="@+id/tvRecipeHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Dodaj recept"
@@ -108,6 +109,12 @@
                     android:textColor="#4f3f0b"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="14dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvIngredients"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSaveRecipe"

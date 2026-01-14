@@ -42,4 +42,19 @@ public class RecipeRepository {
                 .addIngredientToRecipe("Bearer " + token, recipeIngredient)
                 .enqueue(callback);
     }
+
+    public void deleteRecipeIngredientById(
+            String token,
+            String recipeIngredientId,
+            ApiCallback<Void> callback
+    ) {
+        RetrofitClient.getInstance()
+                .getApi()
+                .deleteRecipeIngredientById(
+                        "Bearer " + token,
+                        "eq." + recipeIngredientId
+                )
+                .enqueue(callback);
+    }
+
 }

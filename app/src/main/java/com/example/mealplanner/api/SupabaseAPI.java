@@ -198,4 +198,24 @@ public interface SupabaseAPI {
             @Query("order") String order
     );
 
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Accept: application/json"
+    })
+    @DELETE("rest/v1/recipe_ingredients")
+    Call<Void> deleteRecipeIngredientById(
+            @Header("Authorization") String authToken,
+            @Query("id") String idFilter
+    );
+
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Accept: application/json"
+    })
+    @DELETE("rest/v1/meal_plans")
+    Call<Void> deleteMealPlan(
+            @Header("Authorization") String authToken,
+            @Query("id") String idFilter
+    );
+
 }

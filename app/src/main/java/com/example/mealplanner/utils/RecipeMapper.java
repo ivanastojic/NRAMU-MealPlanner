@@ -43,7 +43,12 @@ public class RecipeMapper {
                 line += " • " + note;
             }
 
-            out.add(new IngredientDisplay(ingName, line));
+            out.add(new IngredientDisplay(
+                    ri.getId(),
+                    ri.getIngredientId(),
+                    ingName,
+                    line
+            ));
         }
 
         return out;

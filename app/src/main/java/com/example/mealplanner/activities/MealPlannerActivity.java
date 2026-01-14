@@ -9,6 +9,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -63,8 +64,6 @@ public class MealPlannerActivity extends AppCompatActivity {
         authToken = "Bearer " + authManager.getToken();
         userId = authManager.getUserId();
 
-        System.out.println("AUTH TOKEN = " + authToken);
-
         tvSelectedDate = findViewById(R.id.tvSelectedDate);
         btnPickDate = findViewById(R.id.btnPickDate);
         btnSavePlan = findViewById(R.id.btnSavePlan);
@@ -79,51 +78,70 @@ public class MealPlannerActivity extends AppCompatActivity {
         btnPickDate.setOnClickListener(v -> showDatePicker());
         btnSavePlan.setOnClickListener(v -> saveMealPlan());
 
-        // U početku: sakrij poruku, sakrij listu dok nema datuma
         tvNoPlans.setVisibility(View.GONE);
         rvPlans.setVisibility(View.GONE);
 
-        // učitaj recepte odmah
         loadRecipes();
     }
 
     private void setupMealTypeSpinner() {
         String[] mealTypes = new String[]{"Breakfast", "Lunch", "Dinner"};
 
-        // ✅ Koristi tvoje layout-e da tekst ne bude bijel
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
-                R.layout.spinner_item_black,  // <-- tvoj item layout
+                R.layout.spinner_item_black,
                 mealTypes
         );
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item_black); // <-- dropdown layout
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item_black);
         spMealType.setAdapter(adapter);
     }
 
     private void setupRecycler() {
-        planAdapter = new MealPlanAdapter(new ArrayList<>(), recipeIdToTitle);
+        planAdapter = new MealPlanAdapter(
+                new ArrayList<>(),
+                recipeIdToTitle,
+                new MealPlanAdapter.OnMealPlanLongClick() {
+                    @Override
+                    public void onEdit(MealPlan plan) {}
+
+                    @Override
+                    public void onDelete(MealPlan plan) {
+                        confirmDeletePlan(plan);
+                    }
+                }
+        );
+
         rvPlans.setLayoutManager(new LinearLayoutManager(this));
         rvPlans.setAdapter(planAdapter);
     }
 
-    private void showDatePicker() {
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
+    private void confirmDeletePlan(MealPlan plan) {
+        new AlertDialog.Builder(this)
+                .setTitle("Obriši plan")
+                .setMessage("Obrisati plan obroka?")
+                .setPositiveButton("Obriši", (d, w) -> deletePlan(plan))
+                .setNegativeButton("Odustani", null)
+                .show();
+    }
 
-        DatePickerDialog dialog = new DatePickerDialog(
-                this,
-                (view, y, m, d) -> {
-                    selectedDateIso = String.format(Locale.US, "%04d-%02d-%02d", y, (m + 1), d);
-                    tvSelectedDate.setText("Datum: " + selectedDateIso);
+    private void deletePlan(MealPlan plan) {
+        api.deleteMealPlan(authToken, "eq." + plan.id)
+                .enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(MealPlannerActivity.this, "Plan obrisan", Toast.LENGTH_SHORT).show();
+                            loadPlansForDate();
+                        } else {
+                            Toast.makeText(MealPlannerActivity.this, "Delete error", Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
-                    // čim odabere datum, učitaj planove
-                    loadPlansForDate();
-                },
-                year, month, day
-        );
-        dialog.show();
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(MealPlannerActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void loadRecipes() {
@@ -245,4 +263,30 @@ public class MealPlannerActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void showDatePicker() {
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dialog = new DatePickerDialog(
+                this,
+                (view, y, m, d) -> {
+                    selectedDateIso = String.format(
+                            Locale.US,
+                            "%04d-%02d-%02d",
+                            y,
+                            (m + 1),
+                            d
+                    );
+                    tvSelectedDate.setText("Datum: " + selectedDateIso);
+
+                    loadPlansForDate();
+                },
+                year, month, day
+        );
+        dialog.show();
+    }
+
 }

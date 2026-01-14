@@ -169,7 +169,6 @@ public class AddRecipeActivity extends AppCompatActivity {
 
         AddedIngredient ai = added.get(i);
 
-        // Tea backend radi: insert u ingredients + return representation
         Ingredient ingredient = new Ingredient(userId, ai.name, null);
 
         RetrofitClient.getInstance().getApi()

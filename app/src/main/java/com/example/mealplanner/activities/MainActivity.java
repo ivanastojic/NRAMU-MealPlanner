@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
 import com.example.mealplanner.R;
 import com.example.mealplanner.utils.AuthManager;
 
@@ -44,18 +43,23 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, RecipesListActivity.class))
         );
 
+        // DODAJ RECEPT
         Button btnAddRecipe = findViewById(R.id.btnAddRecipe);
         btnAddRecipe.setOnClickListener(v ->
                 startActivity(new Intent(MainActivity.this, AddRecipeActivity.class))
         );
 
-        // PLANER OBROKA
+        // PLANER OBROKA (unos plana po datumu)
         Button btnMealPlanner = findViewById(R.id.btnMealPlanner);
         btnMealPlanner.setOnClickListener(v ->
                 startActivity(new Intent(MainActivity.this, MealPlannerActivity.class))
         );
 
-
+        // MOJI PLANOVI (lista svih planova)
+        Button btnMyPlans = findViewById(R.id.btnMyPlans);
+        btnMyPlans.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, MyMealPlansActivity.class))
+        );
 
         // ODJAVA
         Button logoutBtn = findViewById(R.id.logoutBtn);

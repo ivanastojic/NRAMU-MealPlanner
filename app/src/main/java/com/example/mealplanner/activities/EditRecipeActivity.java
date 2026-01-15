@@ -91,8 +91,35 @@ public class EditRecipeActivity extends AppCompatActivity {
         spUnit.setAdapter(unitAdapter);
 
         adapter = new EditableIngredientAdapter((item, position) -> {
-            item.markedForDelete = true;
-            adapter.removeAt(position);
+
+            String token = auth.getToken();
+            if (token == null) {
+                toast("Nema tokena");
+                return;
+            }
+
+            if (item.recipeIngredientId.startsWith("NEW_")) {
+                adapter.removeAt(position);
+                return;
+            }
+
+            RetrofitClient.getInstance().getApi()
+                    .deleteRecipeIngredientById(
+                            "Bearer " + token,
+                            "eq." + item.recipeIngredientId
+                    )
+                    .enqueue(new ApiCallback<Void>() {
+                        @Override
+                        public void onSuccess(Void r) {
+                            adapter.removeAt(position);
+                            toast("Sastojak obrisan");
+                        }
+
+                        @Override
+                        public void onError(String e) {
+                            toast("Greška pri brisanju: " + e);
+                        }
+                    });
         });
 
         rv.setLayoutManager(new LinearLayoutManager(this));
@@ -336,35 +363,25 @@ public class EditRecipeActivity extends AppCompatActivity {
 
         for (EditableRecipeIngredient i : adapter.getItems()) {
 
-            if (i.markedForDelete) {
-                RetrofitClient.getInstance().getApi()
-                        .deleteRecipeIngredientById(
-                                "Bearer " + token,
-                                "eq." + i.recipeIngredientId
-                        )
-                        .enqueue(new ApiCallback<Void>() {
-                            @Override public void onSuccess(Void r) {}
-                            @Override public void onError(String e) {}
-                        });
-            }
+            if (i.recipeIngredientId.startsWith("NEW_")) continue;
 
-            else {
-                RecipeIngredient ri = new RecipeIngredient();
-                ri.setQuantity(i.quantity);
-                ri.setUnitId(i.unitId);
-                ri.setNote(i.note);
+            RecipeIngredient ri = new RecipeIngredient();
+            ri.setQuantity(i.quantity);
+            ri.setUnitId(i.unitId);
+            ri.setNote(i.note);
 
-                RetrofitClient.getInstance().getApi()
-                        .updateRecipeIngredient(
-                                "Bearer " + token,
-                                "eq." + i.recipeIngredientId,
-                                ri
-                        )
-                        .enqueue(new ApiCallback<List<RecipeIngredient>>() {
-                            @Override public void onSuccess(List<RecipeIngredient> r) {}
-                            @Override public void onError(String e) {}
-                        });
-            }
+            RetrofitClient.getInstance().getApi()
+                    .updateRecipeIngredient(
+                            "Bearer " + token,
+                            "eq." + i.recipeIngredientId,
+                            ri
+                    )
+                    .enqueue(new ApiCallback<List<RecipeIngredient>>() {
+                        @Override public void onSuccess(List<RecipeIngredient> r) {}
+                        @Override public void onError(String e) {
+                            toast(e);
+                        }
+                    });
         }
 
         toast("Promjene spremljene");

@@ -43,7 +43,6 @@ public class MyMealPlansActivity extends AppCompatActivity {
     private String auth;
     private String userId;
 
-    // čuvamo raw planove (treba za grupiranje)
     private List<MealPlanRow> rawPlans = new ArrayList<>();
 
     @Override
@@ -147,14 +146,12 @@ public class MyMealPlansActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Recipe>> call, Throwable t) {
                 progress.setVisibility(View.GONE);
-                // čak i bez titlova prikaži grupirano
                 adapter.setItems(groupByDate(rawPlans));
             }
         });
     }
 
     private List<DayPlanGroup> groupByDate(List<MealPlanRow> plans) {
-        // LinkedHashMap da zadrži redoslijed datuma (asc)
         Map<String, DayPlanGroup> map = new LinkedHashMap<>();
         for (MealPlanRow p : plans) {
             if (p.plan_date == null) continue;

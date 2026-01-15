@@ -4,7 +4,7 @@ public class MealPlanRequest {
 
     public String user_id;
     public String recipe_id;
-    public String plan_date; // "YYYY-MM-DD"
+    public String plan_date;
     public String meal_type;
 
     public MealPlanRequest(String user_id, String recipe_id, String plan_date, String meal_type) {

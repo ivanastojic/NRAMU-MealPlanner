@@ -71,7 +71,6 @@ public class MealPlanAdapter extends RecyclerView.Adapter<MealPlanAdapter.VH> {
 
         holder.itemView.setOnLongClickListener(v -> {
             if (longClickListener != null) {
-                // samo Delete ili možeš napraviti dialog u Activity-u
                 longClickListener.onDelete(p);
             }
             return true;

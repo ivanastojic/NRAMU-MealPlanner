@@ -54,8 +54,6 @@ public class MyMealPlansGroupedAdapter extends RecyclerView.Adapter<MyMealPlansG
         DayPlanGroup g = items.get(position);
 
         h.tvDate.setText(g.date);
-
-        // Napravi 3 linije: Breakfast/Lunch/Dinner
         h.tvBreakfast.setText("Breakfast: " + getTitleForMeal(g, "Breakfast"));
         h.tvLunch.setText("Lunch: " + getTitleForMeal(g, "Lunch"));
         h.tvDinner.setText("Dinner: " + getTitleForMeal(g, "Dinner"));

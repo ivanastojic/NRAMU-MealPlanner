@@ -135,6 +135,7 @@ public class DayPlansActivity extends AppCompatActivity {
     private void openRecipeDetails(String recipeId) {
         Intent i = new Intent(this, RecipeDetailsActivity.class);
         i.putExtra("recipe_id", recipeId);
+        i.putExtra("recipe_title", recipeIdToTitle.get(recipeId));
         startActivity(i);
     }
 

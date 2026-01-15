@@ -66,8 +66,6 @@ public class EditMealPlanActivity extends AppCompatActivity {
             return;
         }
         authToken = "Bearer " + token;
-
-        // Intent extras
         planId = getIntent().getStringExtra("plan_id");
         planDate = getIntent().getStringExtra("plan_date");
         mealType = getIntent().getStringExtra("meal_type");
@@ -79,7 +77,6 @@ public class EditMealPlanActivity extends AppCompatActivity {
             return;
         }
 
-        // read-only prikaz
         tvDate.setText("Datum: " + (planDate != null ? planDate : "-"));
         tvMealTypeLabel.setText("Obrok:");
         tvMealType.setText(mealType != null ? mealType : "-");
@@ -164,7 +161,7 @@ public class EditMealPlanActivity extends AppCompatActivity {
                 btnSaveChanges.setEnabled(true);
 
                 if (response.isSuccessful()) {
-                    Toast.makeText(EditMealPlanActivity.this, "Plan ažuriran ✅", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditMealPlanActivity.this, "Plan ažuriran", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
                     Toast.makeText(EditMealPlanActivity.this, "Greška: " + response.code(), Toast.LENGTH_SHORT).show();

@@ -24,8 +24,6 @@ import retrofit2.http.PATCH;
 
 public interface SupabaseAPI {
 
-    // ================= AUTH =================
-// UPDATE recipe title (PATCH) - filter po id
     @Headers({
             "apikey: " + Constants.ANON_KEY,
             "Content-Type: application/json",
@@ -38,7 +36,6 @@ public interface SupabaseAPI {
             @Body Recipe recipe
     );
 
-    // DELETE recipe - filter po id
     @Headers({
             "apikey: " + Constants.ANON_KEY,
             "Accept: application/json"
@@ -63,7 +60,6 @@ public interface SupabaseAPI {
     @POST("auth/v1/signup")
     Call<AuthResponse> register(@Body RegisterRequest request);
 
-    // ================= RLS TEST =================
 
     @Headers({
             "apikey: " + Constants.ANON_KEY,
@@ -82,8 +78,6 @@ public interface SupabaseAPI {
     Call<Object> getMyProfile(
             @Header("Authorization") String authToken
     );
-
-    // ================= INGREDIENTS =================
 
     @Headers({
             "apikey: " + Constants.ANON_KEY,
@@ -106,7 +100,6 @@ public interface SupabaseAPI {
             @Body Ingredient ingredient
     );
 
-    // GET all ingredients (za mapiranje id -> name)
     @Headers({
             "apikey: " + Constants.ANON_KEY,
             "Accept: application/json"
@@ -116,8 +109,6 @@ public interface SupabaseAPI {
             @Header("Authorization") String authToken
     );
 
-    // ================= UNITS =================
-
     @Headers({
             "apikey: " + Constants.ANON_KEY,
             "Accept: application/json"
@@ -126,8 +117,6 @@ public interface SupabaseAPI {
     Call<List<Unit>> getUnits(
             @Header("Authorization") String authToken
     );
-
-    // ================= RECIPES =================
 
     @Headers({
             "Content-Type: application/json",
@@ -140,7 +129,6 @@ public interface SupabaseAPI {
             @Body Recipe recipe
     );
 
-    // GET recipes by user_id (filter ide kao eq.<id>)
     @Headers({
             "apikey: " + Constants.ANON_KEY,
             "Accept: application/json"
@@ -150,8 +138,6 @@ public interface SupabaseAPI {
             @Header("Authorization") String authToken,
             @Query("user_id") String userIdFilter
     );
-
-    // ================= RECIPE INGREDIENTS =================
 
     @Headers({
             "Content-Type: application/json",
@@ -163,7 +149,6 @@ public interface SupabaseAPI {
             @Body RecipeIngredient recipeIngredient
     );
 
-    // GET recipe_ingredients by recipe_id (filter eq.<id>)
     @Headers({
             "apikey: " + Constants.ANON_KEY,
             "Accept: application/json"
@@ -173,8 +158,6 @@ public interface SupabaseAPI {
             @Header("Authorization") String authToken,
             @Query("recipe_id") String recipeIdFilter
     );
-
-    // ================= MEAL PLANS =================
 
     @Headers({
             "Content-Type: application/json",
@@ -194,8 +177,8 @@ public interface SupabaseAPI {
     @GET("rest/v1/meal_plans?select=*")
     Call<List<com.example.mealplanner.models.MealPlan>> getMealPlansByDate(
             @Header("Authorization") String authToken,
-            @Query("user_id") String userIdFilter,   // "eq.<userId>"
-            @Query("plan_date") String dateFilter,   // "eq.<YYYY-MM-DD>"
+            @Query("user_id") String userIdFilter,
+            @Query("plan_date") String dateFilter,
             @Query("order") String order
     );
 
@@ -237,11 +220,7 @@ public interface SupabaseAPI {
     @PATCH("rest/v1/meal_plans")
     Call<List<com.example.mealplanner.models.MealPlan>> updateMealPlan(
             @Header("Authorization") String authToken,
-            @Query("id") String idFilter,               // "eq.<planId>"
-            @Body java.util.Map<String, Object> body    // npr {"recipe_id": "..."}
+            @Query("id") String idFilter,
+            @Body java.util.Map<String, Object> body
     );
-
-
-
-
 }

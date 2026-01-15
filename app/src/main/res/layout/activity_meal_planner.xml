@@ -28,7 +28,6 @@
             android:orientation="vertical"
             android:padding="28dp">
 
-            <!-- NASLOV -->
             <TextView
                 android:id="@+id/tvTitleMealPlanner"
                 android:layout_width="wrap_content"
@@ -50,7 +49,6 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="20dp"/>
 
-            <!-- DATUM -->
             <TextView
                 android:id="@+id/tvSelectedDate"
                 android:layout_width="match_parent"
@@ -71,7 +69,6 @@
                 app:cornerRadius="20dp"
                 android:layout_marginBottom="16dp"/>
 
-            <!-- MEAL TYPE -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -98,7 +95,6 @@
                     android:padding="10dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- RECIPE -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -125,7 +121,6 @@
                     android:padding="10dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- SPREMI -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSavePlan"
                 android:layout_width="match_parent"
@@ -137,7 +132,6 @@
                 app:cornerRadius="20dp"
                 android:layout_marginBottom="16dp"/>
 
-            <!-- LISTA PLANOVA -->
             <TextView
                 android:id="@+id/tvPlansTitle"
                 android:layout_width="match_parent"

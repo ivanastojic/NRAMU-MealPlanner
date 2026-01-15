@@ -31,7 +31,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- MEAL TYPE -->
     <TextView
         android:id="@+id/tvMealTypeLabel"
         android:layout_width="0dp"
@@ -55,7 +54,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- RECIPE -->
     <TextView
         android:id="@+id/tvRecipeLabel"
         android:layout_width="0dp"
@@ -76,7 +74,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- SAVE BUTTON -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSaveChanges"
         android:layout_width="0dp"

@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,7 +53,6 @@ public class MealPlannerActivity extends AppCompatActivity {
     private String authToken;
     private String userId;
 
-    // 🔒 Planovi za trenutno odabrani datum (za provjeru duplikata)
     private List<MealPlan> currentPlansForSelectedDate = new ArrayList<>();
 
     @Override
@@ -104,57 +102,17 @@ public class MealPlannerActivity extends AppCompatActivity {
         planAdapter = new MealPlanAdapter(
                 new ArrayList<>(),
                 recipeIdToTitle,
-                new MealPlanAdapter.OnMealPlanLongClick() {
-                    @Override
-                    public void onEdit(MealPlan plan) {
-                        // (opcionalno) kasnije edit logika
-                    }
-
-                    @Override
-                    public void onDelete(MealPlan plan) {
-                        confirmDeletePlan(plan);
-                    }
-                },
+                null,
                 plan -> {
-                    // klik na obrok -> otvori recept
-                    // ako ti RecipeDetailsActivity prima recipe_id
                     Intent i = new Intent(MealPlannerActivity.this, RecipeDetailsActivity.class);
                     i.putExtra("recipe_id", plan.recipe_id);
+                    i.putExtra("recipe_title", recipeIdToTitle.get(plan.recipe_id));
                     startActivity(i);
                 }
         );
 
         rvPlans.setLayoutManager(new LinearLayoutManager(this));
         rvPlans.setAdapter(planAdapter);
-    }
-
-    private void confirmDeletePlan(MealPlan plan) {
-        new AlertDialog.Builder(this)
-                .setTitle("Obriši plan")
-                .setMessage("Obrisati plan obroka?")
-                .setPositiveButton("Obriši", (d, w) -> deletePlan(plan))
-                .setNegativeButton("Odustani", null)
-                .show();
-    }
-
-    private void deletePlan(MealPlan plan) {
-        api.deleteMealPlan(authToken, "eq." + plan.id)
-                .enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (response.isSuccessful()) {
-                            Toast.makeText(MealPlannerActivity.this, "Plan obrisan", Toast.LENGTH_SHORT).show();
-                            loadPlansForDate();
-                        } else {
-                            Toast.makeText(MealPlannerActivity.this, "Delete error: " + response.code(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-                        Toast.makeText(MealPlannerActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 
     private void loadRecipes() {
@@ -211,12 +169,11 @@ public class MealPlannerActivity extends AppCompatActivity {
         Recipe selectedRecipe = recipes.get(pos);
         String mealType = (String) spMealType.getSelectedItem();
 
-        // 🔒 PROVJERA: već postoji isti meal_type za taj datum
         for (MealPlan p : currentPlansForSelectedDate) {
             if (p.meal_type != null && p.meal_type.equalsIgnoreCase(mealType)) {
                 Toast.makeText(
                         this,
-                        "Za taj datum već postoji " + mealType + ". Uredi postojeći plan.",
+                        "Za taj datum već postoji " + mealType + ". Uredi postojeći plan u Mojim planovima.",
                         Toast.LENGTH_SHORT
                 ).show();
                 return;
@@ -267,7 +224,7 @@ public class MealPlannerActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
 
                     List<MealPlan> plans = response.body();
-                    currentPlansForSelectedDate = plans; // 🔒 zapamti za provjeru duplikata
+                    currentPlansForSelectedDate = plans;
 
                     planAdapter.setPlans(plans);
 

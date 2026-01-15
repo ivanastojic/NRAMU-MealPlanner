@@ -51,6 +51,4 @@
             android:alpha="0.8" />
 
     </LinearLayout>
-
-
 </androidx.cardview.widget.CardView>

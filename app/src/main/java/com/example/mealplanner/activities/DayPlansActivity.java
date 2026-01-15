@@ -63,7 +63,8 @@ public class DayPlansActivity extends AppCompatActivity {
         adapter = new MealPlanAdapter(
                 new ArrayList<>(),
                 recipeIdToTitle,
-                new MealPlanAdapter.OnMealPlanLongClick() {
+                plan -> openRecipeDetails(plan.recipe_id), // klik → detalji recepta
+                new MealPlanAdapter.OnMealPlanMenuAction() {
                     @Override
                     public void onEdit(MealPlan plan) {
                         openEditPlan(plan);
@@ -71,10 +72,9 @@ public class DayPlansActivity extends AppCompatActivity {
 
                     @Override
                     public void onDelete(MealPlan plan) {
-                        showOptions(plan);
+                        confirmDelete(plan);
                     }
-                },
-                plan -> openRecipeDetails(plan.recipe_id) // CLICK -> otvori recept
+                }
         );
 
         rvPlans.setLayoutManager(new LinearLayoutManager(this));
@@ -136,6 +136,10 @@ public class DayPlansActivity extends AppCompatActivity {
         Intent i = new Intent(this, RecipeDetailsActivity.class);
         i.putExtra("recipe_id", recipeId);
         i.putExtra("recipe_title", recipeIdToTitle.get(recipeId));
+
+        // ❌ iz planera NE dopuštamo uređivanje sastojaka
+        i.putExtra("can_edit_ingredients", false);
+
         startActivity(i);
     }
 
@@ -146,18 +150,6 @@ public class DayPlansActivity extends AppCompatActivity {
         i.putExtra("meal_type", plan.meal_type);
         i.putExtra("recipe_id", plan.recipe_id);
         startActivity(i);
-    }
-
-    private void showOptions(MealPlan plan) {
-        String[] options = new String[]{"Uredi obrok", "Obriši obrok"};
-
-        new AlertDialog.Builder(this)
-                .setTitle("Opcije")
-                .setItems(options, (d, which) -> {
-                    if (which == 0) openEditPlan(plan);
-                    else confirmDelete(plan);
-                })
-                .show();
     }
 
     private void confirmDelete(MealPlan plan) {

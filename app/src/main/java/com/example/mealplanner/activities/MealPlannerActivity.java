@@ -102,18 +102,37 @@ public class MealPlannerActivity extends AppCompatActivity {
         planAdapter = new MealPlanAdapter(
                 new ArrayList<>(),
                 recipeIdToTitle,
-                null,
+
+
                 plan -> {
                     Intent i = new Intent(MealPlannerActivity.this, RecipeDetailsActivity.class);
                     i.putExtra("recipe_id", plan.recipe_id);
                     i.putExtra("recipe_title", recipeIdToTitle.get(plan.recipe_id));
+                    i.putExtra("can_edit_ingredients", false);
                     startActivity(i);
+                },
+
+                new MealPlanAdapter.OnMealPlanMenuAction() {
+                    @Override
+                    public void onEdit(MealPlan plan) {
+                        Toast.makeText(MealPlannerActivity.this,
+                                "Uređivanje radi u Mojim planovima.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onDelete(MealPlan plan) {
+                        Toast.makeText(MealPlannerActivity.this,
+                                "Brisanje radi u Mojim planovima.",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
         );
 
         rvPlans.setLayoutManager(new LinearLayoutManager(this));
         rvPlans.setAdapter(planAdapter);
     }
+
 
     private void loadRecipes() {
         Call<List<Recipe>> call = api.getRecipesByUser(authToken, "eq." + userId);

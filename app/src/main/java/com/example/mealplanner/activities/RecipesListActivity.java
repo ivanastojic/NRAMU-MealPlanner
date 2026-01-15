@@ -39,15 +39,34 @@ public class RecipesListActivity extends AppCompatActivity {
 
         adapter = new RecipeAdapter(
                 recipe -> {
-                    // klik → detalji
+
                     Intent i = new Intent(this, RecipeDetailsActivity.class);
                     i.putExtra("recipe_id", recipe.getId());
                     i.putExtra("recipe_title", recipe.getTitle());
+
+                    i.putExtra("can_edit_ingredients", true);
+
                     startActivity(i);
                 },
                 recipe -> {
-                    // long klik → edit / delete
+
                     showRecipeOptionsDialog(recipe);
+                },
+                new RecipeAdapter.OnRecipeMenuAction() {
+                    @Override
+                    public void onEdit(Recipe recipe) {
+
+                        Intent i = new Intent(RecipesListActivity.this, AddRecipeActivity.class);
+                        i.putExtra("recipe_id", recipe.getId());
+                        i.putExtra("recipe_title", recipe.getTitle());
+                        startActivity(i);
+                    }
+
+                    @Override
+                    public void onDelete(Recipe recipe) {
+
+                        showDeleteConfirmDialog(recipe);
+                    }
                 }
         );
 
@@ -82,7 +101,7 @@ public class RecipesListActivity extends AppCompatActivity {
                 });
     }
 
-    // ===== LONG CLICK MENU =====
+
 
     private void showRecipeOptionsDialog(Recipe recipe) {
         String[] options = {"Uredi recept", "Obriši"};
@@ -128,7 +147,7 @@ public class RecipesListActivity extends AppCompatActivity {
                 .show();
     }
 
-    // ===== BACKEND =====
+
 
     private void updateRecipeTitle(String recipeId, String newTitle) {
         String token = auth.getToken();

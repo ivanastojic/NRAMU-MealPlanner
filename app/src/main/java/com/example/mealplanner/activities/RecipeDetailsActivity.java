@@ -1,6 +1,7 @@
 package com.example.mealplanner.activities;
 
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     private RecipeRepository recipeRepository;
 
     private String recipeId;
+    private boolean canEditIngredients = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,29 +48,33 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         recipeId = getIntent().getStringExtra("recipe_id");
         String title = getIntent().getStringExtra("recipe_title");
 
+        // ✅ ako nema extra → false (ne može edit)
+        canEditIngredients = getIntent().getBooleanExtra("can_edit_ingredients", false);
+
         TextView tvTitle = findViewById(R.id.tvRecipeTitle);
         tvTitle.setText(title != null ? title : "Detalji recepta");
 
         RecyclerView rv = findViewById(R.id.rvIngredients);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new IngredientDisplayAdapter(new IngredientDisplayAdapter.OnIngredientLongClick() {
+        adapter = new IngredientDisplayAdapter(new IngredientDisplayAdapter.OnIngredientActions() {
             @Override
             public void onEdit(IngredientDisplay ingredient) {
+                if (!canEditIngredients) return;
+                showEditIngredientDialog(ingredient);
             }
 
             @Override
             public void onDelete(IngredientDisplay ingredient) {
+                if (!canEditIngredients) return;
                 confirmDeleteIngredient(ingredient);
             }
-        });
+        }, canEditIngredients);
 
         rv.setAdapter(adapter);
 
         loadAllForRecipe();
     }
-
-    // ================= LOAD DATA =================
 
     private void loadAllForRecipe() {
         if (recipeId == null) {
@@ -144,7 +150,31 @@ public class RecipeDetailsActivity extends AppCompatActivity {
                 });
     }
 
-    // ================= DELETE =================
+
+    private void showEditIngredientDialog(IngredientDisplay ingredient) {
+        final EditText input = new EditText(this);
+        input.setText(ingredient.line);
+
+        new AlertDialog.Builder(this)
+                .setTitle("Uredi sastojak")
+                .setMessage(ingredient.name)
+                .setView(input)
+                .setPositiveButton("Spremi", (d, w) -> {
+                    String newLine = input.getText().toString().trim();
+                    if (newLine.isEmpty()) {
+                        toast("Ne može biti prazno");
+                        return;
+                    }
+
+                    toast("Spremanje (TODO): " + newLine);
+
+                    // Kad dodaš update API u RecipeRepository:
+                    // updateRecipeIngredientLine(ingredient, newLine);
+                })
+                .setNegativeButton("Odustani", null)
+                .show();
+    }
+
 
     private void confirmDeleteIngredient(IngredientDisplay ingredient) {
         new AlertDialog.Builder(this)

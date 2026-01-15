@@ -10,8 +10,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mealplanner.R;
-import com.example.mealplanner.api.ApiCallback;
 import com.example.mealplanner.api.RetrofitClient;
+import com.example.mealplanner.api.ApiCallback;
 import com.example.mealplanner.models.Ingredient;
 import com.example.mealplanner.models.Recipe;
 import com.example.mealplanner.models.RecipeIngredient;
@@ -80,12 +80,12 @@ public class AddRecipeActivity extends AppCompatActivity {
 
                         if (response != null) {
                             units.addAll(response);
-                            for (Unit u : response) unitNamesAdapter.add(u.getName());
+                            for (Unit u : response) {
+                                unitNamesAdapter.add(u.getName());
+                            }
                         }
 
                         unitNamesAdapter.notifyDataSetChanged();
-
-                        if (units.isEmpty()) toast("Units prazno (provjeri bazu)");
                     }
 
                     @Override
@@ -131,11 +131,20 @@ public class AddRecipeActivity extends AppCompatActivity {
         String token = auth.getToken();
         String userId = auth.getUserId();
 
-        if (token == null || userId == null) { toast("Nema session-a"); return; }
+        if (token == null || userId == null) {
+            toast("Nema session-a");
+            return;
+        }
 
         String title = etTitle.getText().toString().trim();
-        if (title.isEmpty()) { toast("Upiši naziv recepta"); return; }
-        if (added.isEmpty()) { toast("Dodaj barem 1 sastojak"); return; }
+        if (title.isEmpty()) {
+            toast("Upiši naziv recepta");
+            return;
+        }
+        if (added.isEmpty()) {
+            toast("Dodaj barem 1 sastojak");
+            return;
+        }
 
         Recipe recipe = new Recipe(title, userId);
 
@@ -144,11 +153,6 @@ public class AddRecipeActivity extends AppCompatActivity {
                 .enqueue(new ApiCallback<List<Recipe>>() {
                     @Override
                     public void onSuccess(List<Recipe> response) {
-                        if (response == null || response.isEmpty()) {
-                            onError("Create recipe prazno");
-                            return;
-                        }
-
                         String recipeId = response.get(0).getId();
                         insertNextIngredient(token, userId, recipeId, 0);
                     }
@@ -173,15 +177,9 @@ public class AddRecipeActivity extends AppCompatActivity {
 
         RetrofitClient.getInstance().getApi()
                 .upsertIngredient("Bearer " + token, ingredient)
-
                 .enqueue(new ApiCallback<List<Ingredient>>() {
                     @Override
                     public void onSuccess(List<Ingredient> response) {
-                        if (response == null || response.isEmpty()) {
-                            onError("Insert ingredient prazno");
-                            return;
-                        }
-
                         String ingredientId = response.get(0).getId();
 
                         RecipeIngredient ri = new RecipeIngredient(
@@ -194,9 +192,9 @@ public class AddRecipeActivity extends AppCompatActivity {
 
                         RetrofitClient.getInstance().getApi()
                                 .addIngredientToRecipe("Bearer " + token, ri)
-                                .enqueue(new ApiCallback<Void>() {
+                                .enqueue(new ApiCallback<List<RecipeIngredient>>() {
                                     @Override
-                                    public void onSuccess(Void response) {
+                                    public void onSuccess(List<RecipeIngredient> ignored) {
                                         insertNextIngredient(token, userId, recipeId, i + 1);
                                     }
 

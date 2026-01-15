@@ -141,10 +141,11 @@ public interface SupabaseAPI {
 
     @Headers({
             "Content-Type: application/json",
-            "apikey: " + Constants.ANON_KEY
+            "apikey: " + Constants.ANON_KEY,
+            "Prefer: return=representation"
     })
     @POST("rest/v1/recipe_ingredients")
-    Call<Void> addIngredientToRecipe(
+    Call<List<RecipeIngredient>> addIngredientToRecipe(
             @Header("Authorization") String authToken,
             @Body RecipeIngredient recipeIngredient
     );
@@ -190,6 +191,18 @@ public interface SupabaseAPI {
     Call<Void> deleteRecipeIngredientById(
             @Header("Authorization") String authToken,
             @Query("id") String idFilter
+    );
+
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Content-Type: application/json",
+            "Prefer: return=representation"
+    })
+    @PATCH("rest/v1/recipe_ingredients")
+    Call<List<RecipeIngredient>> updateRecipeIngredient(
+            @Header("Authorization") String authToken,
+            @Query("id") String idFilter,
+            @Body RecipeIngredient body
     );
 
     @Headers({

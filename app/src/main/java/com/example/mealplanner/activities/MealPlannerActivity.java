@@ -13,11 +13,13 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.app.AlertDialog;
 
 import com.example.mealplanner.R;
 import com.example.mealplanner.adapters.MealPlanAdapter;
 import com.example.mealplanner.api.RetrofitClient;
 import com.example.mealplanner.api.SupabaseAPI;
+import com.example.mealplanner.api.ApiCallback;
 import com.example.mealplanner.models.MealPlan;
 import com.example.mealplanner.models.MealPlanRequest;
 import com.example.mealplanner.models.Recipe;
@@ -133,6 +135,39 @@ public class MealPlannerActivity extends AppCompatActivity {
         rvPlans.setAdapter(planAdapter);
     }
 
+    private void confirmDeletePlan(MealPlan plan) {
+        new AlertDialog.Builder(this)
+                .setTitle("Obriši plan")
+                .setMessage("Obrisati plan obroka?")
+                .setPositiveButton("Obriši", (d, w) -> deletePlan(plan))
+                .setNegativeButton("Odustani", null)
+                .show();
+    }
+
+    private void deletePlan(MealPlan plan) {
+        api.deleteMealPlan(authToken, "eq." + plan.id)
+                .enqueue(new ApiCallback<Void>() {
+
+                    @Override
+                    public void onSuccess(Void response) {
+                        Toast.makeText(
+                                MealPlannerActivity.this,
+                                "Plan obrisan",
+                                Toast.LENGTH_SHORT
+                        ).show();
+                        loadPlansForDate();
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        Toast.makeText(
+                                MealPlannerActivity.this,
+                                "Delete error: " + errorMessage,
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    }
+                });
+    }
 
     private void loadRecipes() {
         Call<List<Recipe>> call = api.getRecipesByUser(authToken, "eq." + userId);

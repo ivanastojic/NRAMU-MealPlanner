@@ -18,6 +18,10 @@
         <activity android:name=".activities.AddRecipeActivity" />
         <activity android:name=".activities.EditRecipeActivity" />
         <activity android:name=".activities.MealPlannerActivity" />
+        <activity android:name=".activities.MyMealPlansActivity" />
+        <activity android:name=".activities.EditMealPlanActivity" />
+        <activity android:name=".activities.DayPlansActivity" />
+
 
         <!-- LOGIN – početni ekran -->
         <activity

@@ -16,25 +16,30 @@ import java.util.List;
 
 public class MealPlanAdapter extends RecyclerView.Adapter<MealPlanAdapter.VH> {
 
-    // ===== INTERFACE ZA LONG PRESS =====
     public interface OnMealPlanLongClick {
         void onEdit(MealPlan plan);
         void onDelete(MealPlan plan);
     }
 
+    public interface OnMealPlanClick {
+        void onClick(MealPlan plan);
+    }
+
     private List<MealPlan> plans;
     private final HashMap<String, String> recipeIdToTitle;
     private final OnMealPlanLongClick longClickListener;
+    private final OnMealPlanClick clickListener;
 
-    // ===== KONSTRUKTOR =====
     public MealPlanAdapter(
             List<MealPlan> plans,
             HashMap<String, String> recipeIdToTitle,
-            OnMealPlanLongClick longClickListener
+            OnMealPlanLongClick longClickListener,
+            OnMealPlanClick clickListener
     ) {
         this.plans = plans;
         this.recipeIdToTitle = recipeIdToTitle;
         this.longClickListener = longClickListener;
+        this.clickListener = clickListener;
     }
 
     public void setPlans(List<MealPlan> newPlans) {
@@ -42,7 +47,6 @@ public class MealPlanAdapter extends RecyclerView.Adapter<MealPlanAdapter.VH> {
         notifyDataSetChanged();
     }
 
-    // ===== ADAPTER =====
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -55,14 +59,19 @@ public class MealPlanAdapter extends RecyclerView.Adapter<MealPlanAdapter.VH> {
     public void onBindViewHolder(@NonNull VH holder, int position) {
         MealPlan p = plans.get(position);
 
+        holder.tvDate.setText(p.plan_date);
         holder.tvMealType.setText(p.meal_type);
 
         String title = recipeIdToTitle.get(p.recipe_id);
         holder.tvRecipeTitle.setText(title != null ? title : p.recipe_id);
 
-        // LONG PRESS → EDIT / DELETE
+        holder.itemView.setOnClickListener(v -> {
+            if (clickListener != null) clickListener.onClick(p);
+        });
+
         holder.itemView.setOnLongClickListener(v -> {
             if (longClickListener != null) {
+                // samo Delete ili možeš napraviti dialog u Activity-u
                 longClickListener.onDelete(p);
             }
             return true;
@@ -74,12 +83,12 @@ public class MealPlanAdapter extends RecyclerView.Adapter<MealPlanAdapter.VH> {
         return plans == null ? 0 : plans.size();
     }
 
-    // ===== VIEW HOLDER =====
     static class VH extends RecyclerView.ViewHolder {
-        TextView tvMealType, tvRecipeTitle;
+        TextView tvDate, tvMealType, tvRecipeTitle;
 
         VH(@NonNull View itemView) {
             super(itemView);
+            tvDate = itemView.findViewById(R.id.tvDate);
             tvMealType = itemView.findViewById(R.id.tvMealType);
             tvRecipeTitle = itemView.findViewById(R.id.tvRecipeTitle);
         }

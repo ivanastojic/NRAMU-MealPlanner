@@ -8,6 +8,7 @@ import com.example.mealplanner.models.RecipeIngredient;
 import com.example.mealplanner.models.RegisterRequest;
 import com.example.mealplanner.models.Unit;
 import com.example.mealplanner.utils.Constants;
+import com.example.mealplanner.models.MealPlanRow;
 
 import java.util.List;
 
@@ -217,5 +218,30 @@ public interface SupabaseAPI {
             @Header("Authorization") String authToken,
             @Query("id") String idFilter
     );
+
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Accept: application/json"
+    })
+    @GET("rest/v1/meal_plans?select=id,plan_date,meal_type,recipe_id")
+    Call<List<MealPlanRow>> getMyMealPlansAll(
+            @Header("Authorization") String authToken,
+            @Query("order") String order
+    );
+
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Content-Type: application/json",
+            "Prefer: return=representation"
+    })
+    @PATCH("rest/v1/meal_plans")
+    Call<List<com.example.mealplanner.models.MealPlan>> updateMealPlan(
+            @Header("Authorization") String authToken,
+            @Query("id") String idFilter,               // "eq.<planId>"
+            @Body java.util.Map<String, Object> body    // npr {"recipe_id": "..."}
+    );
+
+
+
 
 }

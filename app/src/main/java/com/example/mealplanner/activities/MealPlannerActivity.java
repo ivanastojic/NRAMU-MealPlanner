@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Intent;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,6 +53,9 @@ public class MealPlannerActivity extends AppCompatActivity {
 
     private String authToken;
     private String userId;
+
+    // 🔒 Planovi za trenutno odabrani datum (za provjeru duplikata)
+    private List<MealPlan> currentPlansForSelectedDate = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,12 +106,21 @@ public class MealPlannerActivity extends AppCompatActivity {
                 recipeIdToTitle,
                 new MealPlanAdapter.OnMealPlanLongClick() {
                     @Override
-                    public void onEdit(MealPlan plan) {}
+                    public void onEdit(MealPlan plan) {
+                        // (opcionalno) kasnije edit logika
+                    }
 
                     @Override
                     public void onDelete(MealPlan plan) {
                         confirmDeletePlan(plan);
                     }
+                },
+                plan -> {
+                    // klik na obrok -> otvori recept
+                    // ako ti RecipeDetailsActivity prima recipe_id
+                    Intent i = new Intent(MealPlannerActivity.this, RecipeDetailsActivity.class);
+                    i.putExtra("recipe_id", plan.recipe_id);
+                    startActivity(i);
                 }
         );
 
@@ -133,7 +146,7 @@ public class MealPlannerActivity extends AppCompatActivity {
                             Toast.makeText(MealPlannerActivity.this, "Plan obrisan", Toast.LENGTH_SHORT).show();
                             loadPlansForDate();
                         } else {
-                            Toast.makeText(MealPlannerActivity.this, "Delete error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MealPlannerActivity.this, "Delete error: " + response.code(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -159,13 +172,12 @@ public class MealPlannerActivity extends AppCompatActivity {
                         titles.add(r.getTitle());
                     }
 
-                    // ✅ Koristi tvoje layout-e da tekst u spinneru ne bude bijel
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(
                             MealPlannerActivity.this,
-                            R.layout.spinner_item_black, // <-- tvoj item layout
+                            R.layout.spinner_item_black,
                             titles
                     );
-                    adapter.setDropDownViewResource(R.layout.spinner_dropdown_item_black); // <-- dropdown layout
+                    adapter.setDropDownViewResource(R.layout.spinner_dropdown_item_black);
                     spRecipe.setAdapter(adapter);
 
                 } else {
@@ -199,6 +211,18 @@ public class MealPlannerActivity extends AppCompatActivity {
         Recipe selectedRecipe = recipes.get(pos);
         String mealType = (String) spMealType.getSelectedItem();
 
+        // 🔒 PROVJERA: već postoji isti meal_type za taj datum
+        for (MealPlan p : currentPlansForSelectedDate) {
+            if (p.meal_type != null && p.meal_type.equalsIgnoreCase(mealType)) {
+                Toast.makeText(
+                        this,
+                        "Za taj datum već postoji " + mealType + ". Uredi postojeći plan.",
+                        Toast.LENGTH_SHORT
+                ).show();
+                return;
+            }
+        }
+
         MealPlanRequest req = new MealPlanRequest(
                 userId,
                 selectedRecipe.getId(),
@@ -211,10 +235,12 @@ public class MealPlannerActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<MealPlan>> call, Response<List<MealPlan>> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(MealPlannerActivity.this, "Spremljeno!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MealPlannerActivity.this, "Plan spremljen", Toast.LENGTH_SHORT).show();
                     loadPlansForDate();
                 } else {
-                    Toast.makeText(MealPlannerActivity.this, "Greška pri spremanju: " + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MealPlannerActivity.this,
+                            "Greška pri spremanju: " + response.code(),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -241,9 +267,10 @@ public class MealPlannerActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
 
                     List<MealPlan> plans = response.body();
+                    currentPlansForSelectedDate = plans; // 🔒 zapamti za provjeru duplikata
+
                     planAdapter.setPlans(plans);
 
-                    // prikaz poruke / liste
                     if (plans.isEmpty()) {
                         tvNoPlans.setVisibility(View.VISIBLE);
                         rvPlans.setVisibility(View.GONE);
@@ -281,12 +308,10 @@ public class MealPlannerActivity extends AppCompatActivity {
                             d
                     );
                     tvSelectedDate.setText("Datum: " + selectedDateIso);
-
                     loadPlansForDate();
                 },
                 year, month, day
         );
         dialog.show();
     }
-
 }

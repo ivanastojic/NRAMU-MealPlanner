@@ -2,7 +2,6 @@ package com.example.mealplanner.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -26,6 +25,8 @@ public class RecipesListActivity extends AppCompatActivity {
     private AuthManager auth;
     private RecipeRepository recipeRepo;
 
+    private static final int REQ_EDIT_RECIPE = 1001;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,32 +40,25 @@ public class RecipesListActivity extends AppCompatActivity {
 
         adapter = new RecipeAdapter(
                 recipe -> {
-
                     Intent i = new Intent(this, RecipeDetailsActivity.class);
                     i.putExtra("recipe_id", recipe.getId());
                     i.putExtra("recipe_title", recipe.getTitle());
-
-                    i.putExtra("can_edit_ingredients", true);
-
                     startActivity(i);
-                },
-                recipe -> {
-
-                    showRecipeOptionsDialog(recipe);
                 },
                 new RecipeAdapter.OnRecipeMenuAction() {
                     @Override
                     public void onEdit(Recipe recipe) {
-
-                        Intent i = new Intent(RecipesListActivity.this, AddRecipeActivity.class);
+                        Intent i = new Intent(
+                                RecipesListActivity.this,
+                                EditRecipeActivity.class
+                        );
                         i.putExtra("recipe_id", recipe.getId());
                         i.putExtra("recipe_title", recipe.getTitle());
-                        startActivity(i);
+                        startActivityForResult(i, REQ_EDIT_RECIPE);
                     }
 
                     @Override
                     public void onDelete(Recipe recipe) {
-
                         showDeleteConfirmDialog(recipe);
                     }
                 }
@@ -72,6 +66,14 @@ public class RecipesListActivity extends AppCompatActivity {
 
         rv.setAdapter(adapter);
         loadRecipes();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQ_EDIT_RECIPE && resultCode == RESULT_OK) {
+            loadRecipes();
+        }
     }
 
     private void loadRecipes() {
@@ -88,54 +90,18 @@ public class RecipesListActivity extends AppCompatActivity {
                 .enqueue(new ApiCallback<List<Recipe>>() {
                     @Override
                     public void onSuccess(List<Recipe> response) {
-                        if (response == null || response.isEmpty()) {
-                            Toast.makeText(RecipesListActivity.this, "Nema recepata", Toast.LENGTH_SHORT).show();
-                        }
                         adapter.setItems(response);
                     }
 
                     @Override
                     public void onError(String errorMessage) {
-                        Toast.makeText(RecipesListActivity.this, "Greška: " + errorMessage, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(
+                                RecipesListActivity.this,
+                                "Greška: " + errorMessage,
+                                Toast.LENGTH_SHORT
+                        ).show();
                     }
                 });
-    }
-
-
-
-    private void showRecipeOptionsDialog(Recipe recipe) {
-        String[] options = {"Uredi recept", "Obriši"};
-
-        new AlertDialog.Builder(this)
-                .setTitle(recipe.getTitle())
-                .setItems(options, (dialog, which) -> {
-                    if (which == 0) {
-                        Intent i = new Intent(this, AddRecipeActivity.class);
-                        i.putExtra("recipe_id", recipe.getId());
-                        i.putExtra("recipe_title", recipe.getTitle());
-                        startActivity(i);
-                    } else {
-                        showDeleteConfirmDialog(recipe);
-                    }
-                })
-                .show();
-    }
-
-    private void showEditTitleDialog(Recipe recipe) {
-        final EditText input = new EditText(this);
-        input.setText(recipe.getTitle());
-
-        new AlertDialog.Builder(this)
-                .setTitle("Uredi naziv recepta")
-                .setView(input)
-                .setPositiveButton("Spremi", (d, w) -> {
-                    String newTitle = input.getText().toString().trim();
-                    if (!newTitle.isEmpty()) {
-                        updateRecipeTitle(recipe.getId(), newTitle);
-                    }
-                })
-                .setNegativeButton("Odustani", null)
-                .show();
     }
 
     private void showDeleteConfirmDialog(Recipe recipe) {
@@ -147,26 +113,6 @@ public class RecipesListActivity extends AppCompatActivity {
                 .show();
     }
 
-
-
-    private void updateRecipeTitle(String recipeId, String newTitle) {
-        String token = auth.getToken();
-        if (token == null) return;
-
-        recipeRepo.updateRecipeTitle(token, recipeId, newTitle, new ApiCallback<List<Recipe>>() {
-            @Override
-            public void onSuccess(List<Recipe> response) {
-                Toast.makeText(RecipesListActivity.this, "Recept ažuriran", Toast.LENGTH_SHORT).show();
-                loadRecipes();
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                Toast.makeText(RecipesListActivity.this, "Greška: " + errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     private void deleteRecipe(String recipeId) {
         String token = auth.getToken();
         if (token == null) return;
@@ -174,13 +120,21 @@ public class RecipesListActivity extends AppCompatActivity {
         recipeRepo.deleteRecipe(token, recipeId, new ApiCallback<Void>() {
             @Override
             public void onSuccess(Void response) {
-                Toast.makeText(RecipesListActivity.this, "Recept obrisan", Toast.LENGTH_SHORT).show();
+                Toast.makeText(
+                        RecipesListActivity.this,
+                        "Recept obrisan",
+                        Toast.LENGTH_SHORT
+                ).show();
                 loadRecipes();
             }
 
             @Override
             public void onError(String errorMessage) {
-                Toast.makeText(RecipesListActivity.this, "Greška: " + errorMessage, Toast.LENGTH_SHORT).show();
+                Toast.makeText(
+                        RecipesListActivity.this,
+                        "Greška: " + errorMessage,
+                        Toast.LENGTH_SHORT
+                ).show();
             }
         });
     }

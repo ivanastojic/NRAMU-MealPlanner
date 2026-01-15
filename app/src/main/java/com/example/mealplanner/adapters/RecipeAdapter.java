@@ -22,10 +22,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.VH> {
         void onClick(Recipe recipe);
     }
 
-    public interface OnRecipeLongClick {
-        void onLongClick(Recipe recipe);
-    }
-
     public interface OnRecipeMenuAction {
         void onEdit(Recipe recipe);
         void onDelete(Recipe recipe);
@@ -33,16 +29,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.VH> {
 
     private final List<Recipe> items = new ArrayList<>();
     private final OnRecipeClick clickListener;
-    private final OnRecipeLongClick longClickListener;
     private final OnRecipeMenuAction menuActionListener;
 
     public RecipeAdapter(
             OnRecipeClick clickListener,
-            OnRecipeLongClick longClickListener,
             OnRecipeMenuAction menuActionListener
     ) {
         this.clickListener = clickListener;
-        this.longClickListener = longClickListener;
         this.menuActionListener = menuActionListener;
     }
 
@@ -62,19 +55,14 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.VH> {
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
-        Recipe r = items.get(position);
-        holder.tvTitle.setText(r.getTitle());
+        Recipe recipe = items.get(position);
+        holder.tvTitle.setText(recipe.getTitle());
 
         holder.itemView.setOnClickListener(v -> {
-            if (clickListener != null) clickListener.onClick(r);
+            if (clickListener != null) {
+                clickListener.onClick(recipe);
+            }
         });
-
-
-        holder.itemView.setOnLongClickListener(v -> {
-            if (longClickListener != null) longClickListener.onLongClick(r);
-            return true;
-        });
-
 
         holder.btnMenu.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(v.getContext(), holder.btnMenu);
@@ -84,14 +72,15 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.VH> {
                 int pos = holder.getAdapterPosition();
                 if (pos == RecyclerView.NO_POSITION) return true;
 
-                Recipe recipe = items.get(pos);
+                Recipe r = items.get(pos);
 
                 if (menuItem.getItemId() == R.id.action_edit) {
-                    if (menuActionListener != null) menuActionListener.onEdit(recipe);
+                    if (menuActionListener != null) menuActionListener.onEdit(r);
                     return true;
+                }
 
-                } else if (menuItem.getItemId() == R.id.action_delete) {
-                    if (menuActionListener != null) menuActionListener.onDelete(recipe);
+                if (menuItem.getItemId() == R.id.action_delete) {
+                    if (menuActionListener != null) menuActionListener.onDelete(r);
                     return true;
                 }
 

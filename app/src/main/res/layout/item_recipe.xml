@@ -14,13 +14,32 @@
         android:padding="16dp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvRecipeTitle"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Naziv recepta"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvRecipeTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Naziv recepta"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:paddingEnd="8dp"/>
+
+            <ImageButton
+                android:id="@+id/btnMenu"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_more_vert"
+                android:contentDescription="Opcije"
+                android:padding="8dp"/>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvRecipeSub"
@@ -28,6 +47,7 @@
             android:layout_height="wrap_content"
             android:text="Klikni za detalje"
             android:alpha="0.7"
-            android:paddingTop="4dp"/>
+            android:paddingTop="4dp" />
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>

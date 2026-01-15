@@ -3,6 +3,8 @@ package com.example.mealplanner.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,13 +26,24 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.VH> {
         void onLongClick(Recipe recipe);
     }
 
+    public interface OnRecipeMenuAction {
+        void onEdit(Recipe recipe);
+        void onDelete(Recipe recipe);
+    }
+
     private final List<Recipe> items = new ArrayList<>();
     private final OnRecipeClick clickListener;
     private final OnRecipeLongClick longClickListener;
+    private final OnRecipeMenuAction menuActionListener;
 
-    public RecipeAdapter(OnRecipeClick clickListener, OnRecipeLongClick longClickListener) {
+    public RecipeAdapter(
+            OnRecipeClick clickListener,
+            OnRecipeLongClick longClickListener,
+            OnRecipeMenuAction menuActionListener
+    ) {
         this.clickListener = clickListener;
         this.longClickListener = longClickListener;
+        this.menuActionListener = menuActionListener;
     }
 
     public void setItems(List<Recipe> newItems) {
@@ -56,9 +69,36 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.VH> {
             if (clickListener != null) clickListener.onClick(r);
         });
 
+
         holder.itemView.setOnLongClickListener(v -> {
             if (longClickListener != null) longClickListener.onLongClick(r);
             return true;
+        });
+
+
+        holder.btnMenu.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(v.getContext(), holder.btnMenu);
+            popup.getMenuInflater().inflate(R.menu.menu_item_actions, popup.getMenu());
+
+            popup.setOnMenuItemClickListener(menuItem -> {
+                int pos = holder.getAdapterPosition();
+                if (pos == RecyclerView.NO_POSITION) return true;
+
+                Recipe recipe = items.get(pos);
+
+                if (menuItem.getItemId() == R.id.action_edit) {
+                    if (menuActionListener != null) menuActionListener.onEdit(recipe);
+                    return true;
+
+                } else if (menuItem.getItemId() == R.id.action_delete) {
+                    if (menuActionListener != null) menuActionListener.onDelete(recipe);
+                    return true;
+                }
+
+                return false;
+            });
+
+            popup.show();
         });
     }
 
@@ -69,10 +109,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.VH> {
 
     static class VH extends RecyclerView.ViewHolder {
         TextView tvTitle;
+        ImageButton btnMenu;
 
         VH(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvRecipeTitle);
+            btnMenu = itemView.findViewById(R.id.btnMenu);
         }
     }
 }

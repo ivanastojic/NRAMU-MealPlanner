@@ -3,6 +3,8 @@ package com.example.mealplanner.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,30 +19,26 @@ import java.util.List;
 public class IngredientDisplayAdapter
         extends RecyclerView.Adapter<IngredientDisplayAdapter.VH> {
 
-    // ===== INTERFACE ZA LONG PRESS =====
-    public interface OnIngredientLongClick {
+    public interface OnIngredientActions {
         void onEdit(IngredientDisplay ingredient);
         void onDelete(IngredientDisplay ingredient);
     }
 
     private final List<IngredientDisplay> items = new ArrayList<>();
-    private OnIngredientLongClick longClickListener;
+    private final OnIngredientActions actionsListener;
+    private final boolean canEdit;
 
-    // ===== KONSTRUKTORI =====
-    public IngredientDisplayAdapter() {}
-
-    public IngredientDisplayAdapter(OnIngredientLongClick listener) {
-        this.longClickListener = listener;
+    public IngredientDisplayAdapter(OnIngredientActions listener, boolean canEdit) {
+        this.actionsListener = listener;
+        this.canEdit = canEdit;
     }
 
-    // ===== DATA =====
     public void setItems(List<IngredientDisplay> newItems) {
         items.clear();
         if (newItems != null) items.addAll(newItems);
         notifyDataSetChanged();
     }
 
-    // ===== ADAPTER =====
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -56,13 +54,38 @@ public class IngredientDisplayAdapter
         holder.tvName.setText(d.name);
         holder.tvLine.setText(d.line);
 
-        // LONG PRESS → EDIT / DELETE
-        holder.itemView.setOnLongClickListener(v -> {
-            if (longClickListener != null) {
-                longClickListener.onDelete(d);
+        holder.btnMenu.setVisibility(canEdit ? View.VISIBLE : View.GONE);
+
+        if (canEdit) {
+            holder.btnMenu.setOnClickListener(v -> showMenu(holder, d));
+
+
+            holder.itemView.setOnLongClickListener(v -> {
+                showMenu(holder, d);
+                return true;
+            });
+        } else {
+            holder.btnMenu.setOnClickListener(null);
+            holder.itemView.setOnLongClickListener(null);
+        }
+    }
+
+    private void showMenu(@NonNull VH holder, @NonNull IngredientDisplay d) {
+        PopupMenu popup = new PopupMenu(holder.itemView.getContext(), holder.btnMenu);
+        popup.getMenuInflater().inflate(R.menu.menu_item_actions, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.action_edit) {
+                if (actionsListener != null) actionsListener.onEdit(d);
+                return true;
+            } else if (menuItem.getItemId() == R.id.action_delete) {
+                if (actionsListener != null) actionsListener.onDelete(d);
+                return true;
             }
-            return true;
+            return false;
         });
+
+        popup.show();
     }
 
     @Override
@@ -70,14 +93,15 @@ public class IngredientDisplayAdapter
         return items.size();
     }
 
-    // ===== VIEW HOLDER =====
     static class VH extends RecyclerView.ViewHolder {
         TextView tvName, tvLine;
+        ImageButton btnMenu;
 
         VH(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvIngredientName);
             tvLine = itemView.findViewById(R.id.tvIngredientQty);
+            btnMenu = itemView.findViewById(R.id.btnMenu);
         }
     }
 }

@@ -11,6 +11,11 @@ import com.example.mealplanner.models.ShoppingItem;
 import com.example.mealplanner.models.ShoppingList;
 import com.example.mealplanner.models.Unit;
 import com.example.mealplanner.utils.Constants;
+import com.example.mealplanner.models.Profile;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.http.PUT;
+import retrofit2.http.Url;
 
 import java.util.List;
 import java.util.Map;
@@ -372,5 +377,42 @@ public interface SupabaseAPI {
             @Query("shopping_list_id") String listIdFilter,
             @Body Map<String, Object> body
     );
+
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Accept: application/json"
+    })
+    @GET("rest/v1/profiles?select=id,email,full_name,avatar_url")
+    Call<List<Profile>> getMyProfileTyped(
+            @Header("Authorization") String authToken
+    );
+
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Content-Type: application/json",
+            "Prefer: return=representation"
+    })
+    @PATCH("rest/v1/profiles")
+    Call<List<Profile>> updateProfile(
+            @Header("Authorization") String authToken,
+            @Query("id") String idFilter,
+            @Body Map<String, Object> body
+    );
+    @Headers({
+            "apikey: " + Constants.ANON_KEY
+    })
+    @PUT
+    Call<ResponseBody> uploadAvatar(
+            @Header("Authorization") String authorization,
+            @Header("Content-Type") String contentType,
+            @Header("x-upsert") String upsert,
+            @Url String url,
+            @Body RequestBody body
+    );
+
+
+
+
+
 
 }

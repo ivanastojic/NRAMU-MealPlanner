@@ -64,6 +64,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, ShoppingListsActivity.class))
         );
 
+        Button btnProfile = findViewById(R.id.btnProfile);
+        btnProfile.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class))
+        );
+
         Button logoutBtn = findViewById(R.id.logoutBtn);
         logoutBtn.setOnClickListener(v -> {
             authManager.logout();

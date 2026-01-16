@@ -21,7 +21,9 @@
         <activity android:name=".activities.MyMealPlansActivity" />
         <activity android:name=".activities.EditMealPlanActivity" />
         <activity android:name=".activities.DayPlansActivity" />
-
+        <activity android:name=".activities.ShoppingListsActivity" />
+        <activity android:name=".activities.ShoppingListDetailsActivity" />
+        <activity android:name=".activities.GenerateShoppingListActivity" />
 
 
         <activity

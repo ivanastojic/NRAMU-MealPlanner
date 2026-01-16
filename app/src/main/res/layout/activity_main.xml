@@ -94,6 +94,17 @@
                 android:layout_marginBottom="18dp"/>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnShoppingLists"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Shopping liste"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                app:backgroundTint="#b59336"
+                app:cornerRadius="20dp"
+                android:layout_marginBottom="12dp"/>
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/logoutBtn"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"

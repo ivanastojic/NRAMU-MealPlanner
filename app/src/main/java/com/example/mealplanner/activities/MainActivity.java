@@ -11,6 +11,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import com.example.mealplanner.R;
 import com.example.mealplanner.utils.AuthManager;
+import com.example.mealplanner.activities.ShoppingListsActivity;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,31 +39,31 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // MOJI RECEPTI
         Button btnMyRecipes = findViewById(R.id.btnMyRecipes);
         btnMyRecipes.setOnClickListener(v ->
                 startActivity(new Intent(MainActivity.this, RecipesListActivity.class))
         );
 
-        // DODAJ RECEPT
         Button btnAddRecipe = findViewById(R.id.btnAddRecipe);
         btnAddRecipe.setOnClickListener(v ->
                 startActivity(new Intent(MainActivity.this, AddRecipeActivity.class))
         );
 
-        // PLANER OBROKA (unos plana po datumu)
         Button btnMealPlanner = findViewById(R.id.btnMealPlanner);
         btnMealPlanner.setOnClickListener(v ->
                 startActivity(new Intent(MainActivity.this, MealPlannerActivity.class))
         );
 
-        // MOJI PLANOVI (lista svih planova)
         Button btnMyPlans = findViewById(R.id.btnMyPlans);
         btnMyPlans.setOnClickListener(v ->
                 startActivity(new Intent(MainActivity.this, MyMealPlansActivity.class))
         );
 
-        // ODJAVA
+        Button btnShoppingLists = findViewById(R.id.btnShoppingLists);
+        btnShoppingLists.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, ShoppingListsActivity.class))
+        );
+
         Button logoutBtn = findViewById(R.id.logoutBtn);
         logoutBtn.setOnClickListener(v -> {
             authManager.logout();

@@ -22,7 +22,6 @@ public class MealPlanAdapter extends RecyclerView.Adapter<MealPlanAdapter.VH> {
         void onClick(MealPlan plan);
     }
 
-
     public interface OnMealPlanMenuAction {
         void onEdit(MealPlan plan);
         void onDelete(MealPlan plan);
@@ -74,7 +73,6 @@ public class MealPlanAdapter extends RecyclerView.Adapter<MealPlanAdapter.VH> {
 
         holder.btnMenu.setOnClickListener(v -> showMenu(holder));
 
-        // (opcionalno) long press → isto otvori menu
         holder.itemView.setOnLongClickListener(v -> {
             showMenu(holder);
             return true;

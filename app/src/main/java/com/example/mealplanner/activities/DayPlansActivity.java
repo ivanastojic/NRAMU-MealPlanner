@@ -63,7 +63,7 @@ public class DayPlansActivity extends AppCompatActivity {
         adapter = new MealPlanAdapter(
                 new ArrayList<>(),
                 recipeIdToTitle,
-                plan -> openRecipeDetails(plan.recipe_id), // klik → detalji recepta
+                plan -> openRecipeDetails(plan.recipe_id),
                 new MealPlanAdapter.OnMealPlanMenuAction() {
                     @Override
                     public void onEdit(MealPlan plan) {
@@ -136,8 +136,6 @@ public class DayPlansActivity extends AppCompatActivity {
         Intent i = new Intent(this, RecipeDetailsActivity.class);
         i.putExtra("recipe_id", recipeId);
         i.putExtra("recipe_title", recipeIdToTitle.get(recipeId));
-
-        // ❌ iz planera NE dopuštamo uređivanje sastojaka
         i.putExtra("can_edit_ingredients", false);
 
         startActivity(i);

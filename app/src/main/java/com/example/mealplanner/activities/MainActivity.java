@@ -3,20 +3,28 @@ package com.example.mealplanner.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import com.example.mealplanner.R;
 import com.example.mealplanner.utils.AuthManager;
-import com.example.mealplanner.activities.ShoppingListsActivity;
+import com.example.mealplanner.utils.NotificationHelper;
+import com.example.mealplanner.utils.ReminderScheduler;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private AuthManager authManager;
+
+    private static final int REQ_POST_NOTIF = 5001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +40,25 @@ public class MainActivity extends AppCompatActivity {
 
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        // 1) notification channel (Android 8+)
+        NotificationHelper.ensureChannel(this);
+
+        // 2) permission (Android 13+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                        REQ_POST_NOTIF
+                );
+            }
+        }
+
+        // 3) schedule daily reminders
+        ReminderScheduler.scheduleAllDailyReminders(this);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -78,4 +105,14 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQ_POST_NOTIF) {
+            // kad user odobri alarms su zakazani
+        }
+    }
+
 }

@@ -15,6 +15,7 @@ import com.example.mealplanner.api.RetrofitClient;
 import com.example.mealplanner.api.SupabaseAPI;
 import com.example.mealplanner.models.ShoppingList;
 import com.example.mealplanner.utils.AuthManager;
+import com.example.mealplanner.utils.NotificationHelper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -181,6 +182,7 @@ public class GenerateShoppingListActivity extends AppCompatActivity {
 
                 ShoppingList created = response.body().get(0);
                 Toast.makeText(GenerateShoppingListActivity.this, "Lista kreirana", Toast.LENGTH_SHORT).show();
+                NotificationHelper.showShoppingReady(GenerateShoppingListActivity.this);
                 openDetails(created.id, created.date_from, created.date_to);
                 finish();
             }

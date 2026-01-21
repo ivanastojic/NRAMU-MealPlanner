@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:padding="12dp"
+    android:layout_marginBottom="12dp"
     android:clickable="true"
-    android:foreground="?attr/selectableItemBackground">
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="6dp"
+    app:cardUseCompatPadding="true"
+    app:cardBackgroundColor="#FFF8E8">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="14dp">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/tvDate"
@@ -20,25 +25,31 @@
             android:text="2026-01-15"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:paddingBottom="8dp"/>
+            android:textColor="#4f3f0b"
+            android:layout_marginBottom="10dp"/>
 
         <TextView
             android:id="@+id/tvBreakfast"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Breakfast: -"/>
+            android:text="🍳 Doručak: -"
+            android:textColor="#6b5a20"
+            android:layout_marginBottom="4dp"/>
 
         <TextView
             android:id="@+id/tvLunch"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Lunch: -"/>
+            android:text="🍝 Ručak: -"
+            android:textColor="#6b5a20"
+            android:layout_marginBottom="4dp"/>
 
         <TextView
             android:id="@+id/tvDinner"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dinner: -"/>
+            android:text="🥗 Večera: -"
+            android:textColor="#6b5a20"/>
 
         <TextView
             android:id="@+id/tvHintDay"
@@ -46,9 +57,16 @@
             android:layout_height="wrap_content"
             android:text="Klikni za detalje"
             android:textSize="12sp"
-            android:textColor="#888888"
-            android:layout_marginTop="6dp"
-            android:alpha="0.8" />
+            android:textColor="#9e8b4d"
+            android:layout_marginTop="10dp"
+            android:alpha="0.9" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:alpha="0.15"
+            android:background="#6b5a20"/>
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>

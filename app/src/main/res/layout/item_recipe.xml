@@ -5,15 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
-    app:cardCornerRadius="18dp"
-    app:cardElevation="6dp">
+    app:cardCornerRadius="20dp"
+    app:cardElevation="6dp"
+    app:cardUseCompatPadding="true"
+    app:cardBackgroundColor="#FFF8E8">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:orientation="vertical">
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,7 +30,8 @@
                 android:text="Naziv recepta"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:paddingEnd="8dp"/>
+                android:textColor="#4f3f0b"
+                android:paddingEnd="10dp" />
 
             <ImageButton
                 android:id="@+id/btnMenu"
@@ -38,7 +40,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_more_vert"
                 android:contentDescription="Opcije"
-                android:padding="8dp"/>
+                android:padding="10dp"/>
         </LinearLayout>
 
         <TextView
@@ -46,8 +48,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Klikni za detalje"
-            android:alpha="0.7"
-            android:paddingTop="4dp" />
+            android:textSize="13sp"
+            android:textColor="#9e8b4d"
+            android:layout_marginTop="6dp"/>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:alpha="0.15"
+            android:background="#6b5a20"/>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

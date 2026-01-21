@@ -73,7 +73,6 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onSuccess(AuthResponse response) {
                         setLoading(false);
 
-                        // Backend validacija registracije – RLS aktivan po korisniku
                         if (response == null) {
                             Toast.makeText(
                                     RegisterActivity.this,

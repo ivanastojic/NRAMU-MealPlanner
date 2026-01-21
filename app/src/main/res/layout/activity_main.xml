@@ -2,23 +2,38 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".activities.MainActivity">
+    android:background="@drawable/pozadinaaa">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/dashboardCard"
+    <TextView
+        android:id="@+id/tvWelcome"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        app:cardCornerRadius="30dp"
-        app:cardElevation="12dp"
-        app:cardBackgroundColor="#f2ddb6"
+        android:text="Dobrodošli natrag 👋"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="#4f3f0b"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp"
+        android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardTodayPlan"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginEnd="26dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="10dp"
+        app:cardBackgroundColor="#FFF2B2"
+        app:layout_constraintTop_toBottomOf="@id/tvWelcome"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -26,106 +41,57 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="28dp">
+            android:padding="20dp">
+
 
             <TextView
-                android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Meal Planner"
-                android:textSize="30sp"
+                android:text="📌"
+                android:textSize="24sp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="6dp"/>
+
+
+            <TextView
+                android:id="@+id/tvTodayDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Danas, 20.01.2026"
                 android:textStyle="bold"
-                android:textColor="#4f3f0b"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="8dp"/>
+                android:textSize="16sp"
+                android:textColor="#5D4037"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"/>
+
 
             <TextView
-                android:id="@+id/tvSubtitle"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvTodayPlan"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Dobrodošli natrag - što danas kuhamo?"
+                android:text="🍽️ Ručak: Piletina s rižom\n🌙 Večera: Juha"
                 android:textSize="14sp"
-                android:textColor="#9e8b4d"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="20dp"/>
+                android:textColor="#4E342E"
+                android:lineSpacingExtra="4dp"
+                android:gravity="center"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnMyRecipes"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="Moji recepti"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                app:backgroundTint="#b59336"
-                app:cornerRadius="20dp"
-                android:layout_marginBottom="12dp"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnAddRecipe"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="Dodaj recept"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                app:backgroundTint="#b59336"
-                app:cornerRadius="20dp"
-                android:layout_marginBottom="12dp"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnMyPlans"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="Moji planovi"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                app:backgroundTint="#b59336"
-                app:cornerRadius="20dp"
-                android:layout_marginBottom="12dp"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnMealPlanner"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="Meal Planner"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                app:backgroundTint="#b59336"
-                app:cornerRadius="20dp"
-                android:layout_marginBottom="18dp"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnShoppingLists"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="Shopping liste"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                app:backgroundTint="#b59336"
-                app:cornerRadius="20dp"
-                android:layout_marginBottom="12dp"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnProfile"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="Profil"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                app:backgroundTint="#b59336"
-                app:cornerRadius="20dp"
-                android:layout_marginBottom="12dp"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/logoutBtn"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="Odjava"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                app:backgroundTint="#8D6E63"
-                app:cornerRadius="20dp"/>
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:background="#FFF8E8"
+        app:itemIconTint="#6b5a20"
+        app:itemTextColor="#6b5a20"
+        app:itemRippleColor="#E6D8B5"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_nav_menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

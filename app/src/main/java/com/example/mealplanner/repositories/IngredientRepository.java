@@ -9,7 +9,6 @@ import java.util.List;
 
 public class IngredientRepository {
 
-    // ✅ POST ingredient -> vraća representation (List<Ingredient>)
     public void addIngredient(String token, Ingredient ingredient, ApiCallback<List<Ingredient>> callback) {
         RetrofitClient.getInstance()
                 .getApi()
@@ -17,7 +16,6 @@ public class IngredientRepository {
                 .enqueue(callback);
     }
 
-    // ✅ GET units
     public void getUnits(String token, ApiCallback<List<Unit>> callback) {
         RetrofitClient.getInstance()
                 .getApi()
@@ -25,7 +23,6 @@ public class IngredientRepository {
                 .enqueue(callback);
     }
 
-    // ✅ GET ingredients
     public void getIngredients(String token, ApiCallback<List<Ingredient>> callback) {
         RetrofitClient.getInstance()
                 .getApi()

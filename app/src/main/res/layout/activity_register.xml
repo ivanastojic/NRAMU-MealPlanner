@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <!-- HEADER IMAGE IZNAD CARD-A -->
+
     <ImageView
         android:id="@+id/headerImage"
         android:layout_width="200dp"
@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="16dp"/>
 
-    <!-- REGISTER CARD -->
+
     <androidx.cardview.widget.CardView
         android:id="@+id/registerCard"
         android:layout_width="0dp"
@@ -40,7 +40,7 @@
             android:orientation="vertical"
             android:padding="32dp">
 
-            <!-- TITLE -->
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -67,7 +67,6 @@
                     android:textColor="#9e8b4d"/>
             </LinearLayout>
 
-            <!-- FULL NAME -->
             <EditText
                 android:id="@+id/fullNameInput"
                 android:layout_width="match_parent"
@@ -79,7 +78,7 @@
                 android:background="@drawable/rounded_edittext"
                 android:layout_marginBottom="16dp"/>
 
-            <!-- EMAIL -->
+
             <EditText
                 android:id="@+id/emailInput"
                 android:layout_width="match_parent"
@@ -91,7 +90,7 @@
                 android:background="@drawable/rounded_edittext"
                 android:layout_marginBottom="16dp"/>
 
-            <!-- PASSWORD -->
+
             <EditText
                 android:id="@+id/passwordInput"
                 android:layout_width="match_parent"
@@ -103,7 +102,6 @@
                 android:background="@drawable/rounded_edittext"
                 android:layout_marginBottom="16dp"/>
 
-            <!-- CONFIRM PASSWORD -->
             <EditText
                 android:id="@+id/confirmPasswordInput"
                 android:layout_width="match_parent"
@@ -115,7 +113,7 @@
                 android:background="@drawable/rounded_edittext"
                 android:layout_marginBottom="16dp"/>
 
-            <!-- REGISTER BUTTON -->
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/registerBtn"
                 android:layout_width="match_parent"
@@ -127,7 +125,6 @@
                 android:background="@drawable/rounded_button"
                 android:layout_marginTop="24dp"/>
 
-            <!-- GO TO LOGIN -->
             <Button
                 android:id="@+id/backToLoginBtn"
                 android:layout_width="wrap_content"
@@ -139,7 +136,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="18dp"/>
 
-            <!-- LOADING -->
+
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="wrap_content"

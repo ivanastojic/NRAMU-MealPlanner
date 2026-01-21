@@ -6,14 +6,14 @@
     android:id="@+id/mealPlannerRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@android:color/white"
     tools:context=".activities.MealPlannerActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/mealPlannerCard"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
         app:cardCornerRadius="30dp"
         app:cardElevation="12dp"
         app:cardBackgroundColor="#f2ddb6"
@@ -22,146 +22,175 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="28dp">
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="never">
 
-            <TextView
-                android:id="@+id/tvTitleMealPlanner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Meal Planner"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                android:textColor="#4f3f0b"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="6dp"/>
-
-            <TextView
-                android:id="@+id/tvSubtitleMealPlanner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Planiraj obrok za odabrani dan"
-                android:textSize="14sp"
-                android:textColor="#9e8b4d"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="20dp"/>
-
-            <TextView
-                android:id="@+id/tvSelectedDate"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Datum: (nije odabran)"
-                android:textColor="#4f3f0b"
-                android:textStyle="bold"
-                android:layout_marginBottom="10dp"/>
+                android:orientation="vertical"
+                android:padding="24dp">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnPickDate"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="Odaberi datum"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                app:backgroundTint="#b59336"
-                app:cornerRadius="20dp"
-                android:layout_marginBottom="16dp"/>
+                <TextView
+                    android:id="@+id/tvTitleMealPlanner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Meal Planner"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:textColor="#4f3f0b"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="6dp"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Vrsta obroka"
-                android:textColor="#4f3f0b"
-                android:textStyle="bold"
-                android:layout_marginBottom="6dp"/>
+                <TextView
+                    android:id="@+id/tvSubtitleMealPlanner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Planiraj obrok za odabrani dan"
+                    android:textSize="14sp"
+                    android:textColor="#9e8b4d"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="18dp"/>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:boxBackgroundMode="filled"
-                app:boxBackgroundColor="@android:color/white"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusBottomEnd="16dp"
-                android:layout_marginBottom="14dp">
 
-                <Spinner
-                    android:id="@+id/spMealType"
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#FFF8E8"
+                    android:layout_marginBottom="14dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Recept"
-                android:textColor="#4f3f0b"
-                android:textStyle="bold"
-                android:layout_marginBottom="6dp"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="14dp"
+                        android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:boxBackgroundMode="filled"
-                app:boxBackgroundColor="@android:color/white"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusBottomEnd="16dp"
-                android:layout_marginBottom="16dp">
+                        <TextView
+                            android:id="@+id/tvSelectedDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Datum: (nije odabran)"
+                            android:textColor="#4f3f0b"
+                            android:textStyle="bold"
+                            android:textSize="15sp"/>
 
-                <Spinner
-                    android:id="@+id/spRecipe"
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnPickDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="54dp"
+                            android:text="Odaberi datum"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/white"
+                            app:backgroundTint="#b59336"
+                            app:cornerRadius="18dp"
+                            android:layout_marginTop="12dp"/>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:text="Vrsta obroka"
+                    android:textColor="#4f3f0b"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="6dp"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnSavePlan"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="Spremi plan"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                app:backgroundTint="#b59336"
-                app:cornerRadius="20dp"
-                android:layout_marginBottom="16dp"/>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundMode="filled"
+                    app:boxBackgroundColor="@android:color/white"
+                    app:boxCornerRadiusTopStart="16dp"
+                    app:boxCornerRadiusTopEnd="16dp"
+                    app:boxCornerRadiusBottomStart="16dp"
+                    app:boxCornerRadiusBottomEnd="16dp"
+                    android:layout_marginBottom="14dp">
 
-            <TextView
-                android:id="@+id/tvPlansTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Planovi za odabrani dan"
-                android:textColor="#4f3f0b"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
+                    <Spinner
+                        android:id="@+id/spMealType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvPlans"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:background="@android:color/white"
-                android:padding="10dp"
-                android:clipToPadding="false"
-                android:scrollbars="vertical" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Recept"
+                    android:textColor="#4f3f0b"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="6dp"/>
 
-            <TextView
-                android:id="@+id/tvNoPlans"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Nema planova za odabrani dan"
-                android:textColor="#9e8b4d"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:padding="8dp"
-                android:visibility="gone"/>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundMode="filled"
+                    app:boxBackgroundColor="@android:color/white"
+                    app:boxCornerRadiusTopStart="16dp"
+                    app:boxCornerRadiusTopEnd="16dp"
+                    app:boxCornerRadiusBottomStart="16dp"
+                    app:boxCornerRadiusBottomEnd="16dp"
+                    android:layout_marginBottom="14dp">
 
-        </LinearLayout>
+                    <Spinner
+                        android:id="@+id/spRecipe"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSavePlan"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="Spremi plan"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    app:backgroundTint="#b59336"
+                    app:cornerRadius="20dp"
+                    android:layout_marginBottom="18dp"/>
+
+                <TextView
+                    android:id="@+id/tvPlansTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Planovi za odabrani dan"
+                    android:textColor="#4f3f0b"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="8dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvPlans"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:clipToPadding="false"
+                    android:padding="6dp"
+                    android:scrollbars="vertical" />
+
+                <TextView
+                    android:id="@+id/tvNoPlans"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nema planova za odabrani dan"
+                    android:textColor="#9e8b4d"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:visibility="gone"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"/>
+            </LinearLayout>
+
+        </ScrollView>
 
     </androidx.cardview.widget.CardView>
 

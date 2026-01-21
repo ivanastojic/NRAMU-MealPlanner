@@ -1,103 +1,270 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@color/white">
-
-    <EditText
-        android:id="@+id/etEditRecipeTitle"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:hint="Naziv recepta"
-        android:textSize="18sp"
-        android:background="@drawable/rounded_edittext"
-        android:padding="16dp"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvIngredientsEdit"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="12dp"/>
+    android:background="@android:color/white">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="4dp">
+        android:id="@+id/editRecipeCard"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="12dp"
+        app:cardBackgroundColor="#f2ddb6"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="14dp">
-
-            <EditText
-                android:id="@+id/etIngredientName"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:hint="🥣 Sastojak"
-                android:background="@drawable/rounded_edittext"
-                android:padding="16dp"/>
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="never">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp">
+                android:orientation="vertical"
+                android:padding="20dp">
 
-                <EditText
-                    android:id="@+id/etQuantity"
-                    android:layout_width="0dp"
-                    android:layout_height="56dp"
-                    android:layout_weight="1"
-                    android:hint="📏 Količina"
-                    android:inputType="numberDecimal"
-                    android:background="@drawable/rounded_edittext"
-                    android:padding="16dp"/>
 
-                <Spinner
-                    android:id="@+id/spUnit"
-                    android:layout_width="120dp"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Uredi recept"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="#4f3f0b"
+                    android:layout_marginBottom="6dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Promijeni naziv i sastojke"
+                    android:textSize="13sp"
+                    android:textColor="#9e8b4d"
+                    android:layout_marginBottom="14dp"/>
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="22dp"
+                    app:cardElevation="6dp"
+                    app:cardBackgroundColor="#FFF8E8"
+                    android:layout_marginBottom="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Naziv recepta"
+                            android:textStyle="bold"
+                            android:textColor="#4f3f0b"
+                            android:layout_marginBottom="6dp"/>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:boxBackgroundMode="filled"
+                            app:boxBackgroundColor="@android:color/white"
+                            app:boxCornerRadiusTopStart="16dp"
+                            app:boxCornerRadiusTopEnd="16dp"
+                            app:boxCornerRadiusBottomStart="16dp"
+                            app:boxCornerRadiusBottomEnd="16dp"
+                            app:boxStrokeColor="#8A6A2F"
+                            app:hintTextColor="#6b5a20">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etEditRecipeTitle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="12dp"
+                                android:textColor="#4f3f0b"
+                                android:hint="Naziv recepta" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sastojci u receptu"
+                    android:textStyle="bold"
+                    android:textColor="#4f3f0b"
+                    android:layout_marginBottom="8dp"/>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="260dp"
+                    app:cardCornerRadius="22dp"
+                    app:cardElevation="6dp"
+                    app:cardBackgroundColor="#FFF8E8"
+                    android:layout_marginBottom="14dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvIngredientsEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="12dp"
+                        android:clipToPadding="false"
+                        android:scrollbars="vertical"/>
+                </androidx.cardview.widget.CardView>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dodaj novi sastojak"
+                    android:textStyle="bold"
+                    android:textColor="#4f3f0b"
+                    android:layout_marginBottom="8dp"/>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="22dp"
+                    app:cardElevation="6dp"
+                    app:cardBackgroundColor="#FFF8E8"
+                    android:layout_marginBottom="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Sastojak"
+                            app:boxBackgroundMode="filled"
+                            app:boxBackgroundColor="@android:color/white"
+                            app:boxCornerRadiusTopStart="16dp"
+                            app:boxCornerRadiusTopEnd="16dp"
+                            app:boxCornerRadiusBottomStart="16dp"
+                            app:boxCornerRadiusBottomEnd="16dp"
+                            app:boxStrokeColor="#8A6A2F"
+                            app:hintTextColor="#6b5a20"
+                            android:layout_marginBottom="10dp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etIngredientName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="12dp"
+                                android:textColor="#4f3f0b"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Količina"
+                                app:boxBackgroundMode="filled"
+                                app:boxBackgroundColor="@android:color/white"
+                                app:boxCornerRadiusTopStart="16dp"
+                                app:boxCornerRadiusTopEnd="16dp"
+                                app:boxCornerRadiusBottomStart="16dp"
+                                app:boxCornerRadiusBottomEnd="16dp"
+                                app:boxStrokeColor="#8A6A2F"
+                                app:hintTextColor="#6b5a20"
+                                android:layout_marginEnd="10dp">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/etQuantity"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="numberDecimal"
+                                    android:padding="12dp"
+                                    android:textColor="#4f3f0b"/>
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="120dp"
+                                android:layout_height="wrap_content"
+                                android:hint="Jedinica"
+                                app:boxBackgroundMode="filled"
+                                app:boxBackgroundColor="@android:color/white"
+                                app:boxCornerRadiusTopStart="16dp"
+                                app:boxCornerRadiusTopEnd="16dp"
+                                app:boxCornerRadiusBottomStart="16dp"
+                                app:boxCornerRadiusBottomEnd="16dp"
+                                app:boxStrokeColor="#8A6A2F"
+                                app:hintTextColor="#6b5a20">
+
+                                <Spinner
+                                    android:id="@+id/spUnit"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="10dp"/>
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                        </LinearLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Napomena (opcionalno)"
+                            app:boxBackgroundMode="filled"
+                            app:boxBackgroundColor="@android:color/white"
+                            app:boxCornerRadiusTopStart="16dp"
+                            app:boxCornerRadiusTopEnd="16dp"
+                            app:boxCornerRadiusBottomStart="16dp"
+                            app:boxCornerRadiusBottomEnd="16dp"
+                            app:boxStrokeColor="#8A6A2F"
+                            app:hintTextColor="#6b5a20"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="12dp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etNote"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="12dp"
+                                android:textColor="#4f3f0b"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnAddIngredientEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="54dp"
+                            android:text="Dodaj sastojak"
+                            android:textStyle="bold"
+                            app:cornerRadius="20dp"
+                            app:backgroundTint="#b59336"
+                            android:textColor="@android:color/white"/>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSaveRecipeEdit"
+                    android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/rounded_edittext"/>
+                    android:text="Spremi promjene"
+                    android:textStyle="bold"
+                    app:cornerRadius="22dp"
+                    app:backgroundTint="#8D6E63"
+                    android:textColor="@android:color/white"/>
+
             </LinearLayout>
-
-            <EditText
-                android:id="@+id/etNote"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:hint="📝 Napomena (opcionalno)"
-                android:background="@drawable/rounded_edittext"
-                android:padding="16dp"
-                android:layout_marginTop="8dp"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnAddIngredientEdit"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:text="Dodaj sastojak"
-                android:layout_marginTop="10dp"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                app:cornerRadius="16dp"/>
-        </LinearLayout>
+        </ScrollView>
     </androidx.cardview.widget.CardView>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSaveRecipeEdit"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:text="Spremi promjene"
-        android:textStyle="bold"
-        android:textColor="@android:color/white"
-        app:cornerRadius="20dp"/>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

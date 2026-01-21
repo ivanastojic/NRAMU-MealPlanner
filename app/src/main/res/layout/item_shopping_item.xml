@@ -1,46 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    app:cardCornerRadius="16dp">
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="18dp"
+    app:cardElevation="6dp"
+    app:cardBackgroundColor="#FFF8E8"
+    app:cardUseCompatPadding="true">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="14dp"
-        android:gravity="center_vertical">
+        android:background="@drawable/popup_menu_bg"
+        android:padding="16dp">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tvIngredientName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:text="Brašno"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="#4f3f0b"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/cbBought"
+            android:layout_marginEnd="12dp"/>
 
-            <TextView
-                android:id="@+id/tvIngredientName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Brašno"
-                android:textStyle="bold"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:id="@+id/tvIngredientQty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="700 g"
-                android:alpha="0.7"
-                android:layout_marginTop="4dp"/>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tvIngredientQty"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="700 g"
+            android:textSize="14sp"
+            android:textColor="#7a6a2a"
+            android:layout_marginTop="6dp"
+            app:layout_constraintTop_toBottomOf="@id/tvIngredientName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/cbBought"
+            android:layout_marginEnd="12dp"/>
 
         <CheckBox
             android:id="@+id/cbBought"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Kupljeno" />
-    </LinearLayout>
-</com.google.android.material.card.MaterialCardView>
+            android:text="Kupljeno"
+            android:textColor="#4f3f0b"
+            android:buttonTint="#b59336"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,5 +1,6 @@
 package com.example.mealplanner.adapters;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,15 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.VH> {
         });
 
         holder.btnMenu.setOnClickListener(v -> {
-            PopupMenu popup = new PopupMenu(v.getContext(), holder.btnMenu);
+
+            PopupMenu popup = new PopupMenu(
+                    v.getContext(),
+                    holder.btnMenu,
+                    Gravity.END,
+                    0,
+                    R.style.AppPopupMenu
+            );
+
             popup.getMenuInflater().inflate(R.menu.menu_item_actions, popup.getMenu());
 
             popup.setOnMenuItemClickListener(menuItem -> {

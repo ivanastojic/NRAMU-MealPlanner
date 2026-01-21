@@ -73,13 +73,10 @@ public class EditableIngredientAdapter extends RecyclerView.Adapter<EditableIngr
 
         h.tvName.setText(item.ingredientName);
 
-        // ---- QTY ----
         h.bindQty(item);
 
-        // ---- NOTE ----
         h.bindNote(item);
 
-        // ---- UNITS SPINNER ----
         ArrayAdapter<String> a = new ArrayAdapter<>(
                 h.itemView.getContext(),
                 R.layout.spinner_item_black,

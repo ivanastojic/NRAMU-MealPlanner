@@ -5,10 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
-    android:layout_marginStart="4dp"
-    android:layout_marginEnd="4dp"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="4dp">
+    android:layout_marginStart="2dp"
+    android:layout_marginEnd="2dp"
+    app:cardCornerRadius="18dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@android:color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,43 +23,94 @@
             android:layout_height="wrap_content"
             android:text="Sastojak"
             android:textStyle="bold"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:textColor="#4f3f0b"
+            android:layout_marginBottom="6dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/etQty"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="Količina"
-                android:inputType="numberDecimal" />
+                app:boxBackgroundMode="filled"
+                app:boxBackgroundColor="#FFF8E8"
+                app:boxCornerRadiusTopStart="14dp"
+                app:boxCornerRadiusTopEnd="14dp"
+                app:boxCornerRadiusBottomStart="14dp"
+                app:boxCornerRadiusBottomEnd="14dp"
+                app:boxStrokeColor="#8A6A2F"
+                app:hintTextColor="#6b5a20"
+                android:layout_marginEnd="10dp">
 
-            <Spinner
-                android:id="@+id/spUnit"
-                android:layout_width="140dp"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etQty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:padding="10dp"
+                    android:textColor="#4f3f0b"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"/>
+                android:hint="Jedinica"
+                app:boxBackgroundMode="filled"
+                app:boxBackgroundColor="#FFF8E8"
+                app:boxCornerRadiusTopStart="14dp"
+                app:boxCornerRadiusTopEnd="14dp"
+                app:boxCornerRadiusBottomStart="14dp"
+                app:boxCornerRadiusBottomEnd="14dp"
+                app:boxStrokeColor="#8A6A2F"
+                app:hintTextColor="#6b5a20">
+
+                <Spinner
+                    android:id="@+id/spUnit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/etNote"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Napomena (opcionalno)"
-            android:layout_marginTop="8dp"
-            android:inputType="text" />
+            app:boxBackgroundMode="filled"
+            app:boxBackgroundColor="#FFF8E8"
+            app:boxCornerRadiusTopStart="14dp"
+            app:boxCornerRadiusTopEnd="14dp"
+            app:boxCornerRadiusBottomStart="14dp"
+            app:boxCornerRadiusBottomEnd="14dp"
+            app:boxStrokeColor="#8A6A2F"
+            app:hintTextColor="#6b5a20"
+            android:layout_marginTop="10dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textColor="#4f3f0b"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnDelete"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="44dp"
             android:text="Obriši"
-            android:layout_marginTop="10dp"/>
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            app:cornerRadius="16dp"
+            app:backgroundTint="#8D6E63"
+            android:textColor="@android:color/white"/>
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

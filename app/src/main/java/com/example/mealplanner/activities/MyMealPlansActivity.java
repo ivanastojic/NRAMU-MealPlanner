@@ -19,6 +19,8 @@ import com.example.mealplanner.models.DayPlanGroup;
 import com.example.mealplanner.models.MealPlanRow;
 import com.example.mealplanner.models.Recipe;
 import com.example.mealplanner.utils.AuthManager;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +38,8 @@ public class MyMealPlansActivity extends AppCompatActivity {
     private ProgressBar progress;
     private TextView tvEmpty;
 
+    private FloatingActionButton fabAddPlan;
+
     private MyMealPlansGroupedAdapter adapter;
 
     private AuthManager authManager;
@@ -45,6 +49,8 @@ public class MyMealPlansActivity extends AppCompatActivity {
 
     private List<MealPlanRow> rawPlans = new ArrayList<>();
 
+    private BottomNavigationView bottomNav;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +59,7 @@ public class MyMealPlansActivity extends AppCompatActivity {
         rvPlans = findViewById(R.id.rvPlans);
         progress = findViewById(R.id.progress);
         tvEmpty = findViewById(R.id.tvEmpty);
+        fabAddPlan = findViewById(R.id.fabAddPlan);
 
         adapter = new MyMealPlansGroupedAdapter();
         rvPlans.setLayoutManager(new LinearLayoutManager(this));
@@ -73,19 +80,56 @@ public class MyMealPlansActivity extends AppCompatActivity {
 
         adapter.setOnDayClickListener(group -> openDayDetails(group.date));
 
+        if (fabAddPlan != null) {
+            fabAddPlan.setOnClickListener(v -> {
+                startActivity(new Intent(MyMealPlansActivity.this, MealPlannerActivity.class));
+                overridePendingTransition(0, 0);
+            });
+        }
+
+        setupBottomNav();
         loadPlansAndTitles();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (bottomNav != null) bottomNav.setSelectedItemId(R.id.nav_planner);
         loadPlansAndTitles();
+    }
+
+    private void setupBottomNav() {
+        bottomNav = findViewById(R.id.bottomNav);
+        if (bottomNav == null) return;
+
+        bottomNav.setSelectedItemId(R.id.nav_planner);
+
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_planner) return true;
+
+            Intent i = null;
+
+            if (id == R.id.nav_home) i = new Intent(this, MainActivity.class);
+            else if (id == R.id.nav_recipes) i = new Intent(this, RecipesListActivity.class);
+            else if (id == R.id.nav_shopping) i = new Intent(this, ShoppingListsActivity.class);
+            else if (id == R.id.nav_profile) i = new Intent(this, ProfileActivity.class);
+
+            if (i != null) {
+                i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(i);
+                overridePendingTransition(0, 0);
+                return true;
+            }
+            return false;
+        });
     }
 
     private void openDayDetails(String date) {
         Intent i = new Intent(this, DayPlansActivity.class);
         i.putExtra("plan_date", date);
         startActivity(i);
+        overridePendingTransition(0, 0);
     }
 
     private void loadPlansAndTitles() {
@@ -134,9 +178,7 @@ public class MyMealPlansActivity extends AppCompatActivity {
 
                 Map<String, String> map = new HashMap<>();
                 if (response.isSuccessful() && response.body() != null) {
-                    for (Recipe r : response.body()) {
-                        map.put(r.getId(), r.getTitle());
-                    }
+                    for (Recipe r : response.body()) map.put(r.getId(), r.getTitle());
                 }
 
                 adapter.setRecipeTitleMap(map);

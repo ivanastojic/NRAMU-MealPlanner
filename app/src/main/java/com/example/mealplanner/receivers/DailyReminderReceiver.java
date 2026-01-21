@@ -17,7 +17,7 @@ public class DailyReminderReceiver extends BroadcastReceiver {
         int requestCode = intent.getIntExtra("requestCode", ReminderScheduler.REQ_BREAKFAST);
         String mealType = intent.getStringExtra("mealType");
 
-        // 1) pokaži notifikaciju
+
         NotificationHelper.showDailyReminder(
                 context,
                 "Provjeri današnji plan obroka",
@@ -25,7 +25,6 @@ public class DailyReminderReceiver extends BroadcastReceiver {
                 requestCode
         );
 
-        // 2) odmah zakaži isti podsjetnik za sutra
         ReminderScheduler.scheduleDaily(context, hour, minute, requestCode, mealType);
     }
 }

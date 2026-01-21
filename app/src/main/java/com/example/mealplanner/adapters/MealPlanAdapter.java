@@ -15,6 +15,8 @@ import com.example.mealplanner.models.MealPlan;
 
 import java.util.HashMap;
 import java.util.List;
+import android.view.Gravity;
+import android.widget.PopupMenu;
 
 public class MealPlanAdapter extends RecyclerView.Adapter<MealPlanAdapter.VH> {
 
@@ -85,7 +87,8 @@ public class MealPlanAdapter extends RecyclerView.Adapter<MealPlanAdapter.VH> {
 
         MealPlan plan = plans.get(pos);
 
-        PopupMenu popup = new PopupMenu(holder.itemView.getContext(), holder.btnMenu);
+        PopupMenu popup = new PopupMenu(holder.itemView.getContext(), holder.btnMenu, Gravity.END, 0, R.style.AppPopupMenu);
+
         popup.getMenuInflater().inflate(R.menu.menu_item_actions, popup.getMenu());
 
         popup.setOnMenuItemClickListener(menuItem -> {

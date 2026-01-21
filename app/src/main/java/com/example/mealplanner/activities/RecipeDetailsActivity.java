@@ -48,7 +48,6 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         recipeId = getIntent().getStringExtra("recipe_id");
         String title = getIntent().getStringExtra("recipe_title");
 
-        // ✅ ako nema extra → false (ne može edit)
         canEditIngredients = getIntent().getBooleanExtra("can_edit_ingredients", false);
 
         TextView tvTitle = findViewById(R.id.tvRecipeTitle);
@@ -168,8 +167,6 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
                     toast("Spremanje (TODO): " + newLine);
 
-                    // Kad dodaš update API u RecipeRepository:
-                    // updateRecipeIngredientLine(ingredient, newLine);
                 })
                 .setNegativeButton("Odustani", null)
                 .show();

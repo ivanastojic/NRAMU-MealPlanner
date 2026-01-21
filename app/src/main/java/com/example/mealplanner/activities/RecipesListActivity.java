@@ -16,6 +16,7 @@ import com.example.mealplanner.api.RetrofitClient;
 import com.example.mealplanner.models.Recipe;
 import com.example.mealplanner.repositories.RecipeRepository;
 import com.example.mealplanner.utils.AuthManager;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
@@ -24,6 +25,8 @@ public class RecipesListActivity extends AppCompatActivity {
     private RecipeAdapter adapter;
     private AuthManager auth;
     private RecipeRepository recipeRepo;
+
+    private BottomNavigationView bottomNav;
 
     private static final int REQ_EDIT_RECIPE = 1001;
 
@@ -35,6 +38,14 @@ public class RecipesListActivity extends AppCompatActivity {
         auth = new AuthManager(this);
         recipeRepo = new RecipeRepository();
 
+        findViewById(R.id.fabAddRecipe).setOnClickListener(v -> {
+            startActivity(new Intent(RecipesListActivity.this, AddRecipeActivity.class));
+            overridePendingTransition(0, 0);
+        });
+
+
+        setupBottomNav();
+
         RecyclerView rv = findViewById(R.id.rvRecipes);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
@@ -44,17 +55,16 @@ public class RecipesListActivity extends AppCompatActivity {
                     i.putExtra("recipe_id", recipe.getId());
                     i.putExtra("recipe_title", recipe.getTitle());
                     startActivity(i);
+                    overridePendingTransition(0, 0);
                 },
                 new RecipeAdapter.OnRecipeMenuAction() {
                     @Override
                     public void onEdit(Recipe recipe) {
-                        Intent i = new Intent(
-                                RecipesListActivity.this,
-                                EditRecipeActivity.class
-                        );
+                        Intent i = new Intent(RecipesListActivity.this, EditRecipeActivity.class);
                         i.putExtra("recipe_id", recipe.getId());
                         i.putExtra("recipe_title", recipe.getTitle());
                         startActivityForResult(i, REQ_EDIT_RECIPE);
+                        overridePendingTransition(0, 0);
                     }
 
                     @Override
@@ -65,12 +75,51 @@ public class RecipesListActivity extends AppCompatActivity {
         );
 
         rv.setAdapter(adapter);
+
         loadRecipes();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (bottomNav != null) bottomNav.setSelectedItemId(R.id.nav_recipes);
+
+        loadRecipes();
+    }
+
+    private void setupBottomNav() {
+        bottomNav = findViewById(R.id.bottomNav);
+        if (bottomNav == null) return;
+
+        bottomNav.setSelectedItemId(R.id.nav_recipes);
+
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_recipes) return true;
+
+            Intent i = null;
+
+            if (id == R.id.nav_home) i = new Intent(this, MainActivity.class);
+            else if (id == R.id.nav_planner) i = new Intent(this, MyMealPlansActivity.class);
+            else if (id == R.id.nav_shopping) i = new Intent(this, ShoppingListsActivity.class);
+            else if (id == R.id.nav_profile) i = new Intent(this, ProfileActivity.class);
+
+            if (i != null) {
+                i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(i);
+                overridePendingTransition(0, 0);
+                return true;
+            }
+            return false;
+        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        // edit već refresh-a ovdje, ali onResume ionako refresh-a uvijek
         if (requestCode == REQ_EDIT_RECIPE && resultCode == RESULT_OK) {
             loadRecipes();
         }
@@ -95,11 +144,7 @@ public class RecipesListActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(String errorMessage) {
-                        Toast.makeText(
-                                RecipesListActivity.this,
-                                "Greška: " + errorMessage,
-                                Toast.LENGTH_SHORT
-                        ).show();
+                        Toast.makeText(RecipesListActivity.this, "Greška: " + errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -120,21 +165,13 @@ public class RecipesListActivity extends AppCompatActivity {
         recipeRepo.deleteRecipe(token, recipeId, new ApiCallback<Void>() {
             @Override
             public void onSuccess(Void response) {
-                Toast.makeText(
-                        RecipesListActivity.this,
-                        "Recept obrisan",
-                        Toast.LENGTH_SHORT
-                ).show();
+                Toast.makeText(RecipesListActivity.this, "Recept obrisan", Toast.LENGTH_SHORT).show();
                 loadRecipes();
             }
 
             @Override
             public void onError(String errorMessage) {
-                Toast.makeText(
-                        RecipesListActivity.this,
-                        "Greška: " + errorMessage,
-                        Toast.LENGTH_SHORT
-                ).show();
+                Toast.makeText(RecipesListActivity.this, "Greška: " + errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }

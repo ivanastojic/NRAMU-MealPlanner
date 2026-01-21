@@ -1,9 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
     <style name="Base.Theme.MealPlanner" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <item name="colorPrimary">#b59336</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorOutline">#6b5a20</item>
+        <item name="colorOutlineVariant">#6b5a20</item>
+        <item name="colorSecondary">#b59336</item>
+        <item name="colorOnSecondary">@android:color/white</item>
+        <item name="colorControlActivated">#6b5a20</item>
+        <item name="colorControlHighlight">#6b5a20</item>
+        <item name="popupMenuStyle">@style/AppPopupMenu</item>
+        <item name="colorAccent">#b59336</item>
     </style>
 
     <style name="Theme.MealPlanner" parent="Base.Theme.MealPlanner" />
+
 </resources>

@@ -80,7 +80,6 @@ public class LoginActivity extends AppCompatActivity {
                         authManager.saveEmail(response.getUser().getEmail());
                         authManager.saveUserId(response.getUser().getId());
 
-                        // 🔐 RLS CHECK – test da korisnik vidi samo svoje podatke
                         RetrofitClient.getInstance()
                                 .getApi()
                                 .getMyMealPlans("Bearer " + token)

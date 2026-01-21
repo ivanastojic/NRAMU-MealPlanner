@@ -15,6 +15,7 @@ import com.example.mealplanner.api.RetrofitClient;
 import com.example.mealplanner.api.SupabaseAPI;
 import com.example.mealplanner.models.ShoppingList;
 import com.example.mealplanner.utils.AuthManager;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -34,6 +35,8 @@ public class ShoppingListsActivity extends AppCompatActivity {
     private AuthManager authManager;
     private SupabaseAPI api;
     private String auth;
+
+    private BottomNavigationView bottomNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,8 @@ public class ShoppingListsActivity extends AppCompatActivity {
         auth = "Bearer " + token;
         api = RetrofitClient.getInstance().getApi();
 
+        setupBottomNav();
+
         adapter.setListener(new ShoppingListsAdapter.Listener() {
             @Override
             public void onOpen(ShoppingList list) {
@@ -67,6 +72,7 @@ public class ShoppingListsActivity extends AppCompatActivity {
                 i.putExtra("date_from", list.date_from);
                 i.putExtra("date_to", list.date_to);
                 startActivity(i);
+                overridePendingTransition(0, 0);
             }
 
             @Override
@@ -77,6 +83,7 @@ public class ShoppingListsActivity extends AppCompatActivity {
 
         fabAddShoppingList.setOnClickListener(v -> {
             startActivity(new Intent(this, GenerateShoppingListActivity.class));
+            overridePendingTransition(0, 0);
         });
 
         loadLists();
@@ -85,7 +92,35 @@ public class ShoppingListsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (bottomNav != null) bottomNav.setSelectedItemId(R.id.nav_shopping);
         loadLists();
+    }
+
+    private void setupBottomNav() {
+        bottomNav = findViewById(R.id.bottomNav);
+        if (bottomNav == null) return;
+
+        bottomNav.setSelectedItemId(R.id.nav_shopping);
+
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_shopping) return true;
+
+            Intent i = null;
+
+            if (id == R.id.nav_home) i = new Intent(this, MainActivity.class);
+            else if (id == R.id.nav_recipes) i = new Intent(this, RecipesListActivity.class);
+            else if (id == R.id.nav_planner) i = new Intent(this, MyMealPlansActivity.class);
+            else if (id == R.id.nav_profile) i = new Intent(this, ProfileActivity.class);
+
+            if (i != null) {
+                i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(i);
+                overridePendingTransition(0, 0);
+                return true;
+            }
+            return false;
+        });
     }
 
     private void loadLists() {

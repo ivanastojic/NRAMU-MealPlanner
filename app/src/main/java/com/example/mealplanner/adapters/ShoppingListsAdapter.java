@@ -43,9 +43,9 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
     public void onBindViewHolder(@NonNull VH h, int position) {
         ShoppingList sl = items.get(position);
 
-        h.tvName.setText("Tjedna lista");
+        h.tvName.setText("Weekly List");
         h.tvRange.setText(sl.date_from + " → " + sl.date_to);
-        h.tvStatus.setText(sl.is_completed ? "Kupljeno ✅" : "Aktivna ⏳");
+        h.tvStatus.setText(sl.is_completed ? "Completed ✅" : "In progress ⏳");
 
         h.itemView.setOnClickListener(v -> {
             if (listener != null) listener.onOpen(sl);

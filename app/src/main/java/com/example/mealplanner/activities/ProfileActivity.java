@@ -151,7 +151,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         if (btnLogout != null) {
             btnLogout.setOnClickListener(v -> {
-                Toast.makeText(ProfileActivity.this, "Odjava...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileActivity.this, "Logging out...", Toast.LENGTH_SHORT).show();
 
                 authManager.logout();
 
@@ -210,7 +210,7 @@ public class ProfileActivity extends AppCompatActivity {
                         setLoading(false);
 
                         if (response == null || response.isEmpty()) {
-                            Toast.makeText(ProfileActivity.this, "Profil nije pronađen.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProfileActivity.this, "Profile not found.", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
@@ -224,7 +224,7 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void onError(String errorMessage) {
                         setLoading(false);
-                        Toast.makeText(ProfileActivity.this, "Greška: " + errorMessage, Toast.LENGTH_LONG).show();
+                        Toast.makeText(ProfileActivity.this, "Error: " + errorMessage, Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -260,6 +260,7 @@ public class ProfileActivity extends AppCompatActivity {
         String fullName = etFullName.getText() != null ? etFullName.getText().toString().trim() : "";
         String email = etEmail.getText() != null ? etEmail.getText().toString().trim() : "";
 
+        // NE DIRAM setError tekstove
         if (fullName.isEmpty()) { etFullName.setError("Unesite ime i prezime"); return; }
         if (email.isEmpty()) { etEmail.setError("Unesite email"); return; }
 
@@ -279,7 +280,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             if (userId == null || token == null) {
                 setLoading(false);
-                Toast.makeText(this, "Niste prijavljeni.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "You are not logged in.", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -315,13 +316,13 @@ public class ProfileActivity extends AppCompatActivity {
                         @Override
                         public void onError(String errorMessage) {
                             setLoading(false);
-                            Toast.makeText(ProfileActivity.this, "Upload slike nije uspio: " + errorMessage, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ProfileActivity.this, "Image upload failed: " + errorMessage, Toast.LENGTH_LONG).show();
                         }
                     });
 
         } catch (Exception e) {
             setLoading(false);
-            Toast.makeText(this, "Greška pri čitanju slike: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Error reading image: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -331,7 +332,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         if (token == null || userId == null) {
             setLoading(false);
-            Toast.makeText(this, "Niste prijavljeni.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You are not logged in.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -363,20 +364,20 @@ public class ProfileActivity extends AppCompatActivity {
                         originalEmail = email;
 
                         setEditing(false);
-                        Toast.makeText(ProfileActivity.this, "Profil spremljen.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProfileActivity.this, "Profile saved.", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onError(String errorMessage) {
                         setLoading(false);
-                        Toast.makeText(ProfileActivity.this, "Update nije uspio: " + errorMessage, Toast.LENGTH_LONG).show();
+                        Toast.makeText(ProfileActivity.this, "Update failed: " + errorMessage, Toast.LENGTH_LONG).show();
                     }
                 });
     }
 
     private byte[] readAllBytes(Uri uri) throws Exception {
         InputStream in = getContentResolver().openInputStream(uri);
-        if (in == null) throw new Exception("Ne mogu otvoriti sliku.");
+        if (in == null) throw new Exception("Cannot open image.");
 
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         byte[] data = new byte[8192];

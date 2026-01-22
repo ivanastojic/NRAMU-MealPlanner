@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-
     <ImageView
         android:id="@+id/headerImage"
         android:layout_width="200dp"
@@ -18,7 +17,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="16dp"/>
-
 
     <androidx.cardview.widget.CardView
         android:id="@+id/registerCard"
@@ -39,7 +37,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="32dp">
-
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -71,31 +68,29 @@
                 android:id="@+id/fullNameInput"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:hint="👤 Ime i prezime"
+                android:hint="👤 Full name"
                 android:inputType="textPersonName"
                 android:padding="16dp"
                 android:textSize="16sp"
                 android:background="@drawable/rounded_edittext"
                 android:layout_marginBottom="16dp"/>
 
-
             <EditText
                 android:id="@+id/emailInput"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:hint="🏷️ Email adresa"
+                android:hint="🏷️ Email address"
                 android:inputType="textEmailAddress"
                 android:padding="16dp"
                 android:textSize="16sp"
                 android:background="@drawable/rounded_edittext"
                 android:layout_marginBottom="16dp"/>
 
-
             <EditText
                 android:id="@+id/passwordInput"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:hint="🔐 Lozinka"
+                android:hint="🔐 Password"
                 android:inputType="textPassword"
                 android:padding="16dp"
                 android:textSize="16sp"
@@ -106,19 +101,18 @@
                 android:id="@+id/confirmPasswordInput"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:hint="🔐 Ponovi lozinku"
+                android:hint="🔐 Confirm password"
                 android:inputType="textPassword"
                 android:padding="16dp"
                 android:textSize="16sp"
                 android:background="@drawable/rounded_edittext"
                 android:layout_marginBottom="16dp"/>
 
-
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/registerBtn"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="Registriraj se"
+                android:text="Sign up"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
@@ -129,13 +123,12 @@
                 android:id="@+id/backToLoginBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Već imaš račun? Prijavi se"
+                android:text="Already have an account? Log in"
                 android:textSize="14sp"
                 android:backgroundTint="@android:color/transparent"
                 android:textColor="#4f3f0b"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="18dp"/>
-
 
             <ProgressBar
                 android:id="@+id/progressBar"

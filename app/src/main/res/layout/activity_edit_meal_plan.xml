@@ -33,12 +33,11 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
-
                 <TextView
                     android:id="@+id/tvTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Uredi plan obroka"
+                    android:text="Edit meal plan"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:textColor="#4f3f0b"
@@ -48,12 +47,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Promijeni recept za odabrani datum"
+                    android:text="Change the recipe for the selected date"
                     android:textSize="13sp"
                     android:textColor="#9e8b4d"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="14dp"/>
-
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -72,7 +70,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Datum"
+                            android:text="Date"
                             android:textStyle="bold"
                             android:textColor="#4f3f0b"
                             android:layout_marginBottom="4dp"/>
@@ -81,12 +79,11 @@
                             android:id="@+id/tvDate"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Datum: 2026-01-28"
+                            android:text="Date: 2026-01-28"
                             android:textSize="16sp"
                             android:textColor="#6b5a20"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
-
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -106,7 +103,7 @@
                             android:id="@+id/tvMealTypeLabel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Vrsta obroka"
+                            android:text="Meal type"
                             android:textStyle="bold"
                             android:textColor="#4f3f0b"
                             android:layout_marginBottom="6dp"/>
@@ -139,7 +136,7 @@
                             android:id="@+id/tvRecipeLabel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Recept"
+                            android:text="Recipe"
                             android:textStyle="bold"
                             android:textColor="#4f3f0b"
                             android:layout_marginBottom="6dp"/>
@@ -166,12 +163,11 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSaveChanges"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:text="Spremi promjene"
+                    android:text="Save changes"
                     android:textStyle="bold"
                     app:cornerRadius="22dp"
                     app:backgroundTint="#b59336"

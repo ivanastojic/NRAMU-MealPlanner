@@ -40,7 +40,7 @@
                 android:id="@+id/tvIngredientsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sastojci"
+                android:text="Ingredients"
                 android:textStyle="bold"
                 android:textSize="14sp"
                 android:textColor="#9e8b4d"

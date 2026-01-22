@@ -53,7 +53,7 @@ public class DayPlansActivity extends AppCompatActivity {
         progress = findViewById(R.id.progress);
 
         date = getIntent().getStringExtra("plan_date");
-        tvDate.setText("Datum: " + date);
+        tvDate.setText("Date: " + date);
 
         authManager = new AuthManager(this);
         api = RetrofitClient.getInstance().getApi();
@@ -118,7 +118,9 @@ public class DayPlansActivity extends AppCompatActivity {
                     public void onResponse(Call<List<MealPlan>> call, Response<List<MealPlan>> response) {
                         progress.setVisibility(View.GONE);
                         if (!response.isSuccessful() || response.body() == null) {
-                            Toast.makeText(DayPlansActivity.this, "Greška: " + response.code(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DayPlansActivity.this,
+                                    "Error: " + response.code(),
+                                    Toast.LENGTH_SHORT).show();
                             return;
                         }
                         adapter.setPlans(response.body());
@@ -127,7 +129,9 @@ public class DayPlansActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<List<MealPlan>> call, Throwable t) {
                         progress.setVisibility(View.GONE);
-                        Toast.makeText(DayPlansActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DayPlansActivity.this,
+                                "Network error: " + t.getMessage(),
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -152,10 +156,10 @@ public class DayPlansActivity extends AppCompatActivity {
 
     private void confirmDelete(MealPlan plan) {
         new AlertDialog.Builder(this)
-                .setTitle("Obriši obrok?")
-                .setMessage("Jesi li sigurna da želiš obrisati ovaj obrok?")
-                .setPositiveButton("Obriši", (d, w) -> delete(plan))
-                .setNegativeButton("Odustani", null)
+                .setTitle("Delete meal?")
+                .setMessage("Are you sure you want to delete this meal?")
+                .setPositiveButton("Delete", (d, w) -> delete(plan))
+                .setNegativeButton("Cancel", null)
                 .show();
     }
 
@@ -166,17 +170,23 @@ public class DayPlansActivity extends AppCompatActivity {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 progress.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    Toast.makeText(DayPlansActivity.this, "Obrok obrisan", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DayPlansActivity.this,
+                            "Meal deleted",
+                            Toast.LENGTH_SHORT).show();
                     loadRecipeTitlesThenPlans();
                 } else {
-                    Toast.makeText(DayPlansActivity.this, "Delete error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DayPlansActivity.this,
+                            "Delete error: " + response.code(),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 progress.setVisibility(View.GONE);
-                Toast.makeText(DayPlansActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(DayPlansActivity.this,
+                        "Network error: " + t.getMessage(),
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }

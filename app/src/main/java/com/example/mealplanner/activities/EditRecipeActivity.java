@@ -46,7 +46,6 @@ public class EditRecipeActivity extends AppCompatActivity {
 
     private ArrayAdapter<String> unitAdapter;
 
-
     private final List<EditableRecipeIngredient> items = new ArrayList<>();
     private final List<Unit> units = new ArrayList<>();
     private final Map<String, String> ingredientNameMap = new HashMap<>();
@@ -63,7 +62,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         String title = getIntent().getStringExtra("recipe_title");
 
         if (recipeId == null) {
-            toast("Nedostaje recipe_id");
+            toast("Missing recipe_id");
             finish();
             return;
         }
@@ -94,7 +93,7 @@ public class EditRecipeActivity extends AppCompatActivity {
 
             String token = auth.getToken();
             if (token == null) {
-                toast("Nema tokena");
+                toast("No token");
                 return;
             }
 
@@ -112,12 +111,12 @@ public class EditRecipeActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void r) {
                             adapter.removeAt(position);
-                            toast("Sastojak obrisan");
+                            toast("Ingredient deleted");
                         }
 
                         @Override
                         public void onError(String e) {
-                            toast("Greška pri brisanju: " + e);
+                            toast("Delete error: " + e);
                         }
                     });
         });
@@ -131,7 +130,6 @@ public class EditRecipeActivity extends AppCompatActivity {
         loadIngredientNames();
         loadUnits();
     }
-
 
     private void loadUnits() {
         String token = auth.getToken();
@@ -206,7 +204,7 @@ public class EditRecipeActivity extends AppCompatActivity {
                         if (response != null) {
                             for (RecipeIngredient ri : response) {
                                 String name = ingredientNameMap.get(ri.getIngredientId());
-                                if (name == null) name = "Nepoznato";
+                                if (name == null) name = "Unknown";
 
                                 items.add(new EditableRecipeIngredient(
                                         ri.getId(),
@@ -229,14 +227,13 @@ public class EditRecipeActivity extends AppCompatActivity {
                 });
     }
 
-
     private void saveAll() {
         String token = auth.getToken();
         if (token == null) return;
 
         String newTitle = etTitle.getText().toString().trim();
         if (newTitle.isEmpty()) {
-            toast("Naziv ne smije biti prazan");
+            toast("Title cannot be empty");
             return;
         }
 
@@ -264,7 +261,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         String userId = auth.getUserId();
 
         if (token == null || userId == null) {
-            toast("Nema session-a");
+            toast("No active session");
             return;
         }
 
@@ -273,17 +270,17 @@ public class EditRecipeActivity extends AppCompatActivity {
         String note = etNote.getText().toString().trim();
 
         if (name.isEmpty()) {
-            toast("Upiši sastojak");
+            toast("Enter an ingredient");
             return;
         }
 
         if (qtyStr.isEmpty()) {
-            toast("Upiši količinu");
+            toast("Enter a quantity");
             return;
         }
 
         if (units.isEmpty()) {
-            toast("Jedinice nisu učitane");
+            toast("Units are not loaded");
             return;
         }
 
@@ -291,13 +288,13 @@ public class EditRecipeActivity extends AppCompatActivity {
         try {
             qty = Double.parseDouble(qtyStr);
         } catch (Exception e) {
-            toast("Količina nije broj");
+            toast("Quantity is not a number");
             return;
         }
 
         int pos = spUnit.getSelectedItemPosition();
         if (pos < 0 || pos >= units.size()) {
-            toast("Odaberi jedinicu");
+            toast("Select a unit");
             return;
         }
 
@@ -312,7 +309,7 @@ public class EditRecipeActivity extends AppCompatActivity {
                     public void onSuccess(List<Ingredient> res) {
 
                         if (res == null || res.isEmpty()) {
-                            toast("Greška kod sastojka");
+                            toast("Ingredient error");
                             return;
                         }
 
@@ -334,7 +331,7 @@ public class EditRecipeActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(List<RecipeIngredient> ignored) {
 
-                                        toast("Dodano: " + name);
+                                        toast("Added: " + name);
 
                                         loadRecipeIngredients();
 
@@ -357,7 +354,6 @@ public class EditRecipeActivity extends AppCompatActivity {
                     }
                 });
     }
-
 
     private void saveIngredients(String token) {
 
@@ -384,7 +380,7 @@ public class EditRecipeActivity extends AppCompatActivity {
                     });
         }
 
-        toast("Promjene spremljene");
+        toast("Changes saved");
         setResult(RESULT_OK);
         finish();
     }

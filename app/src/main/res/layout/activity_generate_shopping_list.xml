@@ -27,7 +27,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Generiraj shopping listu"
+                android:text="Generate shopping list"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 android:textColor="#4f3f0b"/>
@@ -35,13 +35,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Odaberi datum – lista se generira za cijeli tjedan (pon–ned)."
+                android:text="Select a date - the list will be generated for the whole week (Mon–Sun)."
                 android:textSize="13sp"
                 android:textColor="#9e8b4d"
                 android:layout_marginTop="4dp"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardPickDate"
@@ -64,10 +63,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Odaberi datum"
+                android:text="Select a date"
                 android:textColor="#6b5a20"
                 android:textStyle="bold"/>
-
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -93,7 +91,6 @@
                     android:padding="14dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -106,7 +103,7 @@
                     android:id="@+id/tvWeekRange"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Tjedan: -"
+                    android:text="Week: -"
                     android:textColor="#9e8b4d"
                     android:textSize="14sp"
                     android:padding="12dp"/>
@@ -115,12 +112,11 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnGenerateWeekly"
         android:layout_width="0dp"
         android:layout_height="54dp"
-        android:text="Generiraj za ovaj tjedan"
+        android:text="Generate for this week"
         android:textAllCaps="false"
         android:textStyle="bold"
         android:textColor="#FFFFFF"
@@ -130,7 +126,6 @@
         app:layout_constraintTop_toBottomOf="@id/cardPickDate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-
 
     <ProgressBar
         android:id="@+id/progressGenerate"

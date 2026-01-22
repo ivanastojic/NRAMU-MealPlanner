@@ -107,7 +107,7 @@ public class GenerateShoppingListActivity extends AppCompatActivity {
         selectedMonday = sdf.format(monday.getTime());
         selectedSunday = sdf.format(sunday.getTime());
 
-        tvWeekRange.setText("Tjedan: " + selectedMonday + " → " + selectedSunday);
+        tvWeekRange.setText("Week: " + selectedMonday + " → " + selectedSunday);
     }
 
     private void generateForSelectedWeek() {

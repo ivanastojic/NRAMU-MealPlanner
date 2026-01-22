@@ -70,7 +70,7 @@ public class MyMealPlansActivity extends AppCompatActivity {
         userId = authManager.getUserId();
 
         if (token == null || token.trim().isEmpty()) {
-            Toast.makeText(this, "Nema tokena - prijavi se ponovo.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No token found – please log in again.", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -141,7 +141,9 @@ public class MyMealPlansActivity extends AppCompatActivity {
             public void onResponse(Call<List<MealPlanRow>> call, Response<List<MealPlanRow>> response) {
                 if (!response.isSuccessful()) {
                     progress.setVisibility(View.GONE);
-                    Toast.makeText(MyMealPlansActivity.this, "Greška (plans): " + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyMealPlansActivity.this,
+                            "Error (plans): " + response.code(),
+                            Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -159,7 +161,9 @@ public class MyMealPlansActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<MealPlanRow>> call, Throwable t) {
                 progress.setVisibility(View.GONE);
-                Toast.makeText(MyMealPlansActivity.this, "Network error (plans): " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyMealPlansActivity.this,
+                        "Network error (plans): " + t.getMessage(),
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -167,7 +171,7 @@ public class MyMealPlansActivity extends AppCompatActivity {
     private void loadRecipeTitleMap() {
         if (userId == null || userId.trim().isEmpty()) {
             progress.setVisibility(View.GONE);
-            Toast.makeText(this, "Nema userId - prijavi se ponovo.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No userId – please log in again.", Toast.LENGTH_SHORT).show();
             return;
         }
 

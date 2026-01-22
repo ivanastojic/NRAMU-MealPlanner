@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                                         setLoading(false);
                                         Toast.makeText(
                                                 LoginActivity.this,
-                                                "Prijava uspješna, ali provjera podataka nije uspjela.",
+                                                "Login successful, but data verification failed.",
                                                 Toast.LENGTH_LONG
                                         ).show();
                                     }
@@ -115,14 +115,14 @@ public class LoginActivity extends AppCompatActivity {
 
                             Toast.makeText(
                                     LoginActivity.this,
-                                    "Netočna email adresa ili lozinka",
+                                    "Incorrect email address or password",
                                     Toast.LENGTH_SHORT
                             ).show();
 
                         } else {
                             Toast.makeText(
                                     LoginActivity.this,
-                                    "Greška pri prijavi. Pokušajte ponovno.",
+                                    "Login error. Please try again.",
                                     Toast.LENGTH_SHORT
                             ).show();
                         }
@@ -132,11 +132,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean validateInput(String email, String password) {
         if (email.isEmpty()) {
-            emailInput.setError("Unesite email");
+            emailInput.setError("Enter email");
             return false;
         }
         if (password.isEmpty()) {
-            passwordInput.setError("Unesite lozinku");
+            passwordInput.setError("Enter password");
             return false;
         }
         return true;

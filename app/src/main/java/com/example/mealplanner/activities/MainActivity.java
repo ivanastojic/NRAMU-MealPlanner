@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         tvTodayPlan = findViewById(R.id.tvTodayPlan);
 
         String todayPretty = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date());
-        if (tvTodayDate != null) tvTodayDate.setText("Danas, " + todayPretty);
+        if (tvTodayDate != null) tvTodayDate.setText("Today, " + todayPretty);
 
         // Auth / API
         String token = authManager.getToken();
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (api != null && auth != null) {
-            if (tvTodayPlan != null) tvTodayPlan.setText("Učitavam današnji plan...");
+            if (tvTodayPlan != null) tvTodayPlan.setText("Loading today’s plan…");
             loadTodayPlan();
         }
     }
@@ -190,9 +190,9 @@ public class MainActivity extends AppCompatActivity {
                 .getString("full_name", "");
 
         if (fullName != null && !fullName.trim().isEmpty()) {
-            tvWelcome.setText("Dobrodošli natrag, " + fullName + " 👋");
+            tvWelcome.setText("Welcome back, " + fullName + " 👋");
         } else {
-            tvWelcome.setText("Dobrodošli natrag 👋");
+            tvWelcome.setText("Welcome back 👋");
         }
     }
 
@@ -217,14 +217,14 @@ public class MainActivity extends AppCompatActivity {
                                     .apply();
 
                             if (tvWelcome != null) {
-                                tvWelcome.setText("Dobrodošli natrag, " + fullName + " 👋");
+                                tvWelcome.setText("Welcome back " + fullName + " 👋");
                             }
                         }
                     }
 
                     @Override
                     public void onFailure(Call<List<Profile>> call, Throwable t) {
-                        // ništa
+
                     }
                 });
     }
@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<MealPlanRow>> call, Response<List<MealPlanRow>> response) {
                 if (!response.isSuccessful() || response.body() == null) {
-                    if (tvTodayPlan != null) tvTodayPlan.setText("Danas nema spremljenog plana.");
+                    if (tvTodayPlan != null) tvTodayPlan.setText("There is no saved plan for today.");
                     return;
                 }
 
@@ -247,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (todayPlans.isEmpty()) {
-                    if (tvTodayPlan != null) tvTodayPlan.setText("Danas nema spremljenog plana.");
+                    if (tvTodayPlan != null) tvTodayPlan.setText("There is no saved plan for today.");
                     return;
                 }
 
@@ -256,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<MealPlanRow>> call, Throwable t) {
-                if (tvTodayPlan != null) tvTodayPlan.setText("Greška pri učitavanju plana.");
+                if (tvTodayPlan != null) tvTodayPlan.setText("Error loading the plan.");
             }
         });
     }
@@ -314,10 +314,10 @@ public class MainActivity extends AppCompatActivity {
     private String formatMealType(String mealType) {
         String mt = mealType.toLowerCase(Locale.ROOT);
 
-        if (mt.contains("breakfast") || mt.contains("doruc")) return " Doručak: ";
-        if (mt.contains("lunch") || mt.contains("ruc")) return " Ručak: ";
-        if (mt.contains("dinner") || mt.contains("vec")) return " Večera: ";
-        if (mt.contains("snack") || mt.contains("uz")) return " Užina: ";
+        if (mt.contains("breakfast") || mt.contains("doruc")) return " Breakfast: ";
+        if (mt.contains("lunch") || mt.contains("ruc")) return " Lunch: ";
+        if (mt.contains("dinner") || mt.contains("vec")) return " Dinner: ";
+        if (mt.contains("snack") || mt.contains("uz")) return " Snack: ";
 
         return "🍽️ " + mealType + ": ";
     }

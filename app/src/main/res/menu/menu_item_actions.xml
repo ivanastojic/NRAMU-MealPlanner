@@ -2,10 +2,10 @@
 
     <item
         android:id="@+id/action_edit"
-        android:title="Uredi" />
+        android:title="Edit" />
 
     <item
         android:id="@+id/action_delete"
-        android:title="Obriši" />
+        android:title="Delete" />
 
 </menu>

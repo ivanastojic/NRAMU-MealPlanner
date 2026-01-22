@@ -25,7 +25,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Brašno"
+                android:text="Flour"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:paddingEnd="8dp"/>
@@ -36,7 +36,7 @@
                 android:layout_height="40dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_more_vert"
-                android:contentDescription="Opcije"
+                android:contentDescription="Options"
                 android:padding="8dp"
                 app:tint="#555555"/>
         </LinearLayout>
@@ -45,7 +45,7 @@
             android:id="@+id/tvIngredientQty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="200 g • napomena"
+            android:text="200 g • note"
             android:alpha="0.8"
             android:paddingTop="4dp"/>
 

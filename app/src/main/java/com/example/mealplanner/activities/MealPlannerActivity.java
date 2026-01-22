@@ -105,7 +105,6 @@ public class MealPlannerActivity extends AppCompatActivity {
                 new ArrayList<>(),
                 recipeIdToTitle,
 
-
                 plan -> {
                     Intent i = new Intent(MealPlannerActivity.this, RecipeDetailsActivity.class);
                     i.putExtra("recipe_id", plan.recipe_id);
@@ -117,16 +116,20 @@ public class MealPlannerActivity extends AppCompatActivity {
                 new MealPlanAdapter.OnMealPlanMenuAction() {
                     @Override
                     public void onEdit(MealPlan plan) {
-                        Toast.makeText(MealPlannerActivity.this,
-                                "Uređivanje radi u Mojim planovima.",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(
+                                MealPlannerActivity.this,
+                                "Editing is available in My Plans.",
+                                Toast.LENGTH_SHORT
+                        ).show();
                     }
 
                     @Override
                     public void onDelete(MealPlan plan) {
-                        Toast.makeText(MealPlannerActivity.this,
-                                "Brisanje radi u Mojim planovima.",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(
+                                MealPlannerActivity.this,
+                                "Deleting is available in My Plans.",
+                                Toast.LENGTH_SHORT
+                        ).show();
                     }
                 }
         );
@@ -137,10 +140,10 @@ public class MealPlannerActivity extends AppCompatActivity {
 
     private void confirmDeletePlan(MealPlan plan) {
         new AlertDialog.Builder(this)
-                .setTitle("Obriši plan")
-                .setMessage("Obrisati plan obroka?")
-                .setPositiveButton("Obriši", (d, w) -> deletePlan(plan))
-                .setNegativeButton("Odustani", null)
+                .setTitle("Delete plan")
+                .setMessage("Delete this meal plan?")
+                .setPositiveButton("Delete", (d, w) -> deletePlan(plan))
+                .setNegativeButton("Cancel", null)
                 .show();
     }
 
@@ -152,7 +155,7 @@ public class MealPlannerActivity extends AppCompatActivity {
                     public void onSuccess(Void response) {
                         Toast.makeText(
                                 MealPlannerActivity.this,
-                                "Plan obrisan",
+                                "Plan deleted",
                                 Toast.LENGTH_SHORT
                         ).show();
                         loadPlansForDate();
@@ -193,30 +196,38 @@ public class MealPlannerActivity extends AppCompatActivity {
                     spRecipe.setAdapter(adapter);
 
                 } else {
-                    Toast.makeText(MealPlannerActivity.this, "Ne mogu učitati recepte", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(
+                            MealPlannerActivity.this,
+                            "Unable to load recipes",
+                            Toast.LENGTH_SHORT
+                    ).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Recipe>> call, Throwable t) {
-                Toast.makeText(MealPlannerActivity.this, "Greška mreže: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(
+                        MealPlannerActivity.this,
+                        "Network error: " + t.getMessage(),
+                        Toast.LENGTH_SHORT
+                ).show();
             }
         });
     }
 
     private void saveMealPlan() {
         if (selectedDateIso == null) {
-            Toast.makeText(this, "Odaberi datum", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Select a date", Toast.LENGTH_SHORT).show();
             return;
         }
         if (recipes == null || recipes.isEmpty()) {
-            Toast.makeText(this, "Nema recepata za odabir", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No recipes available", Toast.LENGTH_SHORT).show();
             return;
         }
 
         int pos = spRecipe.getSelectedItemPosition();
         if (pos < 0 || pos >= recipes.size()) {
-            Toast.makeText(this, "Odaberi recept", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Select a recipe", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -227,7 +238,7 @@ public class MealPlannerActivity extends AppCompatActivity {
             if (p.meal_type != null && p.meal_type.equalsIgnoreCase(mealType)) {
                 Toast.makeText(
                         this,
-                        "Za taj datum već postoji " + mealType + ". Uredi postojeći plan u Mojim planovima.",
+                        "A " + mealType + " already exists for this date. Edit it in My Plans.",
                         Toast.LENGTH_SHORT
                 ).show();
                 return;
@@ -246,18 +257,28 @@ public class MealPlannerActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<MealPlan>> call, Response<List<MealPlan>> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(MealPlannerActivity.this, "Plan spremljen", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(
+                            MealPlannerActivity.this,
+                            "Plan saved",
+                            Toast.LENGTH_SHORT
+                    ).show();
                     loadPlansForDate();
                 } else {
-                    Toast.makeText(MealPlannerActivity.this,
-                            "Greška pri spremanju: " + response.code(),
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(
+                            MealPlannerActivity.this,
+                            "Error while saving: " + response.code(),
+                            Toast.LENGTH_SHORT
+                    ).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<MealPlan>> call, Throwable t) {
-                Toast.makeText(MealPlannerActivity.this, "Greška mreže: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(
+                        MealPlannerActivity.this,
+                        "Network error: " + t.getMessage(),
+                        Toast.LENGTH_SHORT
+                ).show();
             }
         });
     }
@@ -291,13 +312,21 @@ public class MealPlannerActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    Toast.makeText(MealPlannerActivity.this, "Ne mogu učitati planove", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(
+                            MealPlannerActivity.this,
+                            "Unable to load plans",
+                            Toast.LENGTH_SHORT
+                    ).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<MealPlan>> call, Throwable t) {
-                Toast.makeText(MealPlannerActivity.this, "Greška mreže: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(
+                        MealPlannerActivity.this,
+                        "Network error: " + t.getMessage(),
+                        Toast.LENGTH_SHORT
+                ).show();
             }
         });
     }
@@ -318,7 +347,7 @@ public class MealPlannerActivity extends AppCompatActivity {
                             (m + 1),
                             d
                     );
-                    tvSelectedDate.setText("Datum: " + selectedDateIso);
+                    tvSelectedDate.setText("Date: " + selectedDateIso);
                     loadPlansForDate();
                 },
                 year, month, day
@@ -326,3 +355,4 @@ public class MealPlannerActivity extends AppCompatActivity {
         dialog.show();
     }
 }
+

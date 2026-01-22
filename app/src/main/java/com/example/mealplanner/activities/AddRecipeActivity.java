@@ -68,7 +68,7 @@ public class AddRecipeActivity extends AppCompatActivity {
 
     private void loadUnits() {
         String token = auth.getToken();
-        if (token == null) { toast("Nema tokena"); return; }
+        if (token == null) { toast("No token"); return; }
 
         RetrofitClient.getInstance().getApi()
                 .getUnits("Bearer " + token)
@@ -100,27 +100,27 @@ public class AddRecipeActivity extends AppCompatActivity {
         String qtyStr = etQty.getText().toString().trim();
         String note = etNote.getText().toString().trim();
 
-        if (name.isEmpty()) { toast("Upiši sastojak"); return; }
-        if (qtyStr.isEmpty()) { toast("Upiši količinu"); return; }
-        if (units.isEmpty()) { toast("Jedinice nisu učitane"); return; }
+        if (name.isEmpty()) { toast("Enter an ingredient"); return; }
+        if (qtyStr.isEmpty()) { toast("Enter a quantity"); return; }
+        if (units.isEmpty()) { toast("Units are not loaded"); return; }
 
         double qty;
         try {
             qty = Double.parseDouble(qtyStr);
         } catch (Exception e) {
-            toast("Količina nije broj");
+            toast("Quantity is not a number");
             return;
         }
 
         int pos = spUnit.getSelectedItemPosition();
-        if (pos < 0 || pos >= units.size()) { toast("Odaberi jedinicu"); return; }
+        if (pos < 0 || pos >= units.size()) { toast("Select a unit"); return; }
 
         Unit unit = units.get(pos);
 
         added.add(new AddedIngredient(name, qty, unit.getId(), note));
-        tvAddedCount.setText("Dodano: " + added.size() + " sastojaka");
+        tvAddedCount.setText("Added: " + added.size() + " ingredients");
 
-        toast("Dodano: " + name + " (" + qty + " " + unit.getName() + ")");
+        toast("Added: " + name + " (" + qty + " " + unit.getName() + ")");
 
         etIngName.setText("");
         etQty.setText("");
@@ -132,17 +132,17 @@ public class AddRecipeActivity extends AppCompatActivity {
         String userId = auth.getUserId();
 
         if (token == null || userId == null) {
-            toast("Nema session-a");
+            toast("No active session");
             return;
         }
 
         String title = etTitle.getText().toString().trim();
         if (title.isEmpty()) {
-            toast("Upiši naziv recepta");
+            toast("Enter a recipe name");
             return;
         }
         if (added.isEmpty()) {
-            toast("Dodaj barem 1 sastojak");
+            toast("Add at least 1 ingredient");
             return;
         }
 
@@ -166,7 +166,7 @@ public class AddRecipeActivity extends AppCompatActivity {
 
     private void insertNextIngredient(String token, String userId, String recipeId, int i) {
         if (i >= added.size()) {
-            toast("Recept spremljen!");
+            toast("Recipe saved!");
             finish();
             return;
         }

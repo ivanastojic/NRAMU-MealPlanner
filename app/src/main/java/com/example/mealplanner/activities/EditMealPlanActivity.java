@@ -61,7 +61,7 @@ public class EditMealPlanActivity extends AppCompatActivity {
 
         String token = authManager.getToken();
         if (token == null || token.trim().isEmpty()) {
-            Toast.makeText(this, "Nema tokena - prijavi se ponovo.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No token found – please log in again.", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -72,13 +72,13 @@ public class EditMealPlanActivity extends AppCompatActivity {
         oldRecipeId = getIntent().getStringExtra("recipe_id");
 
         if (planId == null || planId.trim().isEmpty()) {
-            Toast.makeText(this, "Nedostaje plan_id", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Missing plan_id", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
-        tvDate.setText("Datum: " + (planDate != null ? planDate : "-"));
-        tvMealTypeLabel.setText("Obrok:");
+        tvDate.setText("Date: " + (planDate != null ? planDate : "-"));
+        tvMealTypeLabel.setText("Meal:");
         tvMealType.setText(mealType != null ? mealType : "-");
 
         loadRecipes();
@@ -89,7 +89,7 @@ public class EditMealPlanActivity extends AppCompatActivity {
     private void loadRecipes() {
         String userId = authManager.getUserId();
         if (userId == null || userId.trim().isEmpty()) {
-            Toast.makeText(this, "Nema userId - prijavi se ponovo.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No userId – please log in again.", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -98,7 +98,7 @@ public class EditMealPlanActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
                 if (!response.isSuccessful() || response.body() == null) {
-                    Toast.makeText(EditMealPlanActivity.this, "Ne mogu učitati recepte", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditMealPlanActivity.this, "Unable to load recipes", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -130,7 +130,7 @@ public class EditMealPlanActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Recipe>> call, Throwable t) {
-                Toast.makeText(EditMealPlanActivity.this, "Greška mreže: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditMealPlanActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -138,14 +138,14 @@ public class EditMealPlanActivity extends AppCompatActivity {
     private void saveChanges() {
         int pos = spRecipe.getSelectedItemPosition();
         if (pos < 0 || pos >= recipes.size()) {
-            Toast.makeText(this, "Odaberi recept", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Select a recipe", Toast.LENGTH_SHORT).show();
             return;
         }
 
         String newRecipeId = recipes.get(pos).getId();
 
         if (oldRecipeId != null && oldRecipeId.equals(newRecipeId)) {
-            Toast.makeText(this, "Nema promjena.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No changes.", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -161,17 +161,17 @@ public class EditMealPlanActivity extends AppCompatActivity {
                 btnSaveChanges.setEnabled(true);
 
                 if (response.isSuccessful()) {
-                    Toast.makeText(EditMealPlanActivity.this, "Plan ažuriran", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditMealPlanActivity.this, "Plan updated", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
-                    Toast.makeText(EditMealPlanActivity.this, "Greška: " + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditMealPlanActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<MealPlan>> call, Throwable t) {
                 btnSaveChanges.setEnabled(true);
-                Toast.makeText(EditMealPlanActivity.this, "Mrežna greška: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditMealPlanActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -51,7 +51,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         canEditIngredients = getIntent().getBooleanExtra("can_edit_ingredients", false);
 
         TextView tvTitle = findViewById(R.id.tvRecipeTitle);
-        tvTitle.setText(title != null ? title : "Detalji recepta");
+        tvTitle.setText(title != null ? title : "Recipe details");
 
         RecyclerView rv = findViewById(R.id.rvIngredients);
         rv.setLayoutManager(new LinearLayoutManager(this));
@@ -77,13 +77,13 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
     private void loadAllForRecipe() {
         if (recipeId == null) {
-            toast("Nedostaje recipe_id");
+            toast("Missing recipe_id");
             return;
         }
 
         String token = auth.getToken();
         if (token == null) {
-            toast("Nema tokena");
+            toast("No token");
             return;
         }
 
@@ -94,7 +94,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<List<Ingredient>> call, Response<List<Ingredient>> ingRes) {
                         if (!ingRes.isSuccessful() || ingRes.body() == null) {
-                            toast("Ne mogu dohvatiti ingredients");
+                            toast("Cannot fetch ingredients");
                             return;
                         }
 
@@ -103,7 +103,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
                                     @Override
                                     public void onResponse(Call<List<Unit>> call, Response<List<Unit>> unitRes) {
                                         if (!unitRes.isSuccessful() || unitRes.body() == null) {
-                                            toast("Ne mogu dohvatiti units");
+                                            toast("Cannot fetch units");
                                             return;
                                         }
 
@@ -130,55 +130,53 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
                                                     @Override
                                                     public void onFailure(Call<List<RecipeIngredient>> call, Throwable t) {
-                                                        toast("Greška: " + t.getMessage());
+                                                        toast("Error: " + t.getMessage());
                                                     }
                                                 });
                                     }
 
                                     @Override
                                     public void onFailure(Call<List<Unit>> call, Throwable t) {
-                                        toast("Greška: " + t.getMessage());
+                                        toast("Error: " + t.getMessage());
                                     }
                                 });
                     }
 
                     @Override
                     public void onFailure(Call<List<Ingredient>> call, Throwable t) {
-                        toast("Greška: " + t.getMessage());
+                        toast("Error: " + t.getMessage());
                     }
                 });
     }
-
 
     private void showEditIngredientDialog(IngredientDisplay ingredient) {
         final EditText input = new EditText(this);
         input.setText(ingredient.line);
 
         new AlertDialog.Builder(this)
-                .setTitle("Uredi sastojak")
+                .setTitle("Edit ingredient")
                 .setMessage(ingredient.name)
                 .setView(input)
-                .setPositiveButton("Spremi", (d, w) -> {
+                .setPositiveButton("Save", (d, w) -> {
                     String newLine = input.getText().toString().trim();
                     if (newLine.isEmpty()) {
-                        toast("Ne može biti prazno");
+                        toast("Cannot be empty");
                         return;
                     }
 
-                    toast("Spremanje (TODO): " + newLine);
+                    toast("Saving (TODO): " + newLine);
 
                 })
-                .setNegativeButton("Odustani", null)
+                .setNegativeButton("Cancel", null)
                 .show();
     }
 
-
     private void confirmDeleteIngredient(IngredientDisplay ingredient) {
         new AlertDialog.Builder(this)
-                .setTitle("Obriši sastojak")
-                .setMessage("Obrisati \"" + ingredient.name + "\" iz recepta?")
-                .setPositiveButton("Obriši", (d, w) -> deleteIngredient(ingredient))
-                .setNegativeButton("Odustani", null)
+                .setTitle("Delete ingredient")
+                .setMessage("Delete \"" + ingredient.name + "\" from the recipe?")
+                .setPositiveButton("Delete", (d, w) -> deleteIngredient(ingredient))
+                .setNegativeButton("Cancel", null)
                 .show();
     }
 
@@ -192,7 +190,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
                 new ApiCallback<Void>() {
                     @Override
                     public void onSuccess(Void response) {
-                        toast("Sastojak obrisan");
+                        toast("Ingredient deleted");
                         adapter.setItems(null);
                         loadAllForRecipe();
                     }

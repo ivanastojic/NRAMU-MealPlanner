@@ -174,7 +174,9 @@ public class ProfileActivity extends AppCompatActivity {
 
                 getSharedPreferences("user_prefs", MODE_PRIVATE)
                         .edit()
-                        .clear()
+                        .remove("token")
+                        .remove("email")
+                        .remove("user_id")
                         .apply();
 
                 Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);

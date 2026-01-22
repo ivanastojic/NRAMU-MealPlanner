@@ -52,7 +52,6 @@ public class ShoppingItemsAdapter extends RecyclerView.Adapter<ShoppingItemsAdap
         return true;
     }
 
-
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -65,7 +64,7 @@ public class ShoppingItemsAdapter extends RecyclerView.Adapter<ShoppingItemsAdap
         ShoppingItem it = items.get(position);
 
         String ingName = (ingredientNameById != null) ? ingredientNameById.get(it.ingredient_id) : null;
-        if (ingName == null) ingName = "Sastojak";
+        if (ingName == null) ingName = "Ingredient";
 
         String unitName = (unitNameById != null) ? unitNameById.get(it.unit_id) : null;
         if (unitName == null) unitName = "";

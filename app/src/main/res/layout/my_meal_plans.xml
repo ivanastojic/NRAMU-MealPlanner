@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/tvTitle"
-        android:text="Moji planovi"
+        android:text="My plans”"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
 
     <TextView
         android:id="@+id/tvEmpty"
-        android:text="Nema planova."
+        android:text="No plans available."
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

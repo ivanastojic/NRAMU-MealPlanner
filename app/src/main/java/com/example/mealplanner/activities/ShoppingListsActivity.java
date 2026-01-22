@@ -54,7 +54,7 @@ public class ShoppingListsActivity extends AppCompatActivity {
         authManager = new AuthManager(this);
         String token = authManager.getToken();
         if (token == null || token.trim().isEmpty()) {
-            Toast.makeText(this, "Nema tokena - prijavi se ponovo.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No token found – please log in again.", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -77,7 +77,12 @@ public class ShoppingListsActivity extends AppCompatActivity {
 
             @Override
             public void onDelete(ShoppingList list) {
-                deleteList(list.id);
+                new androidx.appcompat.app.AlertDialog.Builder(ShoppingListsActivity.this)
+                        .setTitle("Delete list?")
+                        .setMessage("Are you sure you want to delete this shopping list? This action cannot be undone.")
+                        .setPositiveButton("Yes", (d, w) -> deleteList(list.id))
+                        .setNegativeButton("No", (d, w) -> d.dismiss())
+                        .show();
             }
         });
 
@@ -128,7 +133,9 @@ public class ShoppingListsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<ShoppingList>> call, Response<List<ShoppingList>> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(ShoppingListsActivity.this, "Greška: " + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShoppingListsActivity.this,
+                            "Error: " + response.code(),
+                            Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -142,7 +149,9 @@ public class ShoppingListsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<ShoppingList>> call, Throwable t) {
-                Toast.makeText(ShoppingListsActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ShoppingListsActivity.this,
+                        "Network error: " + t.getMessage(),
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -152,7 +161,9 @@ public class ShoppingListsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(ShoppingListsActivity.this, "Delete greška: " + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShoppingListsActivity.this,
+                            "Delete error: " + response.code(),
+                            Toast.LENGTH_SHORT).show();
                     return;
                 }
                 loadLists();
@@ -160,7 +171,9 @@ public class ShoppingListsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(ShoppingListsActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ShoppingListsActivity.this,
+                        "Network error: " + t.getMessage(),
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }

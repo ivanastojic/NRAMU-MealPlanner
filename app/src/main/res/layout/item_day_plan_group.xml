@@ -32,7 +32,7 @@
             android:id="@+id/tvBreakfast"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🍳 Doručak: -"
+            android:text="🍳 Breakfast: -"
             android:textColor="#6b5a20"
             android:layout_marginBottom="4dp"/>
 
@@ -40,7 +40,7 @@
             android:id="@+id/tvLunch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🍝 Ručak: -"
+            android:text="🍝 Lunch: -"
             android:textColor="#6b5a20"
             android:layout_marginBottom="4dp"/>
 
@@ -48,14 +48,14 @@
             android:id="@+id/tvDinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🥗 Večera: -"
+            android:text="🥗 Dinner: -"
             android:textColor="#6b5a20"/>
 
         <TextView
             android:id="@+id/tvHintDay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Klikni za detalje"
+            android:text="Tap to view details"
             android:textSize="12sp"
             android:textColor="#9e8b4d"
             android:layout_marginTop="10dp"

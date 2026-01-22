@@ -11,7 +11,7 @@
         android:id="@+id/tvWelcome"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Dobrodošli natrag 👋"
+        android:text="Welcome back 👋"
         android:textSize="26sp"
         android:textStyle="bold"
         android:textColor="#4f3f0b"
@@ -43,7 +43,6 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,24 +51,22 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="6dp"/>
 
-
             <TextView
                 android:id="@+id/tvTodayDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Danas, 20.01.2026"
+                android:text="Today, 20.01.2026"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:textColor="#5D4037"
                 android:layout_gravity="center"
                 android:layout_marginBottom="10dp"/>
 
-
             <TextView
                 android:id="@+id/tvTodayPlan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="🍽️ Ručak: Piletina s rižom\n🌙 Večera: Juha"
+                android:text="🍽️ Lunch: Chicken with rice\n🌙 Dinner: Soup"
                 android:textSize="14sp"
                 android:textColor="#4E342E"
                 android:lineSpacingExtra="4dp"
@@ -78,7 +75,6 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"

@@ -43,7 +43,6 @@ public class RecipesListActivity extends AppCompatActivity {
             overridePendingTransition(0, 0);
         });
 
-
         setupBottomNav();
 
         RecyclerView rv = findViewById(R.id.rvRecipes);
@@ -119,7 +118,7 @@ public class RecipesListActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // edit već refresh-a ovdje, ali onResume ionako refresh-a uvijek
+        // edit already refreshes here, but onResume refreshes anyway
         if (requestCode == REQ_EDIT_RECIPE && resultCode == RESULT_OK) {
             loadRecipes();
         }
@@ -130,7 +129,7 @@ public class RecipesListActivity extends AppCompatActivity {
         String token = auth.getToken();
 
         if (userId == null || token == null) {
-            Toast.makeText(this, "Nema user/token (login?)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Missing user/token (login?)", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -144,17 +143,17 @@ public class RecipesListActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(String errorMessage) {
-                        Toast.makeText(RecipesListActivity.this, "Greška: " + errorMessage, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RecipesListActivity.this, "Error: " + errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     private void showDeleteConfirmDialog(Recipe recipe) {
         new AlertDialog.Builder(this)
-                .setTitle("Obrisati recept?")
-                .setMessage("Ova radnja se ne može vratiti.")
-                .setPositiveButton("Obriši", (d, w) -> deleteRecipe(recipe.getId()))
-                .setNegativeButton("Odustani", null)
+                .setTitle("Delete recipe?")
+                .setMessage("This action cannot be undone.")
+                .setPositiveButton("Delete", (d, w) -> deleteRecipe(recipe.getId()))
+                .setNegativeButton("Cancel", null)
                 .show();
     }
 
@@ -165,13 +164,13 @@ public class RecipesListActivity extends AppCompatActivity {
         recipeRepo.deleteRecipe(token, recipeId, new ApiCallback<Void>() {
             @Override
             public void onSuccess(Void response) {
-                Toast.makeText(RecipesListActivity.this, "Recept obrisan", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecipesListActivity.this, "Recipe deleted", Toast.LENGTH_SHORT).show();
                 loadRecipes();
             }
 
             @Override
             public void onError(String errorMessage) {
-                Toast.makeText(RecipesListActivity.this, "Greška: " + errorMessage, Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecipesListActivity.this, "Error: " + errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }

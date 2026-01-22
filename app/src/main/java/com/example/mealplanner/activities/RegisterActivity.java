@@ -76,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if (response == null) {
                             Toast.makeText(
                                     RegisterActivity.this,
-                                    "Registracija nije uspjela",
+                                    "Registration failed",
                                     Toast.LENGTH_SHORT
                             ).show();
                             return;
@@ -85,7 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if (response.getAccessToken() == null) {
                             Toast.makeText(
                                     RegisterActivity.this,
-                                    "Registracija uspješna, provjerite email da aktivirate račun",
+                                    "Registration successful. Check your email to activate your account.",
                                     Toast.LENGTH_LONG
                             ).show();
                             startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
@@ -97,10 +97,9 @@ public class RegisterActivity extends AppCompatActivity {
                         authManager.saveEmail(response.getUser().getEmail());
                         authManager.saveUserId(response.getUser().getId());
 
-
                         Toast.makeText(
                                 RegisterActivity.this,
-                                "Registracija uspješna",
+                                "Registration successful",
                                 Toast.LENGTH_SHORT
                         ).show();
 
@@ -108,13 +107,12 @@ public class RegisterActivity extends AppCompatActivity {
                         finish();
                     }
 
-
                     @Override
                     public void onError(String errorMessage) {
                         setLoading(false);
                         Toast.makeText(
                                 RegisterActivity.this,
-                                errorMessage != null ? errorMessage : "Greška pri registraciji",
+                                errorMessage != null ? errorMessage : "Registration error",
                                 Toast.LENGTH_SHORT
                         ).show();
                     }
@@ -124,32 +122,32 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean validateInput(String fullName, String email, String password, String confirmPassword) {
 
         if (fullName.isEmpty()) {
-            fullNameInput.setError("Unesite ime i prezime");
+            fullNameInput.setError("Enter your full name");
             return false;
         }
 
         if (email.isEmpty()) {
-            emailInput.setError("Unesite email");
+            emailInput.setError("Enter your email");
             return false;
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailInput.setError("Neispravan email");
+            emailInput.setError("Invalid email");
             return false;
         }
 
         if (password.isEmpty()) {
-            passwordInput.setError("Unesite lozinku");
+            passwordInput.setError("Enter your password");
             return false;
         }
 
         if (password.length() < 6) {
-            passwordInput.setError("Lozinka mora imati najmanje 6 znakova");
+            passwordInput.setError("Password must be at least 6 characters");
             return false;
         }
 
         if (!password.equals(confirmPassword)) {
-            confirmPasswordInput.setError("Lozinke se ne podudaraju");
+            confirmPasswordInput.setError("Passwords do not match");
             return false;
         }
 

@@ -78,7 +78,7 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
         userId = authManager.getUserId();
 
         if (token == null || token.trim().isEmpty()) {
-            Toast.makeText(this, "Nema tokena - prijavi se ponovo.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No token found – please log in again.", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -90,12 +90,12 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
         dateTo = getIntent().getStringExtra("date_to");
 
         if (listId == null || listId.trim().isEmpty()) {
-            Toast.makeText(this, "LIST ID JE NULL", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "LIST ID IS NULL", Toast.LENGTH_LONG).show();
             finish();
             return;
         }
 
-        tvListTitle.setText("Shopping lista");
+        tvListTitle.setText("Shopping List");
         tvListPeriod.setText(dateFrom + " → " + dateTo);
 
         adapter.setListener((item, checked) -> toggleItem(item.id, checked));
@@ -171,7 +171,7 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
                             String err = "";
                             try { err = response.errorBody() != null ? response.errorBody().string() : ""; } catch (Exception ignored) {}
                             Toast.makeText(ShoppingListDetailsActivity.this,
-                                    "Ne mogu otvoriti stavke: " + response.code() + "\n" + err,
+                                    "Unable to load items: " + response.code() + "\n" + err,
                                     Toast.LENGTH_LONG).show();
                             return;
                         }
@@ -217,7 +217,7 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
                     String err = "";
                     try { err = response.errorBody() != null ? response.errorBody().string() : ""; } catch (Exception ignored) {}
                     Toast.makeText(ShoppingListDetailsActivity.this,
-                            "Ne mogu obrisati stare stavke: " + response.code() + "\n" + err,
+                            "Unable to delete old items: " + response.code() + "\n" + err,
                             Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -248,7 +248,7 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
                             String err = "";
                             try { err = response.errorBody() != null ? response.errorBody().string() : ""; } catch (Exception ignored) {}
                             Toast.makeText(ShoppingListDetailsActivity.this,
-                                    "Greška plans: " + response.code() + "\n" + err,
+                                    "Meal plans error: " + response.code() + "\n" + err,
                                     Toast.LENGTH_LONG).show();
                             return;
                         }
@@ -261,7 +261,7 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
                             setListCompleted(false);
                             btnMarkAllBought.setVisibility(View.GONE);
                             Toast.makeText(ShoppingListDetailsActivity.this,
-                                    "Nema planova u ovom tjednu.",
+                                    "No meal plans for this week.",
                                     Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -279,7 +279,7 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
                             setListCompleted(false);
                             btnMarkAllBought.setVisibility(View.GONE);
                             Toast.makeText(ShoppingListDetailsActivity.this,
-                                    "Nema recepata u planu.",
+                                    "No recipes in the plan.",
                                     Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -308,7 +308,7 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
                             String err = "";
                             try { err = response.errorBody() != null ? response.errorBody().string() : ""; } catch (Exception ignored) {}
                             Toast.makeText(ShoppingListDetailsActivity.this,
-                                    "Greška ingredients: " + response.code() + "\n" + err,
+                                    "Ingredients error: " + response.code() + "\n" + err,
                                     Toast.LENGTH_LONG).show();
                             return;
                         }
@@ -354,13 +354,13 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
                                     String err = "";
                                     try { err = resp.errorBody() != null ? resp.errorBody().string() : ""; } catch (Exception ignored) {}
                                     Toast.makeText(ShoppingListDetailsActivity.this,
-                                            "Ne mogu spremiti stavke: " + resp.code() + "\n" + err,
+                                            "Unable to save items: " + resp.code() + "\n" + err,
                                             Toast.LENGTH_LONG).show();
                                     return;
                                 }
 
                                 Toast.makeText(ShoppingListDetailsActivity.this,
-                                        "Lista regenerirana",
+                                        "Shopping list regenerated",
                                         Toast.LENGTH_SHORT).show();
 
                                 setListCompleted(false);
@@ -402,7 +402,7 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
                     String err = "";
                     try { err = response.errorBody() != null ? response.errorBody().string() : ""; } catch (Exception ignored) {}
                     Toast.makeText(ShoppingListDetailsActivity.this,
-                            "Greška update: " + response.code() + "\n" + err,
+                            "Update error: " + response.code() + "\n" + err,
                             Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -433,14 +433,14 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
                     String err = "";
                     try { err = response.errorBody() != null ? response.errorBody().string() : ""; } catch (Exception ignored) {}
                     Toast.makeText(ShoppingListDetailsActivity.this,
-                            "Ne mogu označiti sve: " + response.code() + "\n" + err,
+                            "Unable to mark all items: " + response.code() + "\n" + err,
                             Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 setListCompleted(true);
                 Toast.makeText(ShoppingListDetailsActivity.this,
-                        "Sve označeno kao kupljeno",
+                        "All items marked as bought",
                         Toast.LENGTH_SHORT).show();
                 loadItems();
             }
@@ -479,7 +479,7 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
                     String err = "";
                     try { err = response.errorBody() != null ? response.errorBody().string() : ""; } catch (Exception ignored) {}
                     Toast.makeText(ShoppingListDetailsActivity.this,
-                            "Greška delete: " + response.code() + "\n" + err,
+                            "Delete error: " + response.code() + "\n" + err,
                             Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -497,10 +497,10 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
 
     private void showDeleteConfirmDialog() {
         new AlertDialog.Builder(this)
-                .setTitle("Obrisati listu?")
-                .setMessage("Jesi li sigurna da želiš obrisati ovu shopping listu? Ova radnja se ne može poništiti.")
-                .setPositiveButton("Da", (dialog, which) -> deleteList())
-                .setNegativeButton("Ne", (dialog, which) -> dialog.dismiss())
+                .setTitle("Delete list?")
+                .setMessage("Are you sure you want to delete this shopping list? This action cannot be undone.")
+                .setPositiveButton("Yes", (dialog, which) -> deleteList())
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
                 .show();
     }
 }

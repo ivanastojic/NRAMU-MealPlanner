@@ -20,7 +20,7 @@ import com.example.mealplanner.activities.MyMealPlansActivity;
 public class NotificationHelper {
 
     public static final String CHANNEL_ID = "mealplanner_channel";
-    public static final String CHANNEL_NAME = "MealPlanner Notifikacije";
+    public static final String CHANNEL_NAME = "MealPlanner Notifications";
 
     public static final int NOTIF_DAILY_BASE = 1000;
     public static final int NOTIF_SHOPPING_READY = 2000;
@@ -32,7 +32,7 @@ public class NotificationHelper {
                     CHANNEL_NAME,
                     NotificationManager.IMPORTANCE_HIGH
             );
-            channel.setDescription("Podsjetnici i obavijesti za MealPlanner");
+            channel.setDescription("Reminders and notifications for MealPlanner");
 
             NotificationManager nm = ctx.getSystemService(NotificationManager.class);
             if (nm != null) nm.createNotificationChannel(channel);
@@ -89,8 +89,8 @@ public class NotificationHelper {
 
         NotificationCompat.Builder b = new NotificationCompat.Builder(ctx, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_more_vert)
-                .setContentTitle("Shopping lista je spremna")
-                .setContentText("Otvori svoju shopping listu.")
+                .setContentTitle("Shopping list is ready")
+                .setContentText("Open your shopping list.")
                 .setAutoCancel(true)
                 .setContentIntent(pi)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)

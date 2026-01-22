@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.mealplanner.R;
 import com.example.mealplanner.api.ApiCallback;
 import com.example.mealplanner.api.RetrofitClient;
+import com.example.mealplanner.api.SupabaseAPI;
 import com.example.mealplanner.models.Profile;
 import com.example.mealplanner.utils.AuthManager;
 import com.example.mealplanner.utils.Constants;
@@ -39,7 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private ShapeableImageView imgAvatar;
 
-    private MaterialButton btnEdit, btnSave, btnCancel, btnChangePhoto;
+    private MaterialButton btnEdit, btnSave, btnCancel, btnChangePhoto, btnDeleteAccount;
     private MaterialButton btnLogout;
 
     private TextInputEditText etFullName, etEmail;
@@ -93,6 +94,8 @@ public class ProfileActivity extends AppCompatActivity {
         btnChangePhoto = findViewById(R.id.btnChangePhoto);
 
         btnLogout = findViewById(R.id.btnLogout);
+        btnDeleteAccount = findViewById(R.id.btnDeleteAccount);
+
 
         etFullName = findViewById(R.id.etFullName);
         etEmail = findViewById(R.id.etEmail);
@@ -146,7 +149,21 @@ public class ProfileActivity extends AppCompatActivity {
             setEditing(false);
         });
 
-        btnChangePhoto.setOnClickListener(v -> pickImage.launch("image/*"));
+        btnChangePhoto.setOnClickListener(v -> {
+            String[] options = {"Choose from gallery", "Choose avatar"};
+
+            new androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setTitle("Change photo")
+                    .setItems(options, (dialog, which) -> {
+                        if (which == 0) {
+                            pickImage.launch("image/*");
+                        } else {
+                            showAvatarPicker();
+                        }
+                    })
+                    .show();
+        });
+
         btnSave.setOnClickListener(v -> saveProfile());
 
         if (btnLogout != null) {
@@ -166,6 +183,15 @@ public class ProfileActivity extends AppCompatActivity {
                 finish();
             });
         }
+
+        btnDeleteAccount.setOnClickListener(v -> {
+            new androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setTitle("Delete account")
+                    .setMessage("This will permanently delete your account and all data. Continue?")
+                    .setPositiveButton("Delete", (d, w) -> deleteAccount())
+                    .setNegativeButton("Cancel", null)
+                    .show();
+        });
     }
 
     private void setEditing(boolean editing) {
@@ -181,6 +207,7 @@ public class ProfileActivity extends AppCompatActivity {
         btnSave.setVisibility(editing ? View.VISIBLE : View.GONE);
         btnCancel.setVisibility(editing ? View.VISIBLE : View.GONE);
         btnChangePhoto.setVisibility(editing ? View.VISIBLE : View.GONE);
+        btnDeleteAccount.setVisibility(editing ? View.VISIBLE : View.GONE);
 
         if (btnLogout != null) btnLogout.setVisibility(editing ? View.GONE : View.VISIBLE);
     }
@@ -239,13 +266,18 @@ public class ProfileActivity extends AppCompatActivity {
         etEmail.setText(email);
 
         String avatarUrl = profile.getAvatarUrl();
-        if (avatarUrl != null && !avatarUrl.trim().isEmpty()) {
+        if (avatarUrl != null && avatarUrl.startsWith("http")) {
             Glide.with(this)
                     .load(avatarUrl)
                     .placeholder(android.R.drawable.ic_menu_myplaces)
                     .into(imgAvatar);
         } else {
-            imgAvatar.setImageResource(android.R.drawable.ic_menu_myplaces);
+            Integer resId = getAvatarResId(avatarUrl);
+            if (resId != null) {
+                imgAvatar.setImageResource(resId);
+            } else {
+                imgAvatar.setImageResource(android.R.drawable.ic_menu_myplaces);
+            }
         }
 
         getSharedPreferences("user_prefs", MODE_PRIVATE)
@@ -397,4 +429,131 @@ public class ProfileActivity extends AppCompatActivity {
         if (type == null) return null;
         return MimeTypeMap.getSingleton().getExtensionFromMimeType(type);
     }
+
+    private Integer getAvatarResId(String avatarKey) {
+        if (avatarKey == null) return null;
+
+        switch (avatarKey) {
+            case "avatar_female1": return R.drawable.avatar_female1;
+            case "avatar_female2": return R.drawable.avatar_female2;
+            case "avatar_male1": return R.drawable.avatar_male1;
+            case "avatar_male2": return R.drawable.avatar_male2;
+            default: return null;
+        }
+    }
+
+    private void showAvatarPicker() {
+
+        View view = getLayoutInflater().inflate(R.layout.dialog_avatar_picker, null);
+
+        androidx.appcompat.app.AlertDialog dialog =
+                new androidx.appcompat.app.AlertDialog.Builder(this)
+                        .setTitle("Choose avatar")
+                        .setView(view)
+                        .create();
+
+        view.findViewById(R.id.avatarFemale1).setOnClickListener(v -> selectAvatar("avatar_female1", dialog));
+        view.findViewById(R.id.avatarFemale2).setOnClickListener(v -> selectAvatar("avatar_female2", dialog));
+        view.findViewById(R.id.avatarMale1).setOnClickListener(v -> selectAvatar("avatar_male1", dialog));
+        view.findViewById(R.id.avatarMale2).setOnClickListener(v -> selectAvatar("avatar_male2", dialog));
+
+        dialog.show();
+    }
+
+    private void selectAvatar(String avatarKey, androidx.appcompat.app.AlertDialog dialog) {
+        selectedAvatarUri = null;
+        imgAvatar.setImageResource(getAvatarResId(avatarKey));
+
+        if (loadedProfile != null) {
+            loadedProfile.setAvatarUrl(avatarKey);
+        }
+
+        dialog.dismiss();
+    }
+
+    private void deleteAccount() {
+
+        String token = authManager.getToken();
+        String userId = authManager.getUserId();
+
+        if (token == null || userId == null) return;
+
+        SupabaseAPI api = RetrofitClient.getInstance().getApi();
+
+        Map<String, String> body = new HashMap<>();
+        body.put("user_id", userId);
+
+        api.deleteAuthUser("Bearer " + token, body).enqueue(new ApiCallback<ResponseBody>() {
+            @Override
+            public void onSuccess(ResponseBody r) {
+
+                String auth = "Bearer " + token;
+                String eq = "eq." + userId;
+
+                api.deleteShoppingItemsByUser(auth, eq).enqueue(new ApiCallback<Void>() {
+                    @Override public void onSuccess(Void r) {
+
+                        api.deleteShoppingListsByUser(auth, eq).enqueue(new ApiCallback<Void>() {
+                            @Override public void onSuccess(Void r) {
+
+                                api.deleteMealPlansByUser(auth, eq).enqueue(new ApiCallback<Void>() {
+                                    @Override public void onSuccess(Void r) {
+
+                                        api.deleteRecipesByUser(auth, eq).enqueue(new ApiCallback<Void>() {
+                                            @Override public void onSuccess(Void r) {
+
+                                                api.deleteIngredientsByUser(auth, eq).enqueue(new ApiCallback<Void>() {
+                                                    @Override public void onSuccess(Void r) {
+
+                                                        api.deleteProfile(auth, eq).enqueue(new ApiCallback<Void>() {
+                                                            @Override public void onSuccess(Void r) {
+                                                                logoutAndExit();
+                                                            }
+
+                                                            @Override public void onError(String e) {
+                                                                logoutAndExit();
+                                                            }
+                                                        });
+
+                                                    }
+                                                    @Override public void onError(String e) {}
+                                                });
+
+                                            }
+                                            @Override public void onError(String e) {}
+                                        });
+
+                                    }
+                                    @Override public void onError(String e) {}
+                                });
+
+                            }
+                            @Override public void onError(String e) {}
+                        });
+
+                    }
+                    @Override public void onError(String e) {}
+                });
+
+            }
+
+            @Override
+            public void onError(String e) {
+                Toast.makeText(ProfileActivity.this,
+                        "Auth delete failed: " + e,
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+
+    private void logoutAndExit() {
+        authManager.logout();
+
+        Intent i = new Intent(this, LoginActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+        finish();
+    }
+
 }

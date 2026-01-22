@@ -229,6 +229,16 @@
                                 android:layout_marginStart="10dp"/>
                         </LinearLayout>
 
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnDeleteAccount"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:text="Delete account"
+                            android:textColor="@android:color/white"
+                            app:backgroundTint="#8D6E63"
+                            app:cornerRadius="20dp"
+                            android:layout_marginTop="14dp"/>
+
                     </LinearLayout>
 
                     <ProgressBar

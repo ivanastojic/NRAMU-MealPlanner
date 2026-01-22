@@ -3,17 +3,17 @@
     <item
         android:id="@+id/nav_recipes"
         android:icon="@drawable/ic_nav_recipes"
-        android:title="Recepti" />
+        android:title="Recipes" />
 
     <item
         android:id="@+id/nav_planner"
         android:icon="@drawable/ic_nav_planner"
-        android:title="Planovi" />
+        android:title="Planner" />
 
     <item
         android:id="@+id/nav_home"
         android:icon="@drawable/ic_nav_home"
-        android:title="Početna" />
+        android:title="Home" />
 
     <item
         android:id="@+id/nav_shopping"
@@ -23,6 +23,6 @@
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/ic_nav_profile"
-        android:title="Profil" />
+        android:title="Profile" />
 
 </menu>

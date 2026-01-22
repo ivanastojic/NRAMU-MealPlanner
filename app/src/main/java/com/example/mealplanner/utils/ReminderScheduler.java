@@ -17,6 +17,8 @@ public class ReminderScheduler {
         scheduleDaily(ctx, 9, 0, REQ_BREAKFAST, "Breakfast");
         scheduleDaily(ctx, 13, 0, REQ_LUNCH, "Lunch");
         scheduleDaily(ctx, 18, 0, REQ_DINNER, "Dinner");
+        scheduleDaily(ctx, 16, 43, REQ_DINNER, "Dinner");
+
     }
 
     public static void scheduleDaily(Context ctx, int hour, int minute, int requestCode, String mealType) {

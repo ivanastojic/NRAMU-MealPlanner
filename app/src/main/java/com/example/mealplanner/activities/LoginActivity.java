@@ -30,6 +30,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         authManager = new AuthManager(this);
+        if (!hasUserConsent()) {
+            showConsentDialog();
+        }
 
         if (authManager.isLoggedIn()) {
             startActivity(new Intent(this, MainActivity.class));
@@ -151,4 +154,37 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
+
+    private boolean hasUserConsent() {
+        return getSharedPreferences("user_prefs", MODE_PRIVATE)
+                .getBoolean("user_consent", false);
+    }
+
+    private void saveUserConsent(boolean accepted) {
+        getSharedPreferences("user_prefs", MODE_PRIVATE)
+                .edit()
+                .putBoolean("user_consent", accepted)
+                .apply();
+    }
+
+    private void showConsentDialog() {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("User Consent")
+                .setMessage(
+                        "By using this application, you agree that:\n\n" +
+                                "• Your basic profile data (name, email, avatar) is stored\n" +
+                                "• Recipes, meal plans and shopping lists are stored\n" +
+                                "• Data is used for app functionality and anonymously for project research purposes\n\n" +
+                                "Do you accept these terms?"
+                )
+                .setCancelable(false)
+                .setPositiveButton("I Accept", (d, w) -> {
+                    saveUserConsent(true);
+                })
+                .setNegativeButton("I Do Not Accept", (d, w) -> {
+                    finish();
+                })
+                .show();
+    }
+
 }

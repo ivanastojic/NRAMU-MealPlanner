@@ -410,9 +410,73 @@ public interface SupabaseAPI {
             @Body RequestBody body
     );
 
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Accept: application/json"
+    })
+    @DELETE("rest/v1/shopping_items")
+    Call<Void> deleteShoppingItemsByUser(
+            @Header("Authorization") String token,
+            @Query("user_id") String userId
+    );
 
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Accept: application/json"
+    })
+    @DELETE("rest/v1/shopping_lists")
+    Call<Void> deleteShoppingListsByUser(
+            @Header("Authorization") String token,
+            @Query("user_id") String userId
+    );
 
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Accept: application/json"
+    })
+    @DELETE("rest/v1/meal_plans")
+    Call<Void> deleteMealPlansByUser(
+            @Header("Authorization") String token,
+            @Query("user_id") String userId
+    );
 
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Accept: application/json"
+    })
+    @DELETE("rest/v1/recipes")
+    Call<Void> deleteRecipesByUser(
+            @Header("Authorization") String token,
+            @Query("user_id") String userId
+    );
 
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Accept: application/json"
+    })
+    @DELETE("rest/v1/ingredients")
+    Call<Void> deleteIngredientsByUser(
+            @Header("Authorization") String token,
+            @Query("user_id") String userId
+    );
 
+    @Headers({
+            "apikey: " + Constants.ANON_KEY,
+            "Accept: application/json"
+    })
+    @DELETE("rest/v1/profiles")
+    Call<Void> deleteProfile(
+            @Header("Authorization") String token,
+            @Query("id") String userId
+    );
+
+    @Headers({
+            "Content-Type: application/json",
+            "apikey: " + Constants.ANON_KEY
+    })
+    @POST("functions/v1/swift-responder")
+    Call<ResponseBody> deleteAuthUser(
+            @Header("Authorization") String token,
+            @Body Map<String, String> body
+    );
 }

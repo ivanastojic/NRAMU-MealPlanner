@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.mealplanner.R;
 import com.example.mealplanner.api.ApiCallback;
 import com.example.mealplanner.api.RetrofitClient;
+import com.example.mealplanner.api.SupabaseAPI;
 import com.example.mealplanner.models.Profile;
 import com.example.mealplanner.utils.AuthManager;
 import com.example.mealplanner.utils.Constants;
@@ -39,7 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private ShapeableImageView imgAvatar;
 
-    private MaterialButton btnEdit, btnSave, btnCancel, btnChangePhoto;
+    private MaterialButton btnEdit, btnSave, btnCancel, btnChangePhoto, btnDeleteAccount;
     private MaterialButton btnLogout;
 
     private TextInputEditText etFullName, etEmail;
@@ -93,6 +94,8 @@ public class ProfileActivity extends AppCompatActivity {
         btnChangePhoto = findViewById(R.id.btnChangePhoto);
 
         btnLogout = findViewById(R.id.btnLogout);
+        btnDeleteAccount = findViewById(R.id.btnDeleteAccount);
+
 
         etFullName = findViewById(R.id.etFullName);
         etEmail = findViewById(R.id.etEmail);
@@ -180,6 +183,15 @@ public class ProfileActivity extends AppCompatActivity {
                 finish();
             });
         }
+
+        btnDeleteAccount.setOnClickListener(v -> {
+            new androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setTitle("Delete account")
+                    .setMessage("This will permanently delete your account and all data. Continue?")
+                    .setPositiveButton("Delete", (d, w) -> deleteAccount())
+                    .setNegativeButton("Cancel", null)
+                    .show();
+        });
     }
 
     private void setEditing(boolean editing) {
@@ -195,6 +207,7 @@ public class ProfileActivity extends AppCompatActivity {
         btnSave.setVisibility(editing ? View.VISIBLE : View.GONE);
         btnCancel.setVisibility(editing ? View.VISIBLE : View.GONE);
         btnChangePhoto.setVisibility(editing ? View.VISIBLE : View.GONE);
+        btnDeleteAccount.setVisibility(editing ? View.VISIBLE : View.GONE);
 
         if (btnLogout != null) btnLogout.setVisibility(editing ? View.GONE : View.VISIBLE);
     }
@@ -456,6 +469,91 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
         dialog.dismiss();
+    }
+
+    private void deleteAccount() {
+
+        String token = authManager.getToken();
+        String userId = authManager.getUserId();
+
+        if (token == null || userId == null) return;
+
+        SupabaseAPI api = RetrofitClient.getInstance().getApi();
+
+        Map<String, String> body = new HashMap<>();
+        body.put("user_id", userId);
+
+        api.deleteAuthUser("Bearer " + token, body).enqueue(new ApiCallback<ResponseBody>() {
+            @Override
+            public void onSuccess(ResponseBody r) {
+
+                String auth = "Bearer " + token;
+                String eq = "eq." + userId;
+
+                api.deleteShoppingItemsByUser(auth, eq).enqueue(new ApiCallback<Void>() {
+                    @Override public void onSuccess(Void r) {
+
+                        api.deleteShoppingListsByUser(auth, eq).enqueue(new ApiCallback<Void>() {
+                            @Override public void onSuccess(Void r) {
+
+                                api.deleteMealPlansByUser(auth, eq).enqueue(new ApiCallback<Void>() {
+                                    @Override public void onSuccess(Void r) {
+
+                                        api.deleteRecipesByUser(auth, eq).enqueue(new ApiCallback<Void>() {
+                                            @Override public void onSuccess(Void r) {
+
+                                                api.deleteIngredientsByUser(auth, eq).enqueue(new ApiCallback<Void>() {
+                                                    @Override public void onSuccess(Void r) {
+
+                                                        api.deleteProfile(auth, eq).enqueue(new ApiCallback<Void>() {
+                                                            @Override public void onSuccess(Void r) {
+                                                                logoutAndExit();
+                                                            }
+
+                                                            @Override public void onError(String e) {
+                                                                logoutAndExit();
+                                                            }
+                                                        });
+
+                                                    }
+                                                    @Override public void onError(String e) {}
+                                                });
+
+                                            }
+                                            @Override public void onError(String e) {}
+                                        });
+
+                                    }
+                                    @Override public void onError(String e) {}
+                                });
+
+                            }
+                            @Override public void onError(String e) {}
+                        });
+
+                    }
+                    @Override public void onError(String e) {}
+                });
+
+            }
+
+            @Override
+            public void onError(String e) {
+                Toast.makeText(ProfileActivity.this,
+                        "Auth delete failed: " + e,
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+
+    private void logoutAndExit() {
+        authManager.logout();
+
+        Intent i = new Intent(this, LoginActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+        finish();
     }
 
 }

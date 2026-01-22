@@ -58,7 +58,7 @@ public class GenerateShoppingListActivity extends AppCompatActivity {
         userId = authManager.getUserId();
 
         if (token == null || token.trim().isEmpty() || userId == null || userId.trim().isEmpty()) {
-            Toast.makeText(this, "Nema tokena/userId - prijavi se ponovo.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Session expired. Please log in again.", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -112,7 +112,7 @@ public class GenerateShoppingListActivity extends AppCompatActivity {
 
     private void generateForSelectedWeek() {
         if (selectedMonday == null || selectedSunday == null) {
-            Toast.makeText(this, "Odaberi datum.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please select a date.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -131,7 +131,7 @@ public class GenerateShoppingListActivity extends AppCompatActivity {
                     String err = "";
                     try { err = response.errorBody() != null ? response.errorBody().string() : ""; } catch (Exception ignored) {}
                     Toast.makeText(GenerateShoppingListActivity.this,
-                            "Greška provjere liste: " + response.code() + "\n" + err,
+                            "Error checking list: " + response.code() + "\n" + err,
                             Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -140,7 +140,7 @@ public class GenerateShoppingListActivity extends AppCompatActivity {
                 if (found != null && !found.isEmpty()) {
                     ShoppingList existing = found.get(0);
                     Toast.makeText(GenerateShoppingListActivity.this,
-                            "Lista za ovaj tjedan je već generirana",
+                            "Shopping list for this week already exists.",
                             Toast.LENGTH_SHORT).show();
                     setLoading(false);
                     openDetails(existing.id, existing.date_from, existing.date_to);
@@ -175,13 +175,13 @@ public class GenerateShoppingListActivity extends AppCompatActivity {
                     String err = "";
                     try { err = response.errorBody() != null ? response.errorBody().string() : ""; } catch (Exception ignored) {}
                     Toast.makeText(GenerateShoppingListActivity.this,
-                            "Ne mogu kreirati listu: " + response.code() + "\n" + err,
+                            "Unable to create shopping list: " + response.code() + "\n" + err,
                             Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 ShoppingList created = response.body().get(0);
-                Toast.makeText(GenerateShoppingListActivity.this, "Lista kreirana", Toast.LENGTH_SHORT).show();
+                Toast.makeText(GenerateShoppingListActivity.this, "Shopping list created.", Toast.LENGTH_SHORT).show();
                 NotificationHelper.showShoppingReady(GenerateShoppingListActivity.this);
                 openDetails(created.id, created.date_from, created.date_to);
                 finish();

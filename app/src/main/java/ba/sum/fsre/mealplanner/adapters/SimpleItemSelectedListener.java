@@ -1,4 +1,4 @@
-package com.example.mealplanner.adapters;
+package ba.sum.fsre.mealplanner.adapters;
 
 import android.view.View;
 import android.widget.AdapterView;

@@ -1,4 +1,4 @@
-package com.example.mealplanner.activities;
+package ba.sum.fsre.mealplanner.activities;
 
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -14,13 +14,13 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.example.mealplanner.R;
-import com.example.mealplanner.api.ApiCallback;
-import com.example.mealplanner.api.RetrofitClient;
-import com.example.mealplanner.api.SupabaseAPI;
-import com.example.mealplanner.models.Profile;
-import com.example.mealplanner.utils.AuthManager;
-import com.example.mealplanner.utils.Constants;
+import ba.sum.fsre.mealplanner.R;
+import ba.sum.fsre.mealplanner.api.ApiCallback;
+import ba.sum.fsre.mealplanner.api.RetrofitClient;
+import ba.sum.fsre.mealplanner.api.SupabaseAPI;
+import ba.sum.fsre.mealplanner.models.Profile;
+import ba.sum.fsre.mealplanner.utils.AuthManager;
+import ba.sum.fsre.mealplanner.utils.Constants;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;

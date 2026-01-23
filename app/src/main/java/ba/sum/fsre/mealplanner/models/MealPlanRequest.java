@@ -1,4 +1,4 @@
-package com.example.mealplanner.models;
+package ba.sum.fsre.mealplanner.models;
 
 public class MealPlanRequest {
 

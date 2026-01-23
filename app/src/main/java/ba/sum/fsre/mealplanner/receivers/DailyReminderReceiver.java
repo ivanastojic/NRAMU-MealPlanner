@@ -1,11 +1,11 @@
-package com.example.mealplanner.receivers;
+package ba.sum.fsre.mealplanner.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.mealplanner.utils.NotificationHelper;
-import com.example.mealplanner.utils.ReminderScheduler;
+import ba.sum.fsre.mealplanner.utils.NotificationHelper;
+import ba.sum.fsre.mealplanner.utils.ReminderScheduler;
 
 public class DailyReminderReceiver extends BroadcastReceiver {
 

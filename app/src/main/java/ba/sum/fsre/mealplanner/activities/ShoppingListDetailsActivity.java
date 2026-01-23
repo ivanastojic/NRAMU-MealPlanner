@@ -1,4 +1,4 @@
-package com.example.mealplanner.activities;
+package ba.sum.fsre.mealplanner.activities;
 
 import android.os.Bundle;
 import android.view.View;
@@ -12,22 +12,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mealplanner.R;
-import com.example.mealplanner.adapters.ShoppingItemsAdapter;
-import com.example.mealplanner.api.RetrofitClient;
-import com.example.mealplanner.api.SupabaseAPI;
-import com.example.mealplanner.models.Ingredient;
-import com.example.mealplanner.models.MealPlan;
-import com.example.mealplanner.models.RecipeIngredient;
-import com.example.mealplanner.models.ShoppingItem;
-import com.example.mealplanner.models.Unit;
-import com.example.mealplanner.utils.AuthManager;
+import ba.sum.fsre.mealplanner.R;
+import ba.sum.fsre.mealplanner.adapters.ShoppingItemsAdapter;
+import ba.sum.fsre.mealplanner.api.RetrofitClient;
+import ba.sum.fsre.mealplanner.api.SupabaseAPI;
+import ba.sum.fsre.mealplanner.models.Ingredient;
+import ba.sum.fsre.mealplanner.models.MealPlan;
+import ba.sum.fsre.mealplanner.models.RecipeIngredient;
+import ba.sum.fsre.mealplanner.models.ShoppingItem;
+import ba.sum.fsre.mealplanner.models.Unit;
+import ba.sum.fsre.mealplanner.utils.AuthManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ba.sum.fsre.mealplanner.models.ShoppingList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -459,14 +460,14 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
         Map<String, Object> body = new HashMap<>();
         body.put("is_completed", completed);
 
-        api.updateShoppingList(auth, "eq." + listId, body).enqueue(new Callback<List<com.example.mealplanner.models.ShoppingList>>() {
+        api.updateShoppingList(auth, "eq." + listId, body).enqueue(new Callback<List<ShoppingList>>() {
             @Override
-            public void onResponse(Call<List<com.example.mealplanner.models.ShoppingList>> call,
-                                   Response<List<com.example.mealplanner.models.ShoppingList>> response) {
+            public void onResponse(Call<List<ShoppingList>> call,
+                                   Response<List<ShoppingList>> response) {
             }
 
             @Override
-            public void onFailure(Call<List<com.example.mealplanner.models.ShoppingList>> call, Throwable t) {
+            public void onFailure(Call<List<ShoppingList>> call, Throwable t) {
             }
         });
     }

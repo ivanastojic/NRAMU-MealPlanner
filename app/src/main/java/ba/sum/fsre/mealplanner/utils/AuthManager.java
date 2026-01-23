@@ -1,4 +1,4 @@
-package com.example.mealplanner.utils;
+package ba.sum.fsre.mealplanner.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

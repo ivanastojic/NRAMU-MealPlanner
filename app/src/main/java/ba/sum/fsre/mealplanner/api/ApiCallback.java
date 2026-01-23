@@ -1,4 +1,4 @@
-package com.example.mealplanner.api;
+package ba.sum.fsre.mealplanner.api;
 
 import retrofit2.Call;
 import retrofit2.Callback;

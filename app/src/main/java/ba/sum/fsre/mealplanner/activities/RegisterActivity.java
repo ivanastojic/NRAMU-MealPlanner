@@ -1,4 +1,4 @@
-package com.example.mealplanner.activities;
+package ba.sum.fsre.mealplanner.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,12 +11,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.mealplanner.R;
-import com.example.mealplanner.api.ApiCallback;
-import com.example.mealplanner.api.RetrofitClient;
-import com.example.mealplanner.models.AuthResponse;
-import com.example.mealplanner.models.RegisterRequest;
-import com.example.mealplanner.utils.AuthManager;
+import ba.sum.fsre.mealplanner.R;
+import ba.sum.fsre.mealplanner.api.ApiCallback;
+import ba.sum.fsre.mealplanner.api.RetrofitClient;
+import ba.sum.fsre.mealplanner.models.AuthResponse;
+import ba.sum.fsre.mealplanner.models.RegisterRequest;
+import ba.sum.fsre.mealplanner.utils.AuthManager;
 
 public class RegisterActivity extends AppCompatActivity {
 

@@ -1,9 +1,9 @@
-package com.example.mealplanner.utils;
+package ba.sum.fsre.mealplanner.utils;
 
-import com.example.mealplanner.models.Ingredient;
-import com.example.mealplanner.models.IngredientDisplay;
-import com.example.mealplanner.models.RecipeIngredient;
-import com.example.mealplanner.models.Unit;
+import ba.sum.fsre.mealplanner.models.Ingredient;
+import ba.sum.fsre.mealplanner.models.IngredientDisplay;
+import ba.sum.fsre.mealplanner.models.RecipeIngredient;
+import ba.sum.fsre.mealplanner.models.Unit;
 
 import java.util.ArrayList;
 import java.util.HashMap;

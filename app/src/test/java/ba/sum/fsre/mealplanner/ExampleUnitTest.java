@@ -1,4 +1,4 @@
-package ba.sum.mealplanner;
+package ba.sum.fsre.mealplanner;
 
 import org.junit.Test;
 

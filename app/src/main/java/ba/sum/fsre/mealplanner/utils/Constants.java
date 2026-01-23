@@ -1,4 +1,4 @@
-package com.example.mealplanner.utils;
+package ba.sum.fsre.mealplanner.utils;
 
 public class Constants {
 

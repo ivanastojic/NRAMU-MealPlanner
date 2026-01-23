@@ -1,4 +1,4 @@
-package com.example.mealplanner.activities;
+package ba.sum.fsre.mealplanner.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,13 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mealplanner.R;
-import com.example.mealplanner.adapters.RecipeAdapter;
-import com.example.mealplanner.api.ApiCallback;
-import com.example.mealplanner.api.RetrofitClient;
-import com.example.mealplanner.models.Recipe;
-import com.example.mealplanner.repositories.RecipeRepository;
-import com.example.mealplanner.utils.AuthManager;
+import ba.sum.fsre.mealplanner.R;
+import ba.sum.fsre.mealplanner.adapters.RecipeAdapter;
+import ba.sum.fsre.mealplanner.api.ApiCallback;
+import ba.sum.fsre.mealplanner.api.RetrofitClient;
+import ba.sum.fsre.mealplanner.models.Recipe;
+import ba.sum.fsre.mealplanner.repositories.RecipeRepository;
+import ba.sum.fsre.mealplanner.utils.AuthManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;

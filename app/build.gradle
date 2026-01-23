@@ -3,13 +3,13 @@ plugins {
 }
 
 android {
-    namespace 'com.example.mealplanner'
+    namespace 'ba.sum.fsre.mealplanner'
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId "com.example.mealplanner"
+        applicationId "ba.sum.fsre.mealplanner"
         minSdk 24
         targetSdk 36
         versionCode 1

@@ -1,4 +1,4 @@
-package com.example.mealplanner.activities;
+package ba.sum.fsre.mealplanner.activities;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -15,15 +15,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.app.AlertDialog;
 
-import com.example.mealplanner.R;
-import com.example.mealplanner.adapters.MealPlanAdapter;
-import com.example.mealplanner.api.RetrofitClient;
-import com.example.mealplanner.api.SupabaseAPI;
-import com.example.mealplanner.api.ApiCallback;
-import com.example.mealplanner.models.MealPlan;
-import com.example.mealplanner.models.MealPlanRequest;
-import com.example.mealplanner.models.Recipe;
-import com.example.mealplanner.utils.AuthManager;
+import ba.sum.fsre.mealplanner.R;
+import ba.sum.fsre.mealplanner.adapters.MealPlanAdapter;
+import ba.sum.fsre.mealplanner.api.RetrofitClient;
+import ba.sum.fsre.mealplanner.api.SupabaseAPI;
+import ba.sum.fsre.mealplanner.api.ApiCallback;
+import ba.sum.fsre.mealplanner.models.MealPlan;
+import ba.sum.fsre.mealplanner.models.MealPlanRequest;
+import ba.sum.fsre.mealplanner.models.Recipe;
+import ba.sum.fsre.mealplanner.utils.AuthManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;

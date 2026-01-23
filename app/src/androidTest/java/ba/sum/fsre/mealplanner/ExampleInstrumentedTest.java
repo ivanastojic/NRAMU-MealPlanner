@@ -1,4 +1,4 @@
-package ba.sum.mealplanner;
+package ba.sum.fsre.mealplanner;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.mealplanner", appContext.getPackageName());
+        assertEquals("ba.sum.fsre.mealplanner", appContext.getPackageName());
     }
 }

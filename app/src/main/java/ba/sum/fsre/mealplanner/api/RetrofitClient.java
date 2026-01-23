@@ -1,6 +1,6 @@
-package com.example.mealplanner.api;
+package ba.sum.fsre.mealplanner.api;
 
-import com.example.mealplanner.utils.Constants;
+import ba.sum.fsre.mealplanner.utils.Constants;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

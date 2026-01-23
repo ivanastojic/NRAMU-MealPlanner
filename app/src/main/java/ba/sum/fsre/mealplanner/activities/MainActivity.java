@@ -1,4 +1,4 @@
-package com.example.mealplanner.activities;
+package ba.sum.fsre.mealplanner.activities;
 
 import android.Manifest;
 import android.content.Intent;
@@ -15,15 +15,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.mealplanner.R;
-import com.example.mealplanner.api.RetrofitClient;
-import com.example.mealplanner.api.SupabaseAPI;
-import com.example.mealplanner.models.MealPlanRow;
-import com.example.mealplanner.models.Profile;
-import com.example.mealplanner.models.Recipe;
-import com.example.mealplanner.utils.AuthManager;
-import com.example.mealplanner.utils.NotificationHelper;
-import com.example.mealplanner.utils.ReminderScheduler;
+import ba.sum.fsre.mealplanner.R;
+import ba.sum.fsre.mealplanner.api.RetrofitClient;
+import ba.sum.fsre.mealplanner.api.SupabaseAPI;
+import ba.sum.fsre.mealplanner.models.MealPlanRow;
+import ba.sum.fsre.mealplanner.models.Profile;
+import ba.sum.fsre.mealplanner.models.Recipe;
+import ba.sum.fsre.mealplanner.utils.AuthManager;
+import ba.sum.fsre.mealplanner.utils.NotificationHelper;
+import ba.sum.fsre.mealplanner.utils.ReminderScheduler;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;

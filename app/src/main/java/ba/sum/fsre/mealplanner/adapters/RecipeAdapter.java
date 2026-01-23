@@ -1,4 +1,4 @@
-package com.example.mealplanner.adapters;
+package ba.sum.fsre.mealplanner.adapters;
 
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,8 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mealplanner.R;
-import com.example.mealplanner.models.Recipe;
+import ba.sum.fsre.mealplanner.R;
+import ba.sum.fsre.mealplanner.models.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;

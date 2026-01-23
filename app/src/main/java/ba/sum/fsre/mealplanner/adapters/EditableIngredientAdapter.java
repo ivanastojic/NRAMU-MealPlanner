@@ -1,4 +1,4 @@
-package com.example.mealplanner.adapters;
+package ba.sum.fsre.mealplanner.adapters;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,9 +13,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mealplanner.R;
-import com.example.mealplanner.models.EditableRecipeIngredient;
-import com.example.mealplanner.models.Unit;
+import ba.sum.fsre.mealplanner.R;
+import ba.sum.fsre.mealplanner.models.EditableRecipeIngredient;
+import ba.sum.fsre.mealplanner.models.Unit;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;

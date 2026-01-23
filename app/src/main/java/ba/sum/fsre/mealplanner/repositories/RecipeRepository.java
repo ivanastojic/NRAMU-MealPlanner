@@ -1,8 +1,8 @@
-package com.example.mealplanner.repositories;
+package ba.sum.fsre.mealplanner.repositories;
 
-import com.example.mealplanner.api.RetrofitClient;
-import com.example.mealplanner.models.Recipe;
-import com.example.mealplanner.models.RecipeIngredient;
+import ba.sum.fsre.mealplanner.api.RetrofitClient;
+import ba.sum.fsre.mealplanner.models.Recipe;
+import ba.sum.fsre.mealplanner.models.RecipeIngredient;
 
 import java.util.List;
 

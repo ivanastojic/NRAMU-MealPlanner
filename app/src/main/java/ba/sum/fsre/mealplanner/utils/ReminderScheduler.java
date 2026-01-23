@@ -1,4 +1,4 @@
-package com.example.mealplanner.utils;
+package ba.sum.fsre.mealplanner.utils;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import java.util.Calendar;
+
+import ba.sum.fsre.mealplanner.receivers.DailyReminderReceiver;
 
 public class ReminderScheduler {
 
@@ -25,7 +27,7 @@ public class ReminderScheduler {
         AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
         if (am == null) return;
 
-        Intent i = new Intent(ctx, com.example.mealplanner.receivers.DailyReminderReceiver.class);
+        Intent i = new Intent(ctx, DailyReminderReceiver.class);
         i.putExtra("hour", hour);
         i.putExtra("minute", minute);
         i.putExtra("requestCode", requestCode);

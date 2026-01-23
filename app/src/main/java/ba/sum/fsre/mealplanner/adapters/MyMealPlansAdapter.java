@@ -1,4 +1,4 @@
-package com.example.mealplanner.adapters;
+package ba.sum.fsre.mealplanner.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mealplanner.R;
-import com.example.mealplanner.models.MealPlanRow;
+import ba.sum.fsre.mealplanner.R;
+import ba.sum.fsre.mealplanner.models.MealPlanRow;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,17 +1,19 @@
-package com.example.mealplanner.api;
+package ba.sum.fsre.mealplanner.api;
 
-import com.example.mealplanner.models.AuthResponse;
-import com.example.mealplanner.models.Ingredient;
-import com.example.mealplanner.models.LoginRequest;
-import com.example.mealplanner.models.MealPlanRow;
-import com.example.mealplanner.models.Recipe;
-import com.example.mealplanner.models.RecipeIngredient;
-import com.example.mealplanner.models.RegisterRequest;
-import com.example.mealplanner.models.ShoppingItem;
-import com.example.mealplanner.models.ShoppingList;
-import com.example.mealplanner.models.Unit;
-import com.example.mealplanner.utils.Constants;
-import com.example.mealplanner.models.Profile;
+import ba.sum.fsre.mealplanner.models.AuthResponse;
+import ba.sum.fsre.mealplanner.models.Ingredient;
+import ba.sum.fsre.mealplanner.models.LoginRequest;
+import ba.sum.fsre.mealplanner.models.MealPlanRow;
+import ba.sum.fsre.mealplanner.models.Recipe;
+import ba.sum.fsre.mealplanner.models.RecipeIngredient;
+import ba.sum.fsre.mealplanner.models.RegisterRequest;
+import ba.sum.fsre.mealplanner.models.ShoppingItem;
+import ba.sum.fsre.mealplanner.models.ShoppingList;
+import ba.sum.fsre.mealplanner.models.Unit;
+import ba.sum.fsre.mealplanner.utils.Constants;
+import ba.sum.fsre.mealplanner.models.Profile;
+import ba.sum.fsre.mealplanner.models.MealPlan;
+import ba.sum.fsre.mealplanner.models.MealPlanRequest;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.http.PUT;
@@ -196,9 +198,9 @@ public interface SupabaseAPI {
             "Prefer: return=representation"
     })
     @POST("rest/v1/meal_plans")
-    Call<List<com.example.mealplanner.models.MealPlan>> insertMealPlan(
+    Call<List<MealPlan>> insertMealPlan(
             @Header("Authorization") String authToken,
-            @Body com.example.mealplanner.models.MealPlanRequest body
+            @Body MealPlanRequest body
     );
 
     @Headers({
@@ -206,7 +208,7 @@ public interface SupabaseAPI {
             "Accept: application/json"
     })
     @GET("rest/v1/meal_plans?select=*")
-    Call<List<com.example.mealplanner.models.MealPlan>> getMealPlansByDate(
+    Call<List<MealPlan>> getMealPlansByDate(
             @Header("Authorization") String authToken,
             @Query("user_id") String userIdFilter,
             @Query("plan_date") String dateFilter,
@@ -239,7 +241,7 @@ public interface SupabaseAPI {
             "Prefer: return=representation"
     })
     @PATCH("rest/v1/meal_plans")
-    Call<List<com.example.mealplanner.models.MealPlan>> updateMealPlan(
+    Call<List<MealPlan>> updateMealPlan(
             @Header("Authorization") String authToken,
             @Query("id") String idFilter,
             @Body Map<String, Object> body
@@ -349,7 +351,7 @@ public interface SupabaseAPI {
             "Accept: application/json"
     })
     @GET("rest/v1/meal_plans?select=id,recipe_id,plan_date,meal_type")
-    Call<List<com.example.mealplanner.models.MealPlan>> getMealPlansByRange(
+    Call<List<MealPlan>> getMealPlansByRange(
             @Header("Authorization") String authToken,
             @Query("user_id") String userIdFilter,
             @Query(value = "plan_date", encoded = true) List<String> planDateFilters,

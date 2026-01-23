@@ -1,4 +1,4 @@
-package com.example.mealplanner.models;
+package ba.sum.fsre.mealplanner.models;
 
 import java.util.ArrayList;
 import java.util.List;

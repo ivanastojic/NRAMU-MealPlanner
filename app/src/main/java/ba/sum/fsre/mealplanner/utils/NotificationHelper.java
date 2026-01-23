@@ -1,4 +1,4 @@
-package com.example.mealplanner.utils;
+package ba.sum.fsre.mealplanner.utils;
 
 import android.Manifest;
 import android.app.NotificationChannel;
@@ -13,9 +13,9 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.mealplanner.R;
-import com.example.mealplanner.activities.ShoppingListsActivity;
-import com.example.mealplanner.activities.MyMealPlansActivity;
+import ba.sum.fsre.mealplanner.R;
+import ba.sum.fsre.mealplanner.activities.ShoppingListsActivity;
+import ba.sum.fsre.mealplanner.activities.MyMealPlansActivity;
 
 public class NotificationHelper {
 

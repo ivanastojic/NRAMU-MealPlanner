@@ -1,4 +1,4 @@
-package com.example.mealplanner.activities;
+package ba.sum.fsre.mealplanner.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,12 +9,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mealplanner.R;
-import com.example.mealplanner.adapters.ShoppingListsAdapter;
-import com.example.mealplanner.api.RetrofitClient;
-import com.example.mealplanner.api.SupabaseAPI;
-import com.example.mealplanner.models.ShoppingList;
-import com.example.mealplanner.utils.AuthManager;
+import ba.sum.fsre.mealplanner.R;
+import ba.sum.fsre.mealplanner.adapters.ShoppingListsAdapter;
+import ba.sum.fsre.mealplanner.api.RetrofitClient;
+import ba.sum.fsre.mealplanner.api.SupabaseAPI;
+import ba.sum.fsre.mealplanner.models.ShoppingList;
+import ba.sum.fsre.mealplanner.utils.AuthManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

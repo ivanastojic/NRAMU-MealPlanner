@@ -24,6 +24,7 @@ import ba.sum.fsre.mealplanner.models.Recipe;
 import ba.sum.fsre.mealplanner.utils.AuthManager;
 import ba.sum.fsre.mealplanner.utils.NotificationHelper;
 import ba.sum.fsre.mealplanner.utils.ReminderScheduler;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
@@ -67,14 +68,26 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        bottomNav = findViewById(R.id.bottomNav);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+
+            v.setPadding(bars.left, bars.top, bars.right, 0);
+
+            if (bottomNav != null) {
+                bottomNav.setPadding(
+                        bottomNav.getPaddingLeft(),
+                        bottomNav.getPaddingTop(),
+                        bottomNav.getPaddingRight(),
+                        bars.bottom
+                );
+            }
+
             return insets;
         });
 
         tvWelcome = findViewById(R.id.tvWelcome);
-
         showWelcomeFromPrefs();
 
         tvTodayDate = findViewById(R.id.tvTodayDate);
@@ -83,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
         String todayPretty = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date());
         if (tvTodayDate != null) tvTodayDate.setText("Today, " + todayPretty);
 
-        // Auth / API
         String token = authManager.getToken();
         userId = authManager.getUserId();
 
@@ -99,9 +111,7 @@ public class MainActivity extends AppCompatActivity {
             loadTodayPlan();
         }
 
-        bottomNav = findViewById(R.id.bottomNav);
         if (bottomNav != null) {
-
             bottomNav.setSelectedItemId(R.id.nav_home);
 
             bottomNav.setOnItemSelectedListener(item -> {
@@ -131,9 +141,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-
         NotificationHelper.ensureChannel(this);
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
@@ -147,14 +155,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
         ReminderScheduler.scheduleAllDailyReminders(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
 
         if (bottomNav != null) {
             bottomNav.setSelectedItemId(R.id.nav_home);
@@ -224,7 +230,6 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<List<Profile>> call, Throwable t) {
-
                     }
                 });
     }

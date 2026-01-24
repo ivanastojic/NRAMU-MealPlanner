@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+import android.widget.TextView;
+import android.net.Uri;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginBtn, registerBtn;
     private ProgressBar progressBar;
     private AuthManager authManager;
+    private TextView tvPrivacyPolicy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.loginBtn);
         registerBtn = findViewById(R.id.openRegisterBtn);
         progressBar = findViewById(R.id.progressBar);
+        tvPrivacyPolicy = findViewById(R.id.tvPrivacyPolicy);
     }
 
     private void setupListeners() {
@@ -58,6 +62,16 @@ public class LoginActivity extends AppCompatActivity {
         registerBtn.setOnClickListener(v ->
                 startActivity(new Intent(this, RegisterActivity.class))
         );
+
+        if (tvPrivacyPolicy != null) {
+            tvPrivacyPolicy.setOnClickListener(v -> {
+                Intent i = new Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://docs.google.com/document/d/1OxhV_sCTChVrxdL9BwiMvwhMZSQ5RyCTOVScHWnWZWI/edit")
+                );
+                startActivity(i);
+            });
+        }
     }
 
     private void loginUser() {

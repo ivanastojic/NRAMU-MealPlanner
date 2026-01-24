@@ -6,6 +6,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +18,7 @@ import ba.sum.fsre.mealplanner.api.RetrofitClient;
 import ba.sum.fsre.mealplanner.api.SupabaseAPI;
 import ba.sum.fsre.mealplanner.models.ShoppingList;
 import ba.sum.fsre.mealplanner.utils.AuthManager;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -41,7 +45,26 @@ public class ShoppingListsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        androidx.activity.EdgeToEdge.enable(this);
         setContentView(R.layout.activity_shopping_lists);
+
+        bottomNav = findViewById(R.id.bottomNav);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(bars.left, bars.top, bars.right, 0);
+
+            if (bottomNav != null) {
+                bottomNav.setPadding(
+                        bottomNav.getPaddingLeft(),
+                        bottomNav.getPaddingTop(),
+                        bottomNav.getPaddingRight(),
+                        bars.bottom
+                );
+            }
+            return insets;
+        });
 
         rvShoppingLists = findViewById(R.id.rvShoppingLists);
         tvEmptyShoppingLists = findViewById(R.id.tvEmptyShoppingLists);
@@ -102,7 +125,6 @@ public class ShoppingListsActivity extends AppCompatActivity {
     }
 
     private void setupBottomNav() {
-        bottomNav = findViewById(R.id.bottomNav);
         if (bottomNav == null) return;
 
         bottomNav.setSelectedItemId(R.id.nav_shopping);

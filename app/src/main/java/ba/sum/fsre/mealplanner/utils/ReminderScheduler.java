@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import java.util.Calendar;
 
@@ -19,8 +20,6 @@ public class ReminderScheduler {
         scheduleDaily(ctx, 9, 0, REQ_BREAKFAST, "Breakfast");
         scheduleDaily(ctx, 13, 0, REQ_LUNCH, "Lunch");
         scheduleDaily(ctx, 18, 0, REQ_DINNER, "Dinner");
-        scheduleDaily(ctx, 16, 43, REQ_DINNER, "Dinner");
-
     }
 
     public static void scheduleDaily(Context ctx, int hour, int minute, int requestCode, String mealType) {
@@ -28,6 +27,7 @@ public class ReminderScheduler {
         if (am == null) return;
 
         Intent i = new Intent(ctx, DailyReminderReceiver.class);
+        i.setAction("ba.sum.fsre.mealplanner.DAILY_REMINDER_" + requestCode);
         i.putExtra("hour", hour);
         i.putExtra("minute", minute);
         i.putExtra("requestCode", requestCode);
@@ -46,14 +46,25 @@ public class ReminderScheduler {
         c.set(Calendar.SECOND, 0);
         c.set(Calendar.MILLISECOND, 0);
 
-        // ako je vrijeme već prošlo danas → stavi na sutra
         if (c.getTimeInMillis() <= System.currentTimeMillis()) {
             c.add(Calendar.DAY_OF_MONTH, 1);
         }
 
         long triggerAt = c.getTimeInMillis();
 
-        am.set(AlarmManager.RTC_WAKEUP, triggerAt, pi);
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAt, pi);
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                am.setExact(AlarmManager.RTC_WAKEUP, triggerAt, pi);
+            } else {
+                am.set(AlarmManager.RTC_WAKEUP, triggerAt, pi);
+            }
+        } catch (SecurityException se) {
 
+            am.set(AlarmManager.RTC_WAKEUP, triggerAt, pi);
+        } catch (Exception e) {
+            am.set(AlarmManager.RTC_WAKEUP, triggerAt, pi);
+        }
     }
 }

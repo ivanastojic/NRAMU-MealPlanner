@@ -12,8 +12,12 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+
 import ba.sum.fsre.mealplanner.R;
 import ba.sum.fsre.mealplanner.api.ApiCallback;
 import ba.sum.fsre.mealplanner.api.RetrofitClient;
@@ -21,6 +25,7 @@ import ba.sum.fsre.mealplanner.api.SupabaseAPI;
 import ba.sum.fsre.mealplanner.models.Profile;
 import ba.sum.fsre.mealplanner.utils.AuthManager;
 import ba.sum.fsre.mealplanner.utils.Constants;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -67,9 +72,28 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        androidx.activity.EdgeToEdge.enable(this);
         setContentView(R.layout.activity_profile);
 
         authManager = new AuthManager(this);
+
+        bottomNav = findViewById(R.id.bottomNav);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(bars.left, bars.top, bars.right, 0);
+
+            if (bottomNav != null) {
+                bottomNav.setPadding(
+                        bottomNav.getPaddingLeft(),
+                        bottomNav.getPaddingTop(),
+                        bottomNav.getPaddingRight(),
+                        bars.bottom
+                );
+            }
+            return insets;
+        });
 
         initViews();
         setupBottomNav();
@@ -95,7 +119,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         btnLogout = findViewById(R.id.btnLogout);
         btnDeleteAccount = findViewById(R.id.btnDeleteAccount);
-
 
         etFullName = findViewById(R.id.etFullName);
         etEmail = findViewById(R.id.etEmail);
@@ -294,7 +317,6 @@ public class ProfileActivity extends AppCompatActivity {
         String fullName = etFullName.getText() != null ? etFullName.getText().toString().trim() : "";
         String email = etEmail.getText() != null ? etEmail.getText().toString().trim() : "";
 
-        // NE DIRAM setError tekstove
         if (fullName.isEmpty()) { etFullName.setError("Unesite ime i prezime"); return; }
         if (email.isEmpty()) { etEmail.setError("Unesite email"); return; }
 
@@ -548,7 +570,6 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-
     private void logoutAndExit() {
         authManager.logout();
 
@@ -557,5 +578,4 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(i);
         finish();
     }
-
 }

@@ -8,6 +8,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +22,7 @@ import ba.sum.fsre.mealplanner.models.DayPlanGroup;
 import ba.sum.fsre.mealplanner.models.MealPlanRow;
 import ba.sum.fsre.mealplanner.models.Recipe;
 import ba.sum.fsre.mealplanner.utils.AuthManager;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -54,7 +58,26 @@ public class MyMealPlansActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        androidx.activity.EdgeToEdge.enable(this);
         setContentView(R.layout.activity_my_meal_plans);
+
+        bottomNav = findViewById(R.id.bottomNav);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(bars.left, bars.top, bars.right, 0);
+
+            if (bottomNav != null) {
+                bottomNav.setPadding(
+                        bottomNav.getPaddingLeft(),
+                        bottomNav.getPaddingTop(),
+                        bottomNav.getPaddingRight(),
+                        bars.bottom
+                );
+            }
+            return insets;
+        });
 
         rvPlans = findViewById(R.id.rvPlans);
         progress = findViewById(R.id.progress);
@@ -99,7 +122,6 @@ public class MyMealPlansActivity extends AppCompatActivity {
     }
 
     private void setupBottomNav() {
-        bottomNav = findViewById(R.id.bottomNav);
         if (bottomNav == null) return;
 
         bottomNav.setSelectedItemId(R.id.nav_planner);

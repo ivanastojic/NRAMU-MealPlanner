@@ -6,6 +6,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +19,7 @@ import ba.sum.fsre.mealplanner.api.RetrofitClient;
 import ba.sum.fsre.mealplanner.models.Recipe;
 import ba.sum.fsre.mealplanner.repositories.RecipeRepository;
 import ba.sum.fsre.mealplanner.utils.AuthManager;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
@@ -33,7 +37,26 @@ public class RecipesListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        androidx.activity.EdgeToEdge.enable(this);
         setContentView(R.layout.activity_recipes_list);
+
+        bottomNav = findViewById(R.id.bottomNav);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(bars.left, bars.top, bars.right, 0);
+
+            if (bottomNav != null) {
+                bottomNav.setPadding(
+                        bottomNav.getPaddingLeft(),
+                        bottomNav.getPaddingTop(),
+                        bottomNav.getPaddingRight(),
+                        bars.bottom
+                );
+            }
+            return insets;
+        });
 
         auth = new AuthManager(this);
         recipeRepo = new RecipeRepository();
@@ -88,7 +111,6 @@ public class RecipesListActivity extends AppCompatActivity {
     }
 
     private void setupBottomNav() {
-        bottomNav = findViewById(R.id.bottomNav);
         if (bottomNav == null) return;
 
         bottomNav.setSelectedItemId(R.id.nav_recipes);
@@ -117,8 +139,6 @@ public class RecipesListActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        // edit already refreshes here, but onResume refreshes anyway
         if (requestCode == REQ_EDIT_RECIPE && resultCode == RESULT_OK) {
             loadRecipes();
         }

@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -47,7 +48,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
-
             <ImageButton
                 android:id="@+id/btnAddRecipe"
                 android:layout_width="44dp"
@@ -75,7 +75,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddRecipe"
         android:layout_width="wrap_content"
@@ -91,10 +90,14 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:background="#FFF8E8"
-        app:itemIconTint="#6b5a20"
-        app:itemTextColor="#6b5a20"
+        android:layout_height="wrap_content"
+        android:background="@color/bottom_nav_bg"
+        app:backgroundTint="@color/bottom_nav_bg"
+        android:elevation="12dp"
+        app:elevation="12dp"
+        app:itemIconSize="24dp"
+        app:itemIconTint="@color/bottom_nav_item_colors"
+        app:itemTextColor="@color/bottom_nav_item_colors"
         app:itemRippleColor="#E6D8B5"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_nav_menu"
